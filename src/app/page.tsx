@@ -6,13 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { SearchDialog } from "@/components/search";
-import dynamic from "next/dynamic";
-
-// Dynamic import để tránh lỗi SSR với Leaflet
-const MapComponent = dynamic(() => import('@/components/ui/map'), {
-  ssr: false,
-  loading: () => <div className="w-full h-[400px] flex items-center justify-center bg-slate-100 rounded-md">Đang tải bản đồ...</div>
-});
+import { YouTubePlayer, YouTubeGrid } from "@/components/ui/youtube-player";
 
 export default function Home() {
   return (
@@ -30,29 +24,11 @@ export default function Home() {
           quality={90}
         />
         <div className="container relative z-20 flex flex-col items-center justify-center h-full text-center text-white">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-shadow-sm animate-fade-in-up">
-            Du Lịch Lịch Sử Nghệ An
-          </h1>
-          <p className="text-lg md:text-xl max-w-2xl mb-8 opacity-90 animate-fade-in-up animation-delay-300">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-shadow-sm">Du Lịch Lịch Sử Nghệ An</h1>
+          <p className="text-lg md:text-xl max-w-2xl mb-8">
             Khám phá những di tích lịch sử, văn hóa và danh thắng nổi tiếng của quê hương xứ Nghệ
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 mb-8 animate-fade-in-up animation-delay-600">
-            <Button asChild size="lg" className="bg-green-700 hover:bg-green-800 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
-              <Link href="/destinations">
-                <span className="mr-2">🏛️</span>
-                Khám Phá Ngay
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="text-white border-white hover:bg-white/20 hover:scale-105 transition-all duration-300">
-              <Link href="/about">
-                <span className="mr-2">📖</span>
-                Tìm Hiểu Thêm
-              </Link>
-            </Button>
-          </div>
-          <div className="w-full max-w-md animate-fade-in-up animation-delay-900">
-            <SearchDialog />
-          </div>
+          
         </div>
       </section>
 
@@ -98,111 +74,62 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Video Section */}
-      <section className="py-16">
+      {/* Video section */}
+      <section className="py-16 bg-muted/30">
         <div className="container">
           <div className="flex flex-col items-center text-center mb-12">
             <div className="inline-block border-b-2 border-green-700 pb-1 mb-4">
-              <span className="text-sm uppercase tracking-wider text-green-700 font-semibold">Video</span>
+              <span className="text-sm uppercase tracking-wider text-green-700 font-semibold">Video giới thiệu</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Khám Phá Nghệ An Qua Video</h2>
             <p className="text-muted-foreground max-w-3xl">
-              Những video đẹp về du lịch và di tích lịch sử tại Nghệ An
+              Cùng tìm hiểu về vẻ đẹp và giá trị lịch sử của các di tích nổi tiếng tại Nghệ An
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link href="https://www.youtube.com/watch?v=WNvaEIJDNQ0" target="_blank" rel="noopener noreferrer" className="group">
-              <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg group-hover:shadow-xl transition-all duration-300 mb-4 bg-gradient-to-br from-green-100 to-green-200">
-                <Image
-                  src="/images/kim-lien-1.jpg"
-                  alt="Video về Kim Liên"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all duration-300"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                    <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </div>
-                </div>
-                <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                  YouTube
-                </div>
+
+          {/* Featured video */}
+          <div className="mb-12">
+            <div className="max-w-4xl mx-auto">
+              <YouTubePlayer
+                videoId="lJ0_5wdh5wg"
+                title="Khu di tích lịch sử quốc gia đặc biệt Kim Liên"
+                className="mb-6"
+              />
+              <div className="text-center">
+                <h3 className="text-xl font-semibold text-green-800 dark:text-green-400 mb-2">
+                  Khu di tích lịch sử quốc gia đặc biệt Kim Liên
+                </h3>
+                <p className="text-muted-foreground">
+                  Quê hương của Chủ tịch Hồ Chí Minh - Nơi bắt đầu hành trình vĩ đại của một con người phi thường
+                </p>
               </div>
-              <h3 className="font-semibold text-lg mb-2 group-hover:text-green-700 transition-colors">
-                Khám Phá Quê Hương Bác Hồ
-              </h3>
-              <p className="text-muted-foreground text-sm">
-                Hành trình về nguồn khám phá quê hương của Chủ tịch Hồ Chí Minh tại Kim Liên, Nghệ An.
-              </p>
-            </Link>
-            <Link href="https://www.youtube.com/watch?v=ur6O2SqPpXw" target="_blank" rel="noopener noreferrer" className="group">
-              <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg group-hover:shadow-xl transition-all duration-300 mb-4 bg-gradient-to-br from-blue-100 to-blue-200">
-                <Image
-                  src="/images/truong-bon-aerial.jpg"
-                  alt="Video về Truông Bồn"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all duration-300"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                    <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </div>
-                </div>
-                <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                  YouTube
-                </div>
-              </div>
-              <h3 className="font-semibold text-lg mb-2 group-hover:text-green-700 transition-colors">
-                Di Tích Lịch Sử Nghệ An
-              </h3>
-              <p className="text-muted-foreground text-sm">
-                Tìm hiểu về lịch sử và ý nghĩa của các di tích quan trọng tại Nghệ An qua video tài liệu.
-              </p>
-            </Link>
-            <Link href="https://www.youtube.com/watch?v=sPD6h186_V8" target="_blank" rel="noopener noreferrer" className="group">
-              <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg group-hover:shadow-xl transition-all duration-300 mb-4 bg-gradient-to-br from-purple-100 to-purple-200">
-                <Image
-                  src="/images/den-cuong-1.jpg"
-                  alt="Video về Đền Cuông"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all duration-300"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                    <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </div>
-                </div>
-                <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                  YouTube
-                </div>
-              </div>
-              <h3 className="font-semibold text-lg mb-2 group-hover:text-green-700 transition-colors">
-                Thiên Nhiên Hùng Vĩ Nghệ An
-              </h3>
-              <p className="text-muted-foreground text-sm">
-                Chiêm ngưỡng vẻ đẹp thiên nhiên hùng vĩ và thơ mộng của các danh thắng tại Nghệ An.
-              </p>
-            </Link>
+            </div>
           </div>
-          <div className="flex justify-center mt-8">
-            <Button asChild className="bg-green-700 hover:bg-green-800 transition-all duration-300 shadow-md">
-              <Link href="/interactive-map" className="flex items-center">
+
+          {/* Video grid */}
+          <YouTubeGrid
+            videos={[
+              {
+                id: "uUXkdzWvrVE",
+                title: "Về Thăm Làng Sen Quê Nội Bác Hồ",
+                description: "Hành trình khám phá nơi bắt đầu của một huyền thoại"
+              },
+              {
+                id: "je2dQITsCwg",
+                title: "Thăm Quan Làng Sen - Khu Di Tích Kim Liên",
+                description: "Tìm hiểu về quê hương và tuổi thơ của Người"
+              }
+            ]}
+            className="max-w-6xl mx-auto"
+          />
+
+          <div className="flex justify-center mt-10">
+            <Button asChild variant="outline" className="border-green-700 text-green-700 hover:bg-green-50 hover:scale-105 transition-all duration-300">
+              <Link href="https://www.youtube.com/results?search_query=du+lịch+nghệ+an" target="_blank" rel="noopener noreferrer">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
                 </svg>
-                <span>Xem Bản Đồ Di Tích</span>
+                Xem Thêm Video
               </Link>
             </Button>
           </div>
@@ -298,30 +225,6 @@ export default function Home() {
             <Button asChild variant="outline" className="border-green-700 text-green-700 hover:bg-green-50 hover:scale-105 transition-all duration-300">
               <Link href="/historical-sites">Xem Tất Cả Điểm Đến</Link>
             </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Statistics Section */}
-      <section className="py-16 bg-green-700 text-white">
-        <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-            <div className="space-y-2">
-              <div className="text-4xl md:text-5xl font-bold">1,400+</div>
-              <div className="text-green-100">Di tích lịch sử</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-4xl md:text-5xl font-bold">375+</div>
-              <div className="text-green-100">Di tích được xếp hạng</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-4xl md:text-5xl font-bold">1,000+</div>
-              <div className="text-green-100">Năm lịch sử</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-4xl md:text-5xl font-bold">2M+</div>
-              <div className="text-green-100">Du khách/năm</div>
-            </div>
           </div>
         </div>
       </section>
@@ -444,7 +347,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Gallery Section */}
+{/* Gallery Section */}
       <section className="py-16 bg-muted/30">
         <div className="container">
           <div className="flex flex-col items-center text-center mb-12">
@@ -503,71 +406,6 @@ export default function Home() {
                   <h4 className="text-sm font-bold">Quê hương Bác Hồ</h4>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-16 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20">
-        <div className="container">
-          <div className="flex flex-col items-center text-center mb-12">
-            <div className="inline-block border-b-2 border-green-700 pb-1 mb-4">
-              <span className="text-sm uppercase tracking-wider text-green-700 font-semibold">Chia sẻ</span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Du Khách Nói Gì Về Nghệ An</h2>
-            <p className="text-muted-foreground max-w-3xl">
-              Những trải nghiệm đáng nhớ và cảm nhận chân thực từ du khách
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white dark:bg-card p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-700 font-bold text-lg">
-                  A
-                </div>
-                <div className="ml-3">
-                  <h4 className="font-semibold">Anh Minh - Hà Nội</h4>
-                  <div className="flex text-yellow-400">
-                    {"⭐".repeat(5)}
-                  </div>
-                </div>
-              </div>
-              <p className="text-muted-foreground italic">
-                "Khu di tích Kim Liên thật sự ấn tượng! Được đứng ở nơi Bác Hồ sinh ra và lớn lên, tôi cảm thấy vô cùng xúc động. Hướng dẫn viên rất nhiệt tình và am hiểu."
-              </p>
-            </div>
-            <div className="bg-white dark:bg-card p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-700 font-bold text-lg">
-                  L
-                </div>
-                <div className="ml-3">
-                  <h4 className="font-semibold">Chị Lan - TP.HCM</h4>
-                  <div className="flex text-yellow-400">
-                    {"⭐".repeat(5)}
-                  </div>
-                </div>
-              </div>
-              <p className="text-muted-foreground italic">
-                "Chuyến du lịch về nguồn 3 ngày 2 đêm thật tuyệt vời. Từ Đền Cuông đến Truông Bồn, mỗi địa điểm đều mang ý nghĩa lịch sử sâu sắc. Rất đáng để trải nghiệm!"
-              </p>
-            </div>
-            <div className="bg-white dark:bg-card p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-700 font-bold text-lg">
-                  T
-                </div>
-                <div className="ml-3">
-                  <h4 className="font-semibold">Anh Tuấn - Đà Nẵng</h4>
-                  <div className="flex text-yellow-400">
-                    {"⭐".repeat(5)}
-                  </div>
-                </div>
-              </div>
-              <p className="text-muted-foreground italic">
-                "Nghệ An không chỉ có di tích lịch sử mà còn có thiên nhiên tuyệt đẹp. Website này giúp tôi lên kế hoạch rất chi tiết. Dịch vụ tốt, giá cả hợp lý!"
-              </p>
             </div>
           </div>
         </div>

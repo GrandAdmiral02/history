@@ -2,6 +2,11 @@ import { type NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth/auth";
 import { z } from "zod";
+import Stripe from "stripe";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2024-12-18.acacia",
+});
 
 // Schema cho dữ liệu thanh toán
 const PaymentSchema = z.object({
@@ -83,13 +88,34 @@ export async function POST(request: NextRequest) {
     let paymentStatus: "PENDING" | "PAID" | "FAILED" | "REFUNDED" = "PENDING";
     let transactionId: string | null = null;
 
-    // Trong thực tế, ở đây sẽ gọi đến các dịch vụ thanh toán bên thứ ba như Stripe, VNPay, MoMo, v.v.
-    // Ở đây chúng ta giả định thanh toán thành công để đơn giản hóa demo
+    // Xử lý thanh toán dựa trên phương thức
     switch (paymentMethod) {
       case "CREDIT_CARD":
-        // Xử lý thanh toán thẻ tín dụng
-        paymentStatus = "PAID";
-        transactionId = `CC-${Date.now().toString().slice(-8)}-${Math.floor(Math.random() * 1000)}`;
+        // Xử lý thanh toán thẻ tín dụng qua Stripe
+        try {
+          if (process.env.STRIPE_SECRET_KEY === "sk_test_demo_key") {
+            // Demo mode - giả lập thanh toán thành công
+            paymentStatus = "PAID";
+            transactionId = `demo_${Date.now()}`;
+          } else {
+            // Stripe thật - tạo PaymentIntent
+            const paymentIntent = await stripe.paymentIntents.create({
+              amount: Math.round(amount * 100), // Stripe dùng cents
+              currency: "vnd",
+              metadata: {
+                bookingId,
+                userId: session.user.id,
+              },
+            });
+
+            paymentStatus = "PENDING";
+            transactionId = paymentIntent.id;
+          }
+        } catch (stripeError) {
+          console.error("Stripe error:", stripeError);
+          paymentStatus = "FAILED";
+          transactionId = null;
+        }
         break;
       case "BANK_TRANSFER":
         // Xử lý thanh toán chuyển khoản - thường cần xác nhận thủ công

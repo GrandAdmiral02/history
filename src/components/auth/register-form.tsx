@@ -22,7 +22,7 @@ export function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [isRegistered, setIsRegistered] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -70,9 +70,22 @@ export function RegisterForm() {
         throw new Error(data.error || "Đăng ký thất bại");
       }
 
-      // Hiển thị thông báo thành công thay vì đăng nhập tự động
-      setSuccessMessage(data.message || "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản của bạn.");
-      setIsRegistered(true);
+      // Đăng ký thành công, tự động đăng nhập
+      setSuccessMessage("Đăng ký thành công! Đang chuyển hướng...");
+
+      // Tự động đăng nhập sau khi đăng ký thành công
+      const signInResult = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
+      });
+
+      if (signInResult?.ok) {
+        router.push("/");
+      } else {
+        setSuccessMessage("Đăng ký thành công! Vui lòng đăng nhập.");
+        setTimeout(() => router.push("/login"), 2000);
+      }
 
       // Reset form
       setFormData({
@@ -91,55 +104,7 @@ export function RegisterForm() {
     }
   };
 
-  if (isRegistered) {
-    return (
-      <Card className="w-full max-w-md mx-auto">
-        <CardHeader>
-          <CardTitle className="text-center text-green-700">Đăng ký thành công!</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-16 w-16 text-green-700"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-          </div>
-          <p className="text-center">{successMessage}</p>
-          <p className="text-center text-sm">
-            Vui lòng kiểm tra hộp thư của bạn và click vào liên kết xác nhận để kích hoạt tài khoản.
-          </p>
-        </CardContent>
-        <CardFooter className="flex flex-col space-y-2">
-          <Button
-            asChild
-            className="w-full bg-green-700 hover:bg-green-800"
-          >
-            <Link href="/login">Đi đến trang đăng nhập</Link>
-          </Button>
-          <p className="text-center text-sm">
-            Không nhận được email?{" "}
-            <button
-              type="button"
-              className="text-green-700 hover:underline"
-              onClick={() => setIsRegistered(false)}
-            >
-              Đăng ký lại
-            </button>
-          </p>
-        </CardFooter>
-      </Card>
-    );
-  }
+
 
   return (
     <Card className="w-full max-w-md mx-auto">

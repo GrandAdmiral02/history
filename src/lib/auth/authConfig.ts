@@ -1,7 +1,5 @@
-// src/lib/auth/authConfig.ts
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
@@ -12,7 +10,7 @@ const prisma = new PrismaClient();
 export const authOptions: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: "database", // Đổi sang database để dùng PrismaAdapter
+    strategy: "database",
   },
   pages: {
     signIn: "/login",
@@ -43,27 +41,18 @@ export const authOptions: NextAuthConfig = {
 
         const { email, password } = parsedCredentials.data;
 
-        const user = await prisma.user.findUnique({
-          where: { email },
+        const response = await fetch(`${process.env.NEXTAUTH_URL}/api/auth/credentials`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
         });
 
-        if (!user || !user.password) {
+        if (!response.ok) {
           return null;
         }
 
-        const passwordsMatch = await bcrypt.compare(password, user.password);
-
-        if (!passwordsMatch) {
-          return null;
-        }
-
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          image: user.image,
-          role: user.role,
-        };
+        const user = await response.json();
+        return user || null;
       },
     }),
   ],

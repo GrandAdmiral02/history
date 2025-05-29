@@ -2,9 +2,6 @@ import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import crypto from "node:crypto";
-import { sendVerificationEmail } from "@/lib/email";
-import type { VerificationToken } from "@prisma/client";
 
 // Schema validation cho dữ liệu đăng ký
 const UserSchema = z.object({
@@ -15,26 +12,7 @@ const UserSchema = z.object({
   address: z.string().optional(),
 });
 
-// Tạo token xác thực email
-const generateVerificationToken = async (email: string): Promise<VerificationToken> => {
-  const token = crypto.randomBytes(32).toString('hex');
-  const expires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 giờ
 
-  const existingToken = await prisma.verificationToken.findFirst({
-    where: { identifier: email }
-  });
-
-  if (existingToken) {
-    return prisma.verificationToken.update({
-      where: { identifier_token: { identifier: email, token: existingToken.token } },
-      data: { token, expires }
-    });
-  }
-
-  return prisma.verificationToken.create({
-    data: { identifier: email, token, expires }
-  });
-};
 
 export async function POST(request: Request) {
   try {
@@ -58,7 +36,7 @@ export async function POST(request: Request) {
     // Mã hóa mật khẩu
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Tạo người dùng mới
+    // Tạo người dùng mới - tự động xác thực email
     const user = await prisma.user.create({
       data: {
         name,
@@ -67,23 +45,17 @@ export async function POST(request: Request) {
         phone,
         address,
         role: "USER",
+        emailVerified: new Date(), // Tự động xác thực email
       },
     });
-
-    // Tạo token xác thực email
-    const verificationToken = await generateVerificationToken(email);
-
-    // Gửi email xác thực sử dụng dịch vụ email mới
-    const emailSent = await sendVerificationEmail(email, verificationToken.token, name);
 
     // Xóa mật khẩu trước khi trả về kết quả
     const { password: _, ...userWithoutPassword } = user;
 
     return NextResponse.json(
       {
-        message: "Đăng ký thành công. Vui lòng kiểm tra email để xác thực tài khoản.",
+        message: "Đăng ký thành công!",
         user: userWithoutPassword,
-        verificationSent: emailSent,
       },
       { status: 201 }
     );

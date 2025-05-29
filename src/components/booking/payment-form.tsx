@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
-import { CreditCard, Banknote, Wallet2 } from "lucide-react";
+import { CreditCard, Banknote, Wallet2, Coins } from "lucide-react";
 import Image from "next/image";
 
 interface PaymentFormProps {
@@ -66,6 +66,11 @@ export function PaymentForm({ bookingId, remainingAmount }: PaymentFormProps) {
           paymentDetails = {
             walletType: walletInfo.walletType,
             phoneNumber: walletInfo.phoneNumber,
+          };
+          break;
+        case "CASH":
+          paymentDetails = {
+            note: "Thanh toán bằng tiền mặt tại địa điểm",
           };
           break;
       }
@@ -135,7 +140,7 @@ export function PaymentForm({ bookingId, remainingAmount }: PaymentFormProps) {
       <RadioGroup
         value={paymentMethod}
         onValueChange={setPaymentMethod}
-        className="grid grid-cols-1 md:grid-cols-3 gap-4"
+        className="grid grid-cols-1 md:grid-cols-4 gap-4"
       >
         <div>
           <RadioGroupItem
@@ -175,6 +180,17 @@ export function PaymentForm({ bookingId, remainingAmount }: PaymentFormProps) {
           >
             <Wallet2 className="mb-3 h-6 w-6" />
             <span className="text-sm font-medium">Ví điện tử</span>
+          </Label>
+        </div>
+
+        <div>
+          <RadioGroupItem value="CASH" id="cash" className="peer sr-only" />
+          <Label
+            htmlFor="cash"
+            className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+          >
+            <Coins className="mb-3 h-6 w-6" />
+            <span className="text-sm font-medium">Tiền mặt</span>
           </Label>
         </div>
       </RadioGroup>
@@ -460,6 +476,58 @@ export function PaymentForm({ bookingId, remainingAmount }: PaymentFormProps) {
                 <p className="text-sm text-muted-foreground">
                   <strong>Lưu ý:</strong> Sau khi nhấn nút thanh toán, bạn sẽ nhận được mã QR hoặc được chuyển đến trang thanh toán của ví điện tử để hoàn tất giao dịch.
                 </p>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {paymentMethod === "CASH" && (
+          <div className="space-y-4">
+            <Card>
+              <CardContent className="pt-6">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 text-green-700">
+                    <Coins className="h-8 w-8" />
+                    <div>
+                      <h3 className="font-medium">Thanh toán bằng tiền mặt</h3>
+                      <p className="text-sm text-muted-foreground">Thanh toán trực tiếp tại điểm khởi hành</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+                    <h4 className="font-medium text-green-800 dark:text-green-200 mb-2">Thông tin thanh toán:</h4>
+                    <ul className="text-sm space-y-2 text-green-700 dark:text-green-300">
+                      <li className="flex items-center gap-2">
+                        <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                        <span>Số tiền cần thanh toán: <strong>{remainingAmount.toLocaleString("vi-VN")} VNĐ</strong></span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                        <span>Thanh toán tại điểm khởi hành trước khi lên xe</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                        <span>Nhân viên sẽ liên hệ xác nhận trước chuyến đi 24h</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                        <span>Vui lòng chuẩn bị đúng số tiền để thuận tiện trong việc thanh toán</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                    <div className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-yellow-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-white text-xs font-bold">!</span>
+                      </div>
+                      <div className="text-sm text-yellow-800 dark:text-yellow-200">
+                        <p className="font-medium mb-1">Lưu ý quan trọng:</p>
+                        <p>Trong trường hợp bạn không có mặt tại điểm khởi hành đúng giờ hoặc không thanh toán, tour sẽ bị hủy và không được hoàn tiền.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>

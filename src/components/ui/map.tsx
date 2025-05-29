@@ -123,25 +123,22 @@ const MapComponent = ({
     );
   }
 
-  const MapWithNoSSR = dynamic(() => import("./map-with-no-ssr"), {
+  const GoogleMapWithNoSSR = dynamic(() => import("./google-map"), {
     ssr: false,
     loading: () => (
       <div className="w-full flex items-center justify-center bg-slate-100 rounded-md" style={{ height }}>
-        Đang tải bản đồ...
+        Đang tải Google Maps...
       </div>
     ),
   });
 
   return (
     <div className="w-full" style={{ height }}>
-      <MapWithNoSSR
+      <GoogleMapWithNoSSR
         center={center}
         zoom={zoom}
         sites={filteredSites}
-        showAllSites={showAllSites}
         height={height}
-        mapProvider={mapProvider}
-        mapStyle={mapStyle}
       />
     </div>
   );

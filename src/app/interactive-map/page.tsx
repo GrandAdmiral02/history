@@ -2,8 +2,15 @@
 
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import dynamic from 'next/dynamic';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import GoogleMap, { HISTORICAL_SITES } from '@/components/ui/google-map';
+import { HISTORICAL_SITES } from '@/components/ui/map';
+
+// Dynamic import để tránh lỗi SSR với Leaflet
+const MapComponent = dynamic(() => import('@/components/ui/map'), {
+  ssr: false,
+  loading: () => <div className="w-full h-[600px] flex items-center justify-center bg-slate-100 rounded-md">Đang tải bản đồ...</div>
+});
 
 const categories = [
   { id: 'all', name: 'Tất cả' },
@@ -39,7 +46,7 @@ export default function InteractiveMapPage() {
 
             {categories.map((category) => (
               <TabsContent key={category.id} value={category.id}>
-                <GoogleMap
+                <MapComponent
                   height="600px"
                   zoom={9}
                   categoryFilter={category.id === 'all' ? undefined : category.id}
