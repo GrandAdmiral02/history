@@ -24,7 +24,7 @@ export default function Home() {
           quality={90}
         />
         <div className="container relative z-20 flex flex-col items-center justify-center h-full text-center text-white">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-shadow-sm">Du Lịch Lịch Sử Nghệ An</h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-shadow-sm">Du lịch và Lịch sử Nghệ An</h1>
           <p className="text-lg md:text-xl max-w-2xl mb-8">
             Khám phá những di tích lịch sử, văn hóa và danh thắng nổi tiếng của quê hương xứ Nghệ
           </p>

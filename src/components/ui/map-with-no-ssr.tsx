@@ -1,75 +1,25 @@
-// src/components/ui/map-with-no-ssr.tsx
 "use client";
 
-import { useEffect, useRef } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import type { HistoricalSite } from "./map";
-import L from "leaflet";
-import Link from "next/link";
-import "leaflet/dist/leaflet.css"; // Thêm CSS của Leaflet
-import "@/styles.css";
-
-// Fix Leaflet icon issues
-const fixLeafletIcon = () => {
-  // biome-ignore lint/suspicious/noExplicitAny: Required for Leaflet icon fix
-  (L.Icon.Default.prototype as any)._getIconUrl = undefined;
-  L.Icon.Default.mergeOptions({
-    iconRetinaUrl: "/marker-icon-2x.png",
-    iconUrl: "/marker-icon.png",
-    shadowUrl: "/marker-shadow.png",
-  });
-};
-
 interface MapWithNoSSRProps {
-  center: [number, number];
-  zoom: number;
-  sites: HistoricalSite[];
-  showAllSites: boolean;
   height: string;
-  mapProvider?: string;
-  mapStyle?: string;
 }
 
-const MapWithNoSSR = ({ center, zoom, sites, showAllSites, height, mapProvider = "OSM", mapStyle }: MapWithNoSSRProps) => {
-  const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<L.Map | null>(null);
-
-  useEffect(() => {
-    fixLeafletIcon();
-
-    if (mapRef.current || !mapContainerRef.current) {
-      // Đảm bảo bản đồ chỉ được khởi tạo nếu chưa có
-      return;
-    }
-
-    const map = L.map(mapContainerRef.current).setView(center, zoom);
-    mapRef.current = map;
-
-    const tileLayerProps =
-      mapProvider === "MAPBOX"
-        ? {
-            url: `https://api.mapbox.com/styles/v1/mapbox/${mapStyle || "streets-v12"}/tiles/{z}/{x}/{y}?access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`,
-            attribution: '© <a href="https://www.mapbox.com/">Mapbox</a> contributors',
-          }
-        : {
-            url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          };
-
-    L.tileLayer(tileLayerProps.url, { attribution: tileLayerProps.attribution }).addTo(map);
-
-    // Cleanup khi component unmount
-    return () => {
-      if (mapRef.current) {
-        mapRef.current.remove();
-        mapRef.current = null;
-      }
-    };
-  }, [center, zoom, mapProvider, mapStyle]); // Thêm dependencies để cập nhật bản đồ khi cần
+const MapWithNoSSR = ({ height }: MapWithNoSSRProps) => {
+  // URL iframe từ Google Maps Embed API, nhúng địa điểm Thành cổ Vinh
+  const embedUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.885628058594!2d105.6891715!3d18.6716977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3139d2f0b0f0b0b1%3A0x9b0b0b0b0b0b0b0b!2sThanh%20co%20Vinh!5e0!3m2!1svi!2s!4v1698765432109";
 
   return (
     <div style={{ height: height, width: "100%" }}>
-      <div ref={mapContainerRef} style={{ height: "100%", width: "100%", borderRadius: "0.5rem" }} />
+      <iframe
+        src={embedUrl}
+        width="100%"
+        height="100%"
+        style={{ border: 0, borderRadius: "0.5rem" }}
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        title="Google Maps - Thành cổ Vinh"
+      ></iframe>
     </div>
   );
 };

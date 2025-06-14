@@ -3,20 +3,20 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-br from-teal-600 via-cyan-500 to-amber-100 border-t border-teal-300/50 shadow-lg">
-      <div className="container mx-auto px-4 sm:px-6 py-10 md:py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+    <footer className="bg-gradient-to-br from-teal-600 via-cyan-500 to-amber-100 border-t border-teal-300/50 shadow-md">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 max-w-7xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Brand Section */}
-          <div className="space-y-6">
-            <div className="flex items-center space-x-3">
-              <h3 className="text-2xl font-bold text-white tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-teal-200 to-amber-200">
+          <div className="space-y-3">
+            <div className="flex items-center space-x-2">
+              <h3 className="text-xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-teal-200 to-amber-200">
                 Nghệ An Historical
               </h3>
             </div>
-            <p className="text-sm text-gray-100 leading-relaxed max-w-xs font-light">
+            <p className="text-xs text-gray-100 leading-relaxed max-w-xs">
               Khám phá di sản văn hóa và lịch sử phong phú của xứ Nghệ, nơi lưu giữ những câu chuyện và dấu ấn dân tộc.
             </p>
-            <div className="flex space-x-4 mt-6">
+            <div className="flex space-x-2 mt-2">
               {[
                 {
                   href: "https://facebook.com",
@@ -59,20 +59,20 @@ export function Footer() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-200 hover:text-amber-100 transform hover:scale-125 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber-300 rounded-full p-1.5"
+                  className="text-gray-200 hover:text-amber-100 transform hover:scale-110 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber-300 rounded-full p-1"
                   aria-label={label}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
+                    width="20"
+                    height="20"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="h-6 w-6"
+                    className="h-4 w-4"
                   >
                     {icon}
                   </svg>
@@ -82,9 +82,9 @@ export function Footer() {
           </div>
 
           {/* Quick Links Section */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-bold text-white tracking-tight">Liên kết nhanh</h3>
-            <ul className="space-y-4">
+          <div className="space-y-3">
+            <h3 className="text-base font-semibold text-white">Liên kết nhanh</h3>
+            <ul className="space-y-1.5">
               {[
                 { href: "/", text: "Trang chủ" },
                 { href: "/destinations", text: "Hành trình" },
@@ -95,11 +95,11 @@ export function Footer() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="text-sm text-gray-200 hover:text-amber-100 flex items-center transition-all duration-300 ease-in-out hover:translate-x-2 group focus:outline-none focus:ring-2 focus:ring-amber-300 rounded"
+                    className="text-xs text-gray-200 hover:text-amber-100 flex items-center transition-all duration-200 ease-in-out hover:translate-x-1 group focus:outline-none focus:ring-2 focus:ring-amber-300 rounded"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 mr-2 text-amber-100 group-hover:text-amber-200 transition-colors duration-300"
+                      className="h-3 w-3 mr-1.5 text-amber-100 group-hover:text-amber-200 transition-colors duration-200"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -117,9 +117,9 @@ export function Footer() {
           </div>
 
           {/* Highlighted Destinations Section */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-bold text-white tracking-tight">Điểm đến nổi bật</h3>
-            <ul className="space-y-4">
+          <div className="space-y-3">
+            <h3 className="text-base font-semibold text-white">Điểm đến nổi bật</h3>
+            <ul className="space-y-1.5">
               {[
                 { href: "/historical-sites/kim-lien", text: "Khu di tích Kim Liên" },
                 { href: "/historical-sites/den-cuong", text: "Đền Cuông" },
@@ -129,11 +129,11 @@ export function Footer() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="text-sm text-gray-200 hover:text-amber-100 flex items-center transition-all duration-300 ease-in-out hover:translate-x-2 group focus:outline-none focus:ring-2 focus:ring-amber-300 rounded"
+                    className="text-xs text-gray-200 hover:text-amber-100 flex items-center transition-all duration-200 ease-in-out hover:translate-x-1 group focus:outline-none focus:ring-2 focus:ring-amber-300 rounded"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 mr-2 text-amber-100 group-hover:text-amber-200 transition-colors duration-300"
+                      className="h-3 w-3 mr-1.5 text-amber-100 group-hover:text-amber-200 transition-colors duration-200"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -151,11 +151,14 @@ export function Footer() {
           </div>
 
           {/* Contact Section */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-bold text-white tracking-tight">Liên hệ</h3>
-            <ul className="space-y-4">
+          <div className="space-y-3">
+            <h3 className="text-base font-semibold text-white">Liên hệ</h3>
+            <ul className="space-y-1.5">
               {[
                 {
+                  icon: (
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6" />
+                  ),
                   text: "Email: info@nghean-historical.vn",
                   href: "mailto:info@nghean-historical.vn",
                 },
@@ -177,29 +180,27 @@ export function Footer() {
                 },
               ].map(({ icon, text, href }, index) => (
                 <li key={index} className="flex items-start group">
-                  {icon && (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 mr-3 mt-0.5 text-amber-100 group-hover:text-amber-200 group-hover:scale-110 transition-all duration-300"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      {icon}
-                    </svg>
-                  )}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 mr-1.5 mt-0.5 text-amber-100 group-hover:text-amber-200 transition-all duration-200"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    {icon}
+                  </svg>
                   {href ? (
                     <a
                       href={href}
-                      className="text-sm text-gray-200 group-hover:text-amber-100 transition-colors duration-300"
+                      className="text-xs text-gray-200 group-hover:text-amber-100 transition-colors duration-200"
                     >
                       {text}
                     </a>
                   ) : (
-                    <span className="text-sm text-gray-200 group-hover:text-amber-100 transition-colors duration-300">
+                    <span className="text-xs text-gray-200 group-hover:text-amber-100 transition-colors duration-200">
                       {text}
                     </span>
                   )}
@@ -210,18 +211,18 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-teal-300/50 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-200 bg-teal-700/80 backdrop-blur-lg rounded-xl shadow-sm p-6">
-          <p className="mb-4 sm:mb-0 font-light">© 2025 Nghệ An Historical. Tất cả quyền được bảo lưu.</p>
-          <div className="flex gap-6">
+        <div className="border-t border-teal-300/50 mt-4 pt-3 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-200 bg-teal-700/80 backdrop-blur-sm rounded-md shadow-sm p-2">
+          <p className="mb-2 sm:mb-0">© 2025 Nghệ An Historical. Tất cả quyền được bảo lưu.</p>
+          <div className="flex gap-3">
             <Link
               href="/privacy-policy"
-              className="text-sm text-gray-200 hover:text-amber-100 font-medium transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber-300 rounded"
+              className="text-xs text-gray-200 hover:text-amber-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-amber-300 rounded"
             >
               Chính sách bảo mật
             </Link>
             <Link
               href="/terms-of-service"
-              className="text-sm text-gray-200 hover:text-amber-100 font-medium transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber-300 rounded"
+              className="text-xs text-gray-200 hover:text-amber-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-amber-300 rounded"
             >
               Điều khoản sử dụng
             </Link>
