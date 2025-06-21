@@ -29,6 +29,11 @@ const nextConfig = {
         hostname: "ugc.same-assets.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.pexels.com",
+        pathname: "/**",
+      },
     ],
   },
 };
