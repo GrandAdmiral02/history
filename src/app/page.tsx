@@ -142,7 +142,7 @@ export default function Home() {
             <Card className="overflow-hidden">
               <div className="relative h-60">
                 <Image
-                  src="https://images.pexels.com/photos/7263777/pexels-photo-7263777.jpeg"
+                  src="https://images.pexels.com/photos/2853964/pexels-photo-2853964.jpeg"
                   alt="Đền Cuông"
                   fill
                   className="object-cover"
