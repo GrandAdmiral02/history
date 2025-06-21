@@ -6,6 +6,7 @@ const nextConfig = {
       "images.unsplash.com",
       "ext.same-assets.com",
       "ugc.same-assets.com",
+      "images.pexels.com",
     ],
     remotePatterns: [
       {
