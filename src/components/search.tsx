@@ -235,7 +235,6 @@ export function SearchDialog() {
                   className="p-2 hover:bg-muted rounded-md cursor-pointer"
                   onClick={() => {
                     router.push(item.url);
-                    props.onOpenChange?.(false);
                   }}
                 >
                   <div className="font-medium">{item.title}</div>
