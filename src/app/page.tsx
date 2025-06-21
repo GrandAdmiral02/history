@@ -116,7 +116,7 @@ export default function Home() {
             <Card className="overflow-hidden">
               <div className="relative h-60">
                 <Image
-                  src="https://ext.same-assets.com/4052699563/777305328.jpeg"
+                  src="https://images.pexels.com/photos/27219984/pexels-photo-27219984.jpeg"
                   alt="Khu di tích Kim Liên"
                   fill
                   className="object-cover"
