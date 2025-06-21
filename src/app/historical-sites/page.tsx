@@ -239,7 +239,7 @@ export default function HistoricalSitesPage() {
               <Card className="overflow-hidden">
                 <div className="relative h-60">
                   <Image
-                    src="https://ext.same-assets.com/3334769225/3290883099.jpeg"
+                    src="https://images.unsplash.com/photo-1520637836862-4d197d17c93a?w=800&h=600&fit=crop"
                     alt="Bảo tàng Xô Viết Nghệ Tĩnh"
                     fill
                     className="object-cover"
