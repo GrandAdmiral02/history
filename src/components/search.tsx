@@ -199,7 +199,7 @@ export function SearchDialog() {
   }, [searchQuery]);
 
   return (
-    <Dialog {...props}>
+    <Dialog>
       <DialogTrigger asChild>
         <Button
           variant="outline"
