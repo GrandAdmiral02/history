@@ -300,13 +300,13 @@ export default function HistoricalSitesPage() {
             </div>
           </TabsContent>
 
-          {/* Di tích lưu niệm danh nhân */}
+          {/* Di tích lưu niệm danh nh��n */}
           <TabsContent value="memorial" className="mt-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <Card className="overflow-hidden">
                 <div className="relative h-60">
                   <Image
-                    src="https://ext.same-assets.com/4052699563/777305328.jpeg"
+                    src="https://images.unsplash.com/photo-1512632578888-169bbbc64f33?w=800&h=600&fit=crop"
                     alt="Khu di tích Kim Liên"
                     fill
                     className="object-cover"
@@ -351,7 +351,7 @@ export default function HistoricalSitesPage() {
                 <CardContent>
                   <p className="line-clamp-3">
                     Di tích lưu niệm cụ Phan Bội Châu tại xã Đông Liễu, huyện
-                    Nam Đàn, ghi d��u cuộc đời và sự nghiệp của nhà cách mạng
+                    Nam Đàn, ghi dấu cuộc đời và sự nghiệp của nhà cách mạng
                     tiền bối Phan Bội Châu.
                   </p>
                 </CardContent>
