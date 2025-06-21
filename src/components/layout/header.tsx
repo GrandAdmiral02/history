@@ -217,7 +217,10 @@ export function Header() {
 
               <div className="hidden md:flex items-center gap-2">
                 <Link href="/login">
-                  <Button size="sm" className="bg-green-700 hover:bg-green-800">
+                  <Button
+                    size="sm"
+                    className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                  >
                     Đăng nhập
                   </Button>
                 </Link>
