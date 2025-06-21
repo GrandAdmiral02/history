@@ -181,7 +181,7 @@ export function Header() {
 
                   <NavigationMenuItem>
                     <Link href="/destinations" legacyBehavior passHref>
-                      <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                      <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-green-50 hover:text-green-700 hover:shadow-md focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-green-50 data-[state=open]:bg-green-50">
                         Hành Trình
                       </NavigationMenuLink>
                     </Link>
@@ -189,16 +189,17 @@ export function Header() {
 
                   <NavigationMenuItem>
                     <Link href="/shop" legacyBehavior passHref>
-                      <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
-                        <ShoppingBag className="w-4 h-4 mr-2" />
+                      <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-orange-50 hover:text-orange-700 hover:shadow-md focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-orange-50 data-[state=open]:bg-orange-50 relative overflow-hidden">
+                        <ShoppingBag className="w-4 h-4 mr-2 group-hover:text-orange-600 transition-colors" />
                         Cửa hàng
+                        <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full animate-pulse"></span>
                       </NavigationMenuLink>
                     </Link>
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
                     <Link href="/about" legacyBehavior passHref>
-                      <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                      <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-green-50 hover:text-green-700 hover:shadow-md focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-green-50 data-[state=open]:bg-green-50">
                         Giới Thiệu
                       </NavigationMenuLink>
                     </Link>
