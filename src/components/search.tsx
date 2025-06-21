@@ -203,10 +203,14 @@ export function SearchDialog() {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="h-10 justify-start text-muted-foreground"
+          className="h-10 w-[240px] justify-start text-muted-foreground bg-background border-muted-foreground/20 hover:bg-muted/50"
         >
           <SearchIcon className="mr-2 h-4 w-4" />
-          Tìm kiếm điểm đến...
+          <span className="hidden lg:inline">Tìm kiếm điểm đến...</span>
+          <span className="lg:hidden">Tìm kiếm</span>
+          <kbd className="pointer-events-none hidden lg:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground ml-auto">
+            <span className="text-xs">⌘</span>K
+          </kbd>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[550px]">
