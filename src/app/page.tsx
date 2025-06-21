@@ -168,7 +168,7 @@ export default function Home() {
             <Card className="overflow-hidden">
               <div className="relative h-60">
                 <Image
-                  src="https://images.pexels.com/photos/2973305/pexels-photo-2973305.jpeg"
+                  src="https://images.pexels.com/photos/262271/pexels-photo-262271.jpeg"
                   alt="Truông Bồn"
                   fill
                   className="object-cover"
