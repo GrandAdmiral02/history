@@ -63,7 +63,7 @@ export default function DestinationsPage() {
           <Card className="flex flex-col h-full">
             <div className="relative h-60">
               <Image
-                src="https://ext.same-assets.com/4052699563/777305328.jpeg"
+                src="https://images.pexels.com/photos/27219984/pexels-photo-27219984.jpeg"
                 alt="Hành trình về nguồn"
                 fill
                 className="object-cover"
