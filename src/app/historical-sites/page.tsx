@@ -140,7 +140,7 @@ export default function HistoricalSitesPage() {
               <Card className="overflow-hidden">
                 <div className="relative h-60">
                   <Image
-                    src="https://ext.same-assets.com/3334769225/3264552788.jpeg"
+                    src="https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=800&h=600&fit=crop"
                     alt="Thành cổ Vinh"
                     fill
                     className="object-cover"
