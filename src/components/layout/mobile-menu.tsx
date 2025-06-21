@@ -52,6 +52,11 @@ const menuItems = [
     ],
   },
   {
+    title: "Cửa hàng",
+    href: "/shop",
+    icon: ShoppingBag,
+  },
+  {
     title: "Giới Thiệu",
     href: "/about",
     icon: Info,
