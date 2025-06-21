@@ -112,15 +112,9 @@ export function MobileMenu() {
           <div className="border-t pt-4 mt-4">
             <div className="space-y-2">
               <Link href="/login" onClick={() => setOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start">
+                <Button className="w-full justify-start bg-green-700 hover:bg-green-800">
                   <LogIn className="mr-2 h-4 w-4" />
                   Đăng nhập
-                </Button>
-              </Link>
-              <Link href="/register" onClick={() => setOpen(false)}>
-                <Button className="w-full justify-start bg-green-700 hover:bg-green-800">
-                  <UserPlus className="mr-2 h-4 w-4" />
-                  Đăng ký
                 </Button>
               </Link>
             </div>
