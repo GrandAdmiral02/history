@@ -18,6 +18,7 @@ import {
   Info,
   LogIn,
   UserPlus,
+  ShoppingBag,
 } from "lucide-react";
 
 const menuItems = [
