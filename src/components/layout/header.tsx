@@ -13,8 +13,8 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { SearchButton } from "@/components/search";
 import { Button } from "@/components/ui/button";
-import { useSession } from "next-auth/react";
-import { UserAccountNav } from "@/components/auth/user-account-nav";
+// import { useSession } from "next-auth/react";
+// import { UserAccountNav } from "@/components/auth/user-account-nav";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -120,7 +120,11 @@ export function Header() {
                   </Button>
                 </Link>
                 <Link href="/register">
-                  <Button variant="default" size="sm" className="bg-green-700 hover:bg-green-800">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    className="bg-green-700 hover:bg-green-800"
+                  >
                     Đăng ký
                   </Button>
                 </Link>
@@ -144,7 +148,7 @@ const ListItem = React.forwardRef<
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
+            className,
           )}
           {...props}
         >
