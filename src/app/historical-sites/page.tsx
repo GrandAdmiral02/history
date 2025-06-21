@@ -300,7 +300,7 @@ export default function HistoricalSitesPage() {
             </div>
           </TabsContent>
 
-          {/* Di tích lưu niệm danh nh��n */}
+          {/* Di tích lưu niệm danh nhân */}
           <TabsContent value="memorial" className="mt-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <Card className="overflow-hidden">
@@ -338,7 +338,7 @@ export default function HistoricalSitesPage() {
               <Card className="overflow-hidden">
                 <div className="relative h-60">
                   <Image
-                    src="https://ext.same-assets.com/3334769225/3359488301.jpeg"
+                    src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=800&h=600&fit=crop"
                     alt="Di tích lưu niệm cụ Phan Bội Châu"
                     fill
                     className="object-cover"
