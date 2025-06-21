@@ -17,7 +17,7 @@ export default function DestinationsPage() {
       <section className="relative h-[300px] md:h-[400px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
         <Image
-          src="https://images.pexels.com/photos/28999550/pexels-photo-28999550.jpeg"
+          src="https://images.pexels.com/photos/2164231/pexels-photo-2164231.jpeg"
           alt="Hành trình du lịch Nghệ An"
           fill
           className="object-cover"
@@ -230,7 +230,7 @@ export default function DestinationsPage() {
                   </h3>
                   <ul className="text-sm text-muted-foreground list-disc list-inside mt-2 space-y-1">
                     <li>Tham quan Đền Quả Sơn tại Đô Lương</li>
-                    <li>Tham quan Đền Vạn Lộc t��i Hưng Lộc</li>
+                    <li>Tham quan Đền Vạn Lộc tại Hưng Lộc</li>
                     <li>Tham quan đền thờ Hoàng đế Quang Trung</li>
                     <li>Viếng chùa Đại Tuệ</li>
                     <li>Khám phá các di tích tâm linh khác trong khu vực</li>
