@@ -110,26 +110,26 @@ export function Header() {
             </NavigationMenuList>
           </NavigationMenu>
           <div className="flex items-center gap-2">
-            {session?.user ? (
+            {/* {session?.user ? (
               <UserAccountNav user={session.user} />
-            ) : (
-              <>
-                <Link href="/login">
-                  <Button variant="ghost" size="sm">
-                    Đăng nhập
-                  </Button>
-                </Link>
-                <Link href="/register">
-                  <Button
-                    variant="default"
-                    size="sm"
-                    className="bg-green-700 hover:bg-green-800"
-                  >
-                    Đăng ký
-                  </Button>
-                </Link>
-              </>
-            )}
+            ) : ( */}
+            <>
+              <Link href="/login">
+                <Button variant="ghost" size="sm">
+                  Đăng nhập
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="bg-green-700 hover:bg-green-800"
+                >
+                  Đăng ký
+                </Button>
+              </Link>
+            </>
+            {/* )} */}
           </div>
         </div>
       </div>
