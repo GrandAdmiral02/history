@@ -175,7 +175,7 @@ export function SearchButton() {
   );
 }
 
-export function SearchDialog({ ...props }: DialogProps) {
+export function SearchDialog() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = React.useState("");
   const [filteredItems, setFilteredItems] = React.useState(searchItems);
