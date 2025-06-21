@@ -368,7 +368,7 @@ export default function HistoricalSitesPage() {
               <Card className="overflow-hidden">
                 <div className="relative h-60">
                   <Image
-                    src="https://ext.same-assets.com/3334769225/3377099892.jpeg"
+                    src="https://images.unsplash.com/photo-1590736969955-71cc94901144?w=800&h=600&fit=crop"
                     alt="Mộ bà Hoàng Thị Loan"
                     fill
                     className="object-cover"
