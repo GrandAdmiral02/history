@@ -76,7 +76,7 @@ export default function HistoricalSitesPage() {
               <Card className="overflow-hidden">
                 <div className="relative h-60">
                   <Image
-                    src="https://ext.same-assets.com/3334769225/3110326546.jpeg"
+                    src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800&h=600&fit=crop"
                     alt="Đền Cuông"
                     fill
                     className="object-cover"
@@ -122,7 +122,7 @@ export default function HistoricalSitesPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="line-clamp-3">
-                    Đền Quả Sơn nằm tại huyện Đô Lương, là di tích lịch sử quan
+                    Đền Qu�� Sơn nằm tại huyện Đô Lương, là di tích lịch sử quan
                     trọng thờ Mai Hắc Đế - vị vua nông dân đầu tiên trong lịch
                     sử Việt Nam.
                   </p>
