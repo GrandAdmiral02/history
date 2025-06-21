@@ -9,7 +9,7 @@ export default function AboutPage() {
       <section className="relative h-[300px] md:h-[400px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
         <Image
-          src="https://images.pexels.com/photos/6130344/pexels-photo-6130344.jpeg"
+          src="https://images.pexels.com/photos/2164231/pexels-photo-2164231.jpeg"
           alt="Nghệ An"
           fill
           className="object-cover"
