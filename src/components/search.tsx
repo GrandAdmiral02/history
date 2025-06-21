@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useRouter } from "next/navigation"
-import { SearchIcon } from "lucide-react"
+import * as React from "react";
+import { useRouter } from "next/navigation";
+import { SearchIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   CommandDialog,
   CommandEmpty,
@@ -12,8 +12,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogProps } from "@/components/ui/dialog" // Đã thêm DialogProps vào đây
+} from "@/components/ui/command";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 // Dữ liệu mẫu cho các di tích lịch sử
 const historicalSites = [
@@ -22,44 +28,46 @@ const historicalSites = [
     title: "Khu di tích Kim Liên",
     category: "Di tích lưu niệm danh nhân",
     description: "Quê hương của Chủ tịch Hồ Chí Minh",
-    url: "/historical-sites/kim-lien"
+    url: "/historical-sites/kim-lien",
   },
   {
     id: "den-cuong",
     title: "Đền Cuông",
     category: "Di tích lịch sử văn hóa",
     description: "Di tích lịch sử văn hóa cấp quốc gia, thờ An Dương Vương",
-    url: "/historical-sites/den-cuong"
+    url: "/historical-sites/den-cuong",
   },
   {
     id: "truong-bon",
     category: "Di tích cách mạng",
     title: "Truông Bồn",
-    description: "Nơi tưởng nhớ sự hy sinh anh dũng của các chiến sĩ thanh niên xung phong",
-    url: "/historical-sites/truong-bon"
+    description:
+      "Nơi tưởng nhớ sự hy sinh anh dũng của các chiến sĩ thanh niên xung phong",
+    url: "/historical-sites/truong-bon",
   },
   {
     id: "den-qua-son",
     title: "Đền Quả Sơn",
     category: "Di tích lịch sử văn hóa",
     description: "Di tích lịch sử văn hóa cấp quốc gia tại huyện Đô Lương",
-    url: "/historical-sites/den-qua-son"
+    url: "/historical-sites/den-qua-son",
   },
   {
     id: "thanh-co-vinh",
     title: "Thành cổ Vinh",
     category: "Di tích lịch sử văn hóa",
-    description: "Chứng tích lịch sử và nơi ghi lại dấu ấn nhiều biến động của xứ Nghệ",
-    url: "/historical-sites/thanh-co-vinh"
+    description:
+      "Chứng tích lịch sử và nơi ghi lại dấu ấn nhiều biến động của xứ Nghệ",
+    url: "/historical-sites/thanh-co-vinh",
   },
   {
     id: "mo-ba-hoang-thi-loan",
     title: "Mộ bà Hoàng Thị Loan",
     category: "Di tích lưu niệm danh nhân",
     description: "Nơi an nghỉ của thân mẫu Chủ tịch Hồ Chí Minh",
-    url: "/historical-sites/mo-ba-hoang-thi-loan"
+    url: "/historical-sites/mo-ba-hoang-thi-loan",
   },
-]
+];
 
 // Dữ liệu mẫu cho các hành trình du lịch
 const journeys = [
@@ -68,54 +76,54 @@ const journeys = [
     title: "Hành trình về nguồn",
     category: "Hành trình du lịch",
     description: "Khám phá quê hương và cuộc đời của Chủ tịch Hồ Chí Minh",
-    url: "/destinations/ve-nguon"
+    url: "/destinations/ve-nguon",
   },
   {
     id: "con-duong-huyen-thoai",
     title: "Con đường huyền thoại",
     category: "Hành trình du lịch",
     description: "Hành trình theo dấu chân những người anh hùng",
-    url: "/destinations/con-duong-huyen-thoai"
+    url: "/destinations/con-duong-huyen-thoai",
   },
   {
     id: "di-san-tam-linh",
     title: "Di sản văn hóa tâm linh",
     category: "Hành trình du lịch",
     description: "Hành trình khám phá các đền, chùa nổi tiếng xứ Nghệ",
-    url: "/destinations/di-san-tam-linh"
+    url: "/destinations/di-san-tam-linh",
   },
   {
     id: "dau-an-danh-nhan",
     title: "Dấu ấn danh nhân",
     category: "Hành trình du lịch",
     description: "Hành trình theo chân những danh nhân lịch sử xứ Nghệ",
-    url: "/destinations/dau-an-danh-nhan"
+    url: "/destinations/dau-an-danh-nhan",
   },
-]
+];
 
 // Kết hợp tất cả dữ liệu tìm kiếm
-const searchItems = [...historicalSites, ...journeys]
+const searchItems = [...historicalSites, ...journeys];
 
 export function SearchButton() {
-  const [open, setOpen] = React.useState(false)
-  const router = useRouter()
+  const [open, setOpen] = React.useState(false);
+  const router = useRouter();
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setOpen((open) => !open)
+        e.preventDefault();
+        setOpen((open) => !open);
       }
-    }
+    };
 
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
-  }, [])
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
 
   const runCommand = React.useCallback((command: () => unknown) => {
-    setOpen(false)
-    command()
-  }, [])
+    setOpen(false);
+    command();
+  }, []);
 
   return (
     <>
@@ -142,7 +150,9 @@ export function SearchButton() {
                 onSelect={() => runCommand(() => router.push(site.url))}
               >
                 <span>{site.title}</span>
-                <span className="text-muted-foreground text-xs ml-2">- {site.description}</span>
+                <span className="text-muted-foreground text-xs ml-2">
+                  - {site.description}
+                </span>
               </CommandItem>
             ))}
           </CommandGroup>
@@ -153,44 +163,54 @@ export function SearchButton() {
                 onSelect={() => runCommand(() => router.push(journey.url))}
               >
                 <span>{journey.title}</span>
-                <span className="text-muted-foreground text-xs ml-2">- {journey.description}</span>
+                <span className="text-muted-foreground text-xs ml-2">
+                  - {journey.description}
+                </span>
               </CommandItem>
             ))}
           </CommandGroup>
         </CommandList>
       </CommandDialog>
     </>
-  )
+  );
 }
 
-export function SearchDialog({ ...props }: DialogProps) {
-  const router = useRouter()
-  const [searchQuery, setSearchQuery] = React.useState("")
-  const [filteredItems, setFilteredItems] = React.useState(searchItems)
+export function SearchDialog() {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [filteredItems, setFilteredItems] = React.useState(searchItems);
 
   // Lọc các mục tìm kiếm dựa trên truy vấn
   React.useEffect(() => {
     if (!searchQuery) {
-      setFilteredItems(searchItems)
-      return
+      setFilteredItems(searchItems);
+      return;
     }
 
-    const lowerCaseQuery = searchQuery.toLowerCase()
-    const filtered = searchItems.filter((item) =>
-      item.title.toLowerCase().includes(lowerCaseQuery) ||
-      item.description.toLowerCase().includes(lowerCaseQuery) ||
-      item.category.toLowerCase().includes(lowerCaseQuery)
-    )
+    const lowerCaseQuery = searchQuery.toLowerCase();
+    const filtered = searchItems.filter(
+      (item) =>
+        item.title.toLowerCase().includes(lowerCaseQuery) ||
+        item.description.toLowerCase().includes(lowerCaseQuery) ||
+        item.category.toLowerCase().includes(lowerCaseQuery),
+    );
 
-    setFilteredItems(filtered)
-  }, [searchQuery])
+    setFilteredItems(filtered);
+  }, [searchQuery]);
 
   return (
-    <Dialog {...props}>
+    <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="h-10 justify-start text-muted-foreground">
+        <Button
+          variant="outline"
+          className="h-10 w-[240px] justify-start text-muted-foreground bg-background border-muted-foreground/20 hover:bg-muted/50"
+        >
           <SearchIcon className="mr-2 h-4 w-4" />
-          Tìm kiếm điểm đến...
+          <span className="hidden lg:inline">Tìm kiếm điểm đến...</span>
+          <span className="lg:hidden">Tìm kiếm</span>
+          <kbd className="pointer-events-none hidden lg:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground ml-auto">
+            <span className="text-xs">⌘</span>K
+          </kbd>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[550px]">
@@ -218,13 +238,16 @@ export function SearchDialog({ ...props }: DialogProps) {
                   key={item.id}
                   className="p-2 hover:bg-muted rounded-md cursor-pointer"
                   onClick={() => {
-                    router.push(item.url)
-                    props.onOpenChange?.(false)
+                    router.push(item.url);
                   }}
                 >
                   <div className="font-medium">{item.title}</div>
-                  <div className="text-sm text-muted-foreground">{item.description}</div>
-                  <div className="text-xs text-muted-foreground mt-1">{item.category}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {item.description}
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-1">
+                    {item.category}
+                  </div>
                 </div>
               ))
             )}
@@ -232,5 +255,5 @@ export function SearchDialog({ ...props }: DialogProps) {
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { NextAuthConfig } from "next-auth";
@@ -10,6 +10,10 @@ const prisma = new PrismaClient();
 
 export const authConfig: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
+  secret:
+    process.env.AUTH_SECRET ||
+    process.env.NEXTAUTH_SECRET ||
+    "development-secret-key-change-in-production",
   session: {
     strategy: "jwt",
   },
@@ -86,7 +90,7 @@ export const authConfig: NextAuthConfig = {
     },
     async session({ session, token }) {
       if (token && session.user) {
-        session.user.role = token.role;
+        session.user.role = token.role as any;
         session.user.id = token.id as string;
       }
       return session;
