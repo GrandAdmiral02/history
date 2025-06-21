@@ -199,13 +199,8 @@ export function Header() {
 
               <div className="hidden md:flex items-center gap-2">
                 <Link href="/login">
-                  <Button variant="ghost" size="sm">
-                    Đăng nhập
-                  </Button>
-                </Link>
-                <Link href="/register">
                   <Button size="sm" className="bg-green-700 hover:bg-green-800">
-                    Đăng ký
+                    Đăng nhập
                   </Button>
                 </Link>
               </div>
