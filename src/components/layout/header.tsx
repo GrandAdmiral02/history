@@ -215,9 +215,6 @@ export function Header() {
               <div className="lg:hidden">
                 <SearchButton />
               </div>
-              {/* {session?.user ? (
-                <UserAccountNav user={session.user} />
-              ) : ( */}
               <>
                 <Link href="/login">
                   <Button
@@ -234,7 +231,6 @@ export function Header() {
                   </Button>
                 </Link>
               </>
-              {/* )} */}
             </div>
           </div>
         </div>
