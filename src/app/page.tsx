@@ -90,7 +90,7 @@ export default function Home() {
             </div>
             <div className="relative h-[400px] rounded-lg overflow-hidden">
               <Image
-                src="https://ext.same-assets.com/3334769225/3380477770.jpeg"
+                src="https://images.pexels.com/photos/6130344/pexels-photo-6130344.jpeg"
                 alt="Nghệ An"
                 fill
                 className="object-cover"
