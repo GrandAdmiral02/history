@@ -82,15 +82,15 @@ export function Header() {
       {/* Main header */}
       <header className="border-b bg-gradient-to-r from-white via-green-50/30 to-white backdrop-blur-sm sticky top-0 z-50 shadow-lg border-green-100">
         <div className="container flex items-center justify-between py-4">
-          <Link href="/" className="flex items-center space-x-3">
-            <div className="flex items-center justify-center w-12 h-12 bg-green-700 rounded-full">
+          <Link href="/" className="flex items-center space-x-3 group">
+            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-green-600 to-green-800 rounded-full shadow-lg group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
               <Mountain className="h-6 w-6 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-bold text-green-700">
+              <span className="text-xl font-bold bg-gradient-to-r from-green-700 to-green-900 bg-clip-text text-transparent group-hover:from-green-600 group-hover:to-green-800 transition-all duration-300">
                 Nghệ An Historical
               </span>
-              <span className="text-xs text-muted-foreground hidden sm:block">
+              <span className="text-xs text-muted-foreground hidden sm:block group-hover:text-green-600 transition-colors">
                 Du lịch di tích lịch sử
               </span>
             </div>
