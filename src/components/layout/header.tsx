@@ -80,7 +80,7 @@ export function Header() {
   return (
     <>
       {/* Main header */}
-      <header className="border-b bg-background sticky top-0 z-50 shadow-sm">
+      <header className="border-b bg-gradient-to-r from-white via-green-50/30 to-white backdrop-blur-sm sticky top-0 z-50 shadow-lg border-green-100">
         <div className="container flex items-center justify-between py-4">
           <Link href="/" className="flex items-center space-x-3">
             <div className="flex items-center justify-center w-12 h-12 bg-green-700 rounded-full">
