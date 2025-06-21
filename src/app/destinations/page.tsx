@@ -195,7 +195,7 @@ export default function DestinationsPage() {
           <Card className="flex flex-col h-full">
             <div className="relative h-60">
               <Image
-                src="https://ext.same-assets.com/3334769225/3110326546.jpeg"
+                src="https://images.pexels.com/photos/7263777/pexels-photo-7263777.jpeg"
                 alt="Di sản văn hóa tâm linh"
                 fill
                 className="object-cover"
