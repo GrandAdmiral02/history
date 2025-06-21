@@ -230,7 +230,7 @@ export default function DestinationsPage() {
                   </h3>
                   <ul className="text-sm text-muted-foreground list-disc list-inside mt-2 space-y-1">
                     <li>Tham quan Đền Quả Sơn tại Đô Lương</li>
-                    <li>Tham quan Đền Vạn Lộc tại Hưng Lộc</li>
+                    <li>Tham quan Đền Vạn Lộc t��i Hưng Lộc</li>
                     <li>Tham quan đền thờ Hoàng đế Quang Trung</li>
                     <li>Viếng chùa Đại Tuệ</li>
                     <li>Khám phá các di tích tâm linh khác trong khu vực</li>
@@ -265,7 +265,7 @@ export default function DestinationsPage() {
           <Card className="flex flex-col h-full">
             <div className="relative h-60">
               <Image
-                src="https://ext.same-assets.com/3334769225/3359488301.jpeg"
+                src="https://images.pexels.com/photos/32016048/pexels-photo-32016048.jpeg"
                 alt="Dấu ấn danh nhân"
                 fill
                 className="object-cover"
