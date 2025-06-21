@@ -207,7 +207,7 @@ export default function HistoricalSitesPage() {
               <Card className="overflow-hidden">
                 <div className="relative h-60">
                   <Image
-                    src="https://ext.same-assets.com/3334769225/3220782747.jpeg"
+                    src="https://images.unsplash.com/photo-1574482620971-8b6a4b4b1c8f?w=800&h=600&fit=crop"
                     alt="Truông Bồn"
                     fill
                     className="object-cover"
