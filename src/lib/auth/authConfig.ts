@@ -10,6 +10,10 @@ const prisma = new PrismaClient();
 
 export const authConfig: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
+  secret:
+    process.env.AUTH_SECRET ||
+    process.env.NEXTAUTH_SECRET ||
+    "development-secret-key-change-in-production",
   session: {
     strategy: "jwt",
   },
