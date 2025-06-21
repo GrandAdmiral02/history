@@ -271,7 +271,7 @@ export default function HistoricalSitesPage() {
               <Card className="overflow-hidden">
                 <div className="relative h-60">
                   <Image
-                    src="https://ext.same-assets.com/3334769225/3334599210.jpeg"
+                    src="https://images.unsplash.com/photo-1586161707228-ab77b7e10cb4?w=800&h=600&fit=crop"
                     alt="Cột mốc số 0 - đường Hồ Chí Minh"
                     fill
                     className="object-cover"
@@ -351,7 +351,7 @@ export default function HistoricalSitesPage() {
                 <CardContent>
                   <p className="line-clamp-3">
                     Di tích lưu niệm cụ Phan Bội Châu tại xã Đông Liễu, huyện
-                    Nam Đàn, ghi dấu cuộc đời và sự nghiệp của nhà cách mạng
+                    Nam Đàn, ghi d��u cuộc đời và sự nghiệp của nhà cách mạng
                     tiền bối Phan Bội Châu.
                   </p>
                 </CardContent>
