@@ -25,7 +25,7 @@ export default function Home() {
       <section className="relative h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
         <Image
-          src="https://images.pexels.com/photos/27219984/pexels-photo-27219984.jpeg"
+          src="https://images.pexels.com/photos/32569747/pexels-photo-32569747.jpeg"
           alt="Khu di tích lịch sử Kim Liên"
           fill
           className="object-cover"
