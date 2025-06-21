@@ -142,7 +142,7 @@ export default function Home() {
             <Card className="overflow-hidden">
               <div className="relative h-60">
                 <Image
-                  src="https://ext.same-assets.com/3334769225/3110326546.jpeg"
+                  src="https://images.pexels.com/photos/7263777/pexels-photo-7263777.jpeg"
                   alt="Đền Cuông"
                   fill
                   className="object-cover"
@@ -301,7 +301,7 @@ export default function Home() {
               Bài Viết Mới Nhất
             </h2>
             <p className="text-muted-foreground max-w-3xl">
-              Cập nhật những tin tức, sự kiện và kinh nghiệm du lịch mới nhất
+              Cập nhật những tin tức, sự ki��n và kinh nghiệm du lịch mới nhất
               tại Nghệ An
             </p>
           </div>
@@ -360,8 +360,8 @@ export default function Home() {
                 <p className="line-clamp-3">
                   Di tích lịch sử ở Nghệ An nổi tiếng với những công trình lịch
                   sử hoặc điểm đến gắn liền với các danh nhân huyền thoại. Đây
-                  là một trong những hoạt động du lịch hấp dẫn bậc nhất tại Nghệ
-                  An.
+                  là một trong những hoạt động du lịch h���p dẫn bậc nhất tại
+                  Nghệ An.
                 </p>
               </CardContent>
               <CardFooter>
