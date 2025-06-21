@@ -114,7 +114,7 @@ export function Header() {
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="bg-background">
+                    <NavigationMenuTrigger className="bg-background hover:bg-green-50 hover:text-green-700 transition-all duration-300 hover:shadow-md data-[state=open]:bg-green-50">
                       Điểm Đến
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
