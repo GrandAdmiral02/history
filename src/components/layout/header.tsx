@@ -71,30 +71,6 @@ export function Header() {
 
   return (
     <>
-      {/* Top bar */}
-      <div className="bg-green-700 text-white text-sm">
-        <div className="container flex items-center justify-between py-2">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Phone className="h-4 w-4" />
-              <span>Hotline: 0238 1234 567</span>
-            </div>
-            <div className="hidden md:flex items-center gap-2">
-              <Mail className="h-4 w-4" />
-              <span>info@nghean-historical.vn</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <a href="#" className="hover:text-green-200 transition-colors">
-              <Facebook className="h-4 w-4" />
-            </a>
-            <a href="#" className="hover:text-green-200 transition-colors">
-              <Youtube className="h-4 w-4" />
-            </a>
-          </div>
-        </div>
-      </div>
-
       {/* Main header */}
       <header className="border-b bg-background sticky top-0 z-50 shadow-sm">
         <div className="container flex items-center justify-between py-4">
