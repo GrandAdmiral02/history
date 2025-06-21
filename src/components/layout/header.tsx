@@ -13,7 +13,15 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { SearchButton } from "@/components/search";
 import { Button } from "@/components/ui/button";
-import { MapPin, Mountain, Phone, Mail, Facebook, Youtube } from "lucide-react";
+import {
+  MapPin,
+  Mountain,
+  Phone,
+  Mail,
+  Facebook,
+  Youtube,
+  ShoppingBag,
+} from "lucide-react";
 import { MobileMenu } from "./mobile-menu";
 // import { useSession } from "next-auth/react";
 // import { UserAccountNav } from "@/components/auth/user-account-nav";
