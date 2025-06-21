@@ -90,7 +90,7 @@ export default function Home() {
             </div>
             <div className="relative h-[400px] rounded-lg overflow-hidden">
               <Image
-                src="https://images.pexels.com/photos/6130344/pexels-photo-6130344.jpeg"
+                src="https://images.pexels.com/photos/2164231/pexels-photo-2164231.jpeg"
                 alt="Nghệ An"
                 fill
                 className="object-cover"
@@ -359,7 +359,7 @@ export default function Home() {
               <CardContent>
                 <p className="line-clamp-3">
                   Di tích lịch sử ở Nghệ An nổi tiếng với những công trình lịch
-                  sử hoặc điểm đến gắn liền với các danh nhân huyền thoại. Đây
+                  sử hoặc điểm đến gắn liền với các danh nh��n huyền thoại. Đây
                   là một trong những hoạt động du lịch hấp dẫn bậc nhất tại Nghệ
                   An.
                 </p>
