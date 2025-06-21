@@ -117,7 +117,8 @@ export function Header() {
               <SearchButton />
             </div>
 
-            <NavigationMenu>
+            <div className="hidden md:block">
+              <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <Link href="/" legacyBehavior passHref>
@@ -135,9 +136,7 @@ export function Header() {
                   <NavigationMenuContent>
                     <div className="grid w-[600px] gap-6 p-6 md:w-[700px] lg:w-[800px] lg:grid-cols-2">
                       <div>
-                        <h3 className="mb-4 text-lg font-semibold text-green-700">
-                          Di tích lịch sử
-                        </h3>
+                        <h3 className="mb-4 text-lg font-semibold text-green-700">Di tích lịch sử</h3>
                         <ul className="space-y-3">
                           {historicalSites.map((site) => (
                             <ListItem
@@ -147,9 +146,7 @@ export function Header() {
                               className="p-3"
                             >
                               <div className="flex items-center justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                  {site.description}
-                                </span>
+                                <span className="text-sm text-muted-foreground">{site.description}</span>
                                 <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
                                   {site.category}
                                 </span>
@@ -159,9 +156,7 @@ export function Header() {
                         </ul>
                       </div>
                       <div>
-                        <h3 className="mb-4 text-lg font-semibold text-green-700">
-                          Hành trình du lịch
-                        </h3>
+                        <h3 className="mb-4 text-lg font-semibold text-green-700">Hành trình du lịch</h3>
                         <ul className="space-y-3">
                           {journeys.map((journey) => (
                             <ListItem
@@ -171,9 +166,7 @@ export function Header() {
                               className="p-3"
                             >
                               <div className="flex items-center justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                  {journey.description}
-                                </span>
+                                <span className="text-sm text-muted-foreground">{journey.description}</span>
                                 <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
                                   {journey.duration}
                                 </span>
@@ -218,11 +211,7 @@ export function Header() {
               </div>
               <>
                 <Link href="/login">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="hidden sm:inline-flex"
-                  >
+                  <Button variant="ghost" size="sm" className="hidden sm:inline-flex">
                     Đăng nhập
                   </Button>
                 </Link>
@@ -251,7 +240,7 @@ const ListItem = React.forwardRef<
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className,
+            className
           )}
           {...props}
         >
