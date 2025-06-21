@@ -56,7 +56,7 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export function Header() {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
   return (
     <header className="border-b bg-background sticky top-0 z-50">
