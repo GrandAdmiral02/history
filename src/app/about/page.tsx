@@ -63,7 +63,7 @@ export default function AboutPage() {
               <h2>Nghệ An - Vùng Đất Địa Linh Nhân Kiệt</h2>
               <div className="relative h-80 rounded-lg overflow-hidden my-8">
                 <Image
-                  src="https://ext.same-assets.com/3334769225/3380477770.jpeg"
+                  src="https://images.pexels.com/photos/28999550/pexels-photo-28999550.jpeg"
                   alt="Nghệ An - Vùng đất địa linh nhân kiệt"
                   fill
                   className="object-cover"
