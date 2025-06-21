@@ -119,99 +119,111 @@ export function Header() {
 
             <div className="hidden md:block">
               <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <Link href="/" legacyBehavior passHref>
-                    <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
-                      <MapPin className="w-4 h-4 mr-2" />
-                      Trang Chủ
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <Link href="/" legacyBehavior passHref>
+                      <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                        <MapPin className="w-4 h-4 mr-2" />
+                        Trang Chủ
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
 
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-background">
-                    Điểm Đến
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="grid w-[600px] gap-6 p-6 md:w-[700px] lg:w-[800px] lg:grid-cols-2">
-                      <div>
-                        <h3 className="mb-4 text-lg font-semibold text-green-700">Di tích lịch sử</h3>
-                        <ul className="space-y-3">
-                          {historicalSites.map((site) => (
-                            <ListItem
-                              key={site.title}
-                              title={site.title}
-                              href={site.href}
-                              className="p-3"
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="bg-background">
+                      Điểm Đến
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <div className="grid w-[600px] gap-6 p-6 md:w-[700px] lg:w-[800px] lg:grid-cols-2">
+                        <div>
+                          <h3 className="mb-4 text-lg font-semibold text-green-700">
+                            Di tích lịch sử
+                          </h3>
+                          <ul className="space-y-3">
+                            {historicalSites.map((site) => (
+                              <ListItem
+                                key={site.title}
+                                title={site.title}
+                                href={site.href}
+                                className="p-3"
+                              >
+                                <div className="flex items-center justify-between">
+                                  <span className="text-sm text-muted-foreground">
+                                    {site.description}
+                                  </span>
+                                  <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
+                                    {site.category}
+                                  </span>
+                                </div>
+                              </ListItem>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <h3 className="mb-4 text-lg font-semibold text-green-700">
+                            Hành trình du lịch
+                          </h3>
+                          <ul className="space-y-3">
+                            {journeys.map((journey) => (
+                              <ListItem
+                                key={journey.title}
+                                title={journey.title}
+                                href={journey.href}
+                                className="p-3"
+                              >
+                                <div className="flex items-center justify-between">
+                                  <span className="text-sm text-muted-foreground">
+                                    {journey.description}
+                                  </span>
+                                  <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                                    {journey.duration}
+                                  </span>
+                                </div>
+                              </ListItem>
+                            ))}
+                          </ul>
+                          <div className="mt-4 pt-4 border-t">
+                            <Link
+                              href="/historical-sites"
+                              className="text-sm text-green-700 hover:text-green-800 font-medium"
                             >
-                              <div className="flex items-center justify-between">
-                                <span className="text-sm text-muted-foreground">{site.description}</span>
-                                <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
-                                  {site.category}
-                                </span>
-                              </div>
-                            </ListItem>
-                          ))}
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="mb-4 text-lg font-semibold text-green-700">Hành trình du lịch</h3>
-                        <ul className="space-y-3">
-                          {journeys.map((journey) => (
-                            <ListItem
-                              key={journey.title}
-                              title={journey.title}
-                              href={journey.href}
-                              className="p-3"
-                            >
-                              <div className="flex items-center justify-between">
-                                <span className="text-sm text-muted-foreground">{journey.description}</span>
-                                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
-                                  {journey.duration}
-                                </span>
-                              </div>
-                            </ListItem>
-                          ))}
-                        </ul>
-                        <div className="mt-4 pt-4 border-t">
-                          <Link
-                            href="/historical-sites"
-                            className="text-sm text-green-700 hover:text-green-800 font-medium"
-                          >
-                            Xem tất cả điểm đến →
-                          </Link>
+                              Xem tất cả điểm đến →
+                            </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
 
-                <NavigationMenuItem>
-                  <Link href="/destinations" legacyBehavior passHref>
-                    <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
-                      Hành Trình
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <Link href="/destinations" legacyBehavior passHref>
+                      <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                        Hành Trình
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
 
-                <NavigationMenuItem>
-                  <Link href="/about" legacyBehavior passHref>
-                    <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
-                      Giới Thiệu
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+                  <NavigationMenuItem>
+                    <Link href="/about" legacyBehavior passHref>
+                      <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                        Giới Thiệu
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            </div>
 
             <div className="flex items-center gap-2">
+              <MobileMenu />
+
               <div className="lg:hidden">
                 <SearchButton />
               </div>
-              <>
+
+              <div className="hidden md:flex items-center gap-2">
                 <Link href="/login">
-                  <Button variant="ghost" size="sm" className="hidden sm:inline-flex">
+                  <Button variant="ghost" size="sm">
                     Đăng nhập
                   </Button>
                 </Link>
@@ -220,7 +232,7 @@ export function Header() {
                     Đăng ký
                   </Button>
                 </Link>
-              </>
+              </div>
             </div>
           </div>
         </div>
@@ -240,7 +252,7 @@ const ListItem = React.forwardRef<
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
+            className,
           )}
           {...props}
         >
