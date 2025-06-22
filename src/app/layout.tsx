@@ -34,13 +34,13 @@ export default async function RootLayout({
           fontSans.variable,
         )}
       >
-        {/* <SessionProvider session={session}> */}
-        <div className="relative flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
-        {/* </SessionProvider> */}
+        <SessionProvider session={session}>
+          <div className="relative flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+        </SessionProvider>
       </body>
     </html>
   );
