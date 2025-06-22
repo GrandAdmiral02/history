@@ -25,8 +25,8 @@ export function Footer() {
               <div className="flex items-center justify-center">
                 <Users className="h-8 w-8 text-green-400" />
               </div>
-              <div className="text-2xl font-bold text-green-400">100K+</div>
-              <div className="text-sm text-slate-400">
+              <div className="text-2xl font-bold text-green-700">100K+</div>
+              <div className="text-sm text-slate-600">
                 Du khách đã tham quan
               </div>
             </div>
