@@ -10,6 +10,8 @@ const publicRoutes = [
   "/destinations",
   "/historical-sites",
   "/search",
+  "/booking",
+  "/shop",
   "/api/auth",
 ];
 
@@ -19,7 +21,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Kiểm tra xem đường dẫn hiện tại có trong danh sách công khai không
-  const isPublicRoute = publicRoutes.some(route => {
+  const isPublicRoute = publicRoutes.some((route) => {
     // Kiểm tra chính xác route hoặc nếu là subpath của route public
     if (route.endsWith("/")) {
       return pathname === route || pathname.startsWith(`${route}`);
@@ -55,8 +57,8 @@ export async function middleware(request: NextRequest) {
   // Các trang yêu cầu đăng nhập nhưng không yêu cầu quyền đặc biệt
   if (
     (pathname.startsWith("/booking") ||
-    pathname.startsWith("/profile") ||
-    pathname.startsWith("/dashboard")) &&
+      pathname.startsWith("/profile") ||
+      pathname.startsWith("/dashboard")) &&
     !session
   ) {
     const signInUrl = new URL("/login", request.url);
