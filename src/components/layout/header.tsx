@@ -67,7 +67,7 @@ const journeys = [
   {
     title: "Con đường huyền thoại",
     href: "/destinations/con-duong-huyen-thoai",
-    description: "2 ngày 1 đêm theo chân anh hùng",
+    description: "2 ng��y 1 đêm theo chân anh hùng",
     duration: "2N1Đ",
   },
   {
@@ -84,7 +84,7 @@ export function Header() {
   return (
     <>
       {/* Main header */}
-      <header className="border-b bg-gradient-to-r from-white via-green-50/30 to-white backdrop-blur-sm sticky top-0 z-50 shadow-lg border-green-100">
+      <header className="border-b bg-gradient-to-br from-slate-50 via-white to-green-50/40 backdrop-blur-md sticky top-0 z-50 shadow-xl border-green-200/50 before:absolute before:inset-0 before:bg-gradient-to-r before:from-green-600/5 before:via-transparent before:to-green-600/5 before:pointer-events-none">
         <div className="container flex items-center justify-between py-4">
           <Link href="/" className="flex items-center space-x-3 group">
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-green-600 to-green-800 rounded-full shadow-lg group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
