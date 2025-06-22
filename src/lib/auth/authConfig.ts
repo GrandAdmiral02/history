@@ -53,28 +53,47 @@ export const authConfig: NextAuthConfig = {
 
         const { email, password } = parsedCredentials.data;
 
-        // Tìm ngư��i dùng dựa trên email
-        const user = await prisma.user.findUnique({
-          where: { email },
-        });
+        // Mock admin users để demo (trong thực tế sẽ lấy từ database)
+        const adminUsers = [
+          {
+            id: "admin-1",
+            email: "admin@nghean-historical.vn",
+            password: "admin123",
+            name: "Admin User",
+            role: "ADMIN",
+          },
+          {
+            id: "superadmin-1",
+            email: "superadmin@nghean-historical.vn",
+            password: "superadmin123",
+            name: "Super Admin",
+            role: "SUPER_ADMIN",
+          },
+        ];
 
-        if (!user || !user.password) {
+        // Tìm admin user
+        const adminUser = adminUsers.find((u) => u.email === email);
+
+        if (!adminUser) {
           return null;
         }
 
-        // Kiểm tra mật khẩu
-        const passwordsMatch = await bcrypt.compare(password, user.password);
-
-        if (!passwordsMatch) {
+        // Kiểm tra password (trong thực tế sẽ dùng bcrypt)
+        if (password !== adminUser.password) {
           return null;
+        }
+
+        // Chỉ cho phép admin và super admin
+        if (adminUser.role !== "ADMIN" && adminUser.role !== "SUPER_ADMIN") {
+          throw new Error("UNAUTHORIZED_ROLE");
         }
 
         return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          image: user.image,
-          role: user.role,
+          id: adminUser.id,
+          name: adminUser.name,
+          email: adminUser.email,
+          image: null,
+          role: adminUser.role,
         };
       },
     }),
