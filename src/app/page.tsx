@@ -85,7 +85,7 @@ export default function Home() {
               </p>
               <p className="text-muted-foreground">
                 Với gần 1.400 di tích lịch sử văn hóa, trong đó có 375 di tích
-                đã được xếp hạng cấp quốc gia đ���c biệt, cấp quốc gia và cấp
+                đã được xếp hạng cấp quốc gia đặc biệt, cấp quốc gia và cấp
                 tỉnh, Nghệ An là nơi lưu giữ và bảo tồn nhiều giá trị văn hóa,
                 lịch sử đặc sắc của dân tộc.
               </p>
@@ -237,11 +237,14 @@ export default function Home() {
                       Sen, mộ bà Hoàng Thị Loan.
                     </p>
                   </CardContent>
-                  <CardFooter>
+                  <CardFooter className="flex flex-col gap-2">
                     <Button
                       asChild
                       className="w-full bg-green-700 hover:bg-green-800"
                     >
+                      <Link href="/booking?tourId=ve-nguon">Đặt tour ngay</Link>
+                    </Button>
+                    <Button asChild variant="outline" className="w-full">
                       <Link href="/destinations/ve-nguon">Chi Tiết</Link>
                     </Button>
                   </CardFooter>
