@@ -301,8 +301,11 @@ export function BookingForm({
                     type="date"
                     value={date ? date.toISOString().split("T")[0] : ""}
                     onChange={(e) => {
+                      console.log("Date input changed:", e.target.value);
                       if (e.target.value) {
-                        setDate(new Date(e.target.value));
+                        const selectedDate = new Date(e.target.value);
+                        console.log("Setting date:", selectedDate);
+                        setDate(selectedDate);
                       } else {
                         setDate(undefined);
                       }
@@ -313,9 +316,12 @@ export function BookingForm({
                   />
                   <CalendarIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                 </div>
+                <p className="text-xs text-muted-foreground">
+                  Nhấp vào ô để mở lịch hoặc nhập ngày theo định dạng dd/mm/yyyy
+                </p>
                 {date && (
                   <p className="text-sm text-green-600">
-                    Ngày đã chọn:{" "}
+                    ✅ Ngày đã chọn:{" "}
                     {format(date, "EEEE, dd/MM/yyyy", { locale: vi })}
                   </p>
                 )}
