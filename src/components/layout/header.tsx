@@ -27,8 +27,16 @@ import {
   Compass,
 } from "lucide-react";
 import { MobileMenu } from "./mobile-menu";
-// import { useSession } from "next-auth/react";
-// import { UserAccountNav } from "@/components/auth/user-account-nav";
+import { useSession, signOut } from "next-auth/react";
+import { User, LogOut, Settings } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const historicalSites = [
   {
