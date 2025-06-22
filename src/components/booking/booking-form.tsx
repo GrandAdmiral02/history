@@ -89,40 +89,67 @@ export function BookingForm({
     e.preventDefault();
 
     if (!isFormValid()) {
-      alert("Vui lòng điền đầy đủ thông tin bắt buộc");
+      alert("Vui lòng điền đầy đủ thông tin bắt buộc (các trường có dấu *)");
       return;
     }
 
     setIsLoading(true);
 
-    // Simulate API request
     try {
-      // In a real application, we would send this data to an API endpoint
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
       const bookingData = {
         tourId,
         tourName,
-        departureDate: date,
+        tourPrice,
+        tourDuration,
+        departureDate: date?.toISOString(),
         ...formData,
-        totalPrice: calculateTotalPrice(),
       };
 
-      console.log("Booking data:", bookingData);
+      console.log("Sending booking data:", bookingData);
 
-      // Store booking data in localStorage for demo purposes
-      const bookingId = `booking-${Date.now()}`;
-      localStorage.setItem(bookingId, JSON.stringify(bookingData));
+      // Gửi dữ liệu đến guest booking API
+      const response = await fetch("/api/guest-bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookingData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.details || result.error || "Đã có lỗi xảy ra");
+      }
+
+      console.log("Booking response:", result);
+
+      // Lưu booking ID để sử dụng cho thanh toán
+      const bookingId = result.bookingId;
+      localStorage.setItem(
+        bookingId,
+        JSON.stringify({
+          ...bookingData,
+          totalPrice: calculateTotalPrice(),
+          bookingId: bookingId,
+          status: "PENDING",
+          createdAt: new Date().toISOString(),
+        }),
+      );
 
       setFormSubmitted(true);
 
       // Redirect to payment page after short delay
       setTimeout(() => {
         router.push(`/booking/payment?bookingId=${bookingId}`);
-      }, 1000);
+      }, 1500);
     } catch (error) {
       console.error("Booking error:", error);
-      alert("Đã có lỗi xảy ra. Vui lòng thử lại sau.");
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+      );
     } finally {
       setIsLoading(false);
     }
