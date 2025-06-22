@@ -115,7 +115,7 @@ export function BookingForm({
         ...formData,
       };
 
-      console.log("Sending booking data:", bookingData);
+      console.log("🚀 Sending booking data:", bookingData);
 
       // Gửi dữ liệu đến guest booking API
       const response = await fetch("/api/guest-bookings", {
@@ -126,36 +126,47 @@ export function BookingForm({
         body: JSON.stringify(bookingData),
       });
 
-      const result = await response.json();
+      console.log("📡 Response status:", response.status);
 
       if (!response.ok) {
-        console.error("Booking failed:", result);
-        throw new Error(result.details || result.error || "Đã có lỗi xảy ra");
+        const errorText = await response.text();
+        console.error("❌ Booking failed - Response:", errorText);
+        throw new Error(`Server error: ${response.status} - ${errorText}`);
       }
 
-      console.log("Booking success:", result);
+      const result = await response.json();
+      console.log("✅ Booking success:", result);
 
       // Lưu booking ID để sử dụng cho thanh toán
       const bookingId = result.bookingId;
-      localStorage.setItem(
-        bookingId,
-        JSON.stringify({
-          ...bookingData,
-          totalPrice: calculateTotalPrice(),
-          bookingId: bookingId,
-          status: "PENDING",
-          createdAt: new Date().toISOString(),
-        }),
-      );
+      const completeBookingData = {
+        ...bookingData,
+        totalPrice: calculateTotalPrice(),
+        bookingId: bookingId,
+        status: "PENDING",
+        createdAt: new Date().toISOString(),
+      };
+
+      console.log("💾 Saving to localStorage:", completeBookingData);
+      localStorage.setItem(bookingId, JSON.stringify(completeBookingData));
 
       setFormSubmitted(true);
 
-      // Redirect to payment page after short delay
+      // Redirect to payment page immediately with better error handling
+      console.log("🔄 Redirecting to payment page...");
+      const paymentUrl = `/booking/payment?bookingId=${bookingId}`;
+      console.log("🎯 Payment URL:", paymentUrl);
+
       setTimeout(() => {
-        router.push(`/booking/payment?bookingId=${bookingId}`);
-      }, 1500);
+        try {
+          router.push(paymentUrl);
+        } catch (navError) {
+          console.error("❌ Navigation error:", navError);
+          window.location.href = paymentUrl; // Fallback
+        }
+      }, 1000); // Reduced delay
     } catch (error) {
-      console.error("Booking error:", error);
+      console.error("❌ Booking error:", error);
       alert(
         error instanceof Error
           ? error.message
