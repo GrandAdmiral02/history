@@ -207,6 +207,46 @@ export function BookingForm({
               </div>
             </div>
 
+            <div className="space-y-2">
+              <Label htmlFor="address">
+                Địa chỉ <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                id="address"
+                name="address"
+                placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố"
+                value={formData.address}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="emergencyContact">Người liên hệ khẩn cấp</Label>
+                <Input
+                  id="emergencyContact"
+                  name="emergencyContact"
+                  placeholder="Tên người thân"
+                  value={formData.emergencyContact}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="emergencyPhone">
+                  SĐT người liên hệ khẩn cấp
+                </Label>
+                <Input
+                  id="emergencyPhone"
+                  name="emergencyPhone"
+                  placeholder="0912345678"
+                  value={formData.emergencyPhone}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>
