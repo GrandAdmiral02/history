@@ -47,11 +47,18 @@ export function LoginForm() {
       });
 
       if (result?.error) {
-        setError("Email hoặc mật khẩu không chính xác");
+        if (result.error === "UNAUTHORIZED_ROLE") {
+          setError(
+            "Bạn không có quyền truy cập. Chỉ Admin và Super Admin mới được đăng nhập.",
+          );
+        } else {
+          setError("Email hoặc mật khẩu không chính xác");
+        }
         return;
       }
 
-      router.push("/");
+      // Redirect dựa trên role
+      router.push("/admin");
       router.refresh();
     } catch (error) {
       console.error("Login error:", error);
