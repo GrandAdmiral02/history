@@ -295,40 +295,29 @@ export function BookingForm({
                 <Label>
                   Ngày khởi hành <span className="text-red-500">*</span>
                 </Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      type="button"
-                      variant={"outline"}
-                      className={cn(
-                        "w-full justify-start text-left font-normal",
-                        !date && "text-muted-foreground",
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {date ? (
-                        format(date, "PPP", { locale: vi })
-                      ) : (
-                        <span>Chọn ngày</span>
-                      )}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 z-[100]" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      onSelect={setDate}
-                      initialFocus
-                      disabled={(date) => {
-                        const today = new Date();
-                        today.setHours(0, 0, 0, 0);
-                        return date < today;
-                      }}
-                      locale={vi}
-                      fromDate={new Date()}
-                    />
-                  </PopoverContent>
-                </Popover>
+                <div className="relative">
+                  <Input
+                    type="date"
+                    value={date ? date.toISOString().split("T")[0] : ""}
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        setDate(new Date(e.target.value));
+                      } else {
+                        setDate(undefined);
+                      }
+                    }}
+                    min={new Date().toISOString().split("T")[0]}
+                    className="w-full"
+                    placeholder="Chọn ngày khởi hành"
+                  />
+                  <CalendarIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+                </div>
+                {date && (
+                  <p className="text-sm text-green-600">
+                    Ngày đã chọn:{" "}
+                    {format(date, "EEEE, dd/MM/yyyy", { locale: vi })}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
