@@ -384,34 +384,20 @@ export function BookingForm({
             </p>
           </div>
 
-          <div className="space-y-2">
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full"
-              onClick={() => {
-                console.log("Form data:", formData);
-                console.log("Selected date:", date);
-                console.log("Form valid:", isFormValid());
-              }}
-            >
-              Debug Form (Test)
-            </Button>
-            <Button
-              type="submit"
-              className="w-full bg-green-700 hover:bg-green-800"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Đang xử lý...
-                </>
-              ) : (
-                "Tiếp tục đến thanh toán"
-              )}
-            </Button>
-          </div>
+          <Button
+            type="submit"
+            className="w-full bg-green-700 hover:bg-green-800"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Đang xử lý...
+              </>
+            ) : (
+              "Tiếp tục đến thanh toán"
+            )}
+          </Button>
         </form>
       </CardContent>
     </Card>
