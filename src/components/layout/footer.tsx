@@ -216,14 +216,14 @@ export function Footer() {
 
           {/* Contact info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-green-400">
+            <h3 className="text-lg font-semibold text-green-700">
               Thông tin liên hệ
             </h3>
             <div className="space-y-3">
-              <div className="flex items-start space-x-3">
-                <MapPin className="h-4 w-4 mt-1 text-green-500 flex-shrink-0" />
+              <div className="flex items-start space-x-3 p-2 rounded-lg hover:bg-green-50 transition-colors">
+                <MapPin className="h-4 w-4 mt-1 text-green-600 flex-shrink-0" />
                 <div>
-                  <p className="text-sm text-slate-300">
+                  <p className="text-sm text-slate-700">
                     Thành phố Vinh, Nghệ An, Việt Nam
                   </p>
                   <p className="text-xs text-slate-500">
@@ -231,26 +231,26 @@ export function Footer() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-green-500" />
+              <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-green-50 transition-colors">
+                <Phone className="h-4 w-4 text-green-600" />
                 <div>
-                  <p className="text-sm text-slate-300">0238 1234 567</p>
+                  <p className="text-sm text-slate-700">0238 1234 567</p>
                   <p className="text-xs text-slate-500">Hỗ trợ 24/7</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-green-500" />
+              <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-green-50 transition-colors">
+                <Mail className="h-4 w-4 text-green-600" />
                 <div>
-                  <p className="text-sm text-slate-300">
+                  <p className="text-sm text-slate-700">
                     info@nghean-historical.vn
                   </p>
                   <p className="text-xs text-slate-500">Phản hồi trong 24h</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-3">
-                <Clock className="h-4 w-4 text-green-500" />
+              <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-green-50 transition-colors">
+                <Clock className="h-4 w-4 text-green-600" />
                 <div>
-                  <p className="text-sm text-slate-300">Thứ 2 - Chủ nhật</p>
+                  <p className="text-sm text-slate-700">Thứ 2 - Chủ nhật</p>
                   <p className="text-xs text-slate-500">7:00 - 18:00</p>
                 </div>
               </div>
