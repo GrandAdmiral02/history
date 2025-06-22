@@ -1,5 +1,4 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { auth } from "@/lib/auth/auth";
 
 // Danh sách các đường dẫn công khai mà không cần xác thực
 const publicRoutes = [
@@ -13,11 +12,13 @@ const publicRoutes = [
   "/booking",
   "/shop",
   "/api/auth",
+  "/api/guest-bookings",
 ];
 
 // Middleware để kiểm tra xác thực và phân quyền
 export async function middleware(request: NextRequest) {
-  const session = await auth();
+  // Temporarily disable auth checking
+  const session = null;
   const { pathname } = request.nextUrl;
 
   // Kiểm tra xem đường dẫn hiện tại có trong danh sách công khai không
