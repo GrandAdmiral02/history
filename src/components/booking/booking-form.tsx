@@ -89,7 +89,16 @@ export function BookingForm({
     e.preventDefault();
 
     if (!isFormValid()) {
-      alert("Vui lòng điền đầy đủ thông tin bắt buộc (các trường có dấu *)");
+      const missingFields = [];
+      if (!formData.fullName.trim()) missingFields.push("Họ và tên");
+      if (!formData.email.trim()) missingFields.push("Email");
+      if (!formData.phone.trim()) missingFields.push("Số điện thoại");
+      if (!formData.address.trim()) missingFields.push("Địa chỉ");
+      if (!date) missingFields.push("Ngày khởi hành");
+
+      alert(
+        `Vui lòng điền đầy đủ thông tin bắt buộc:\n${missingFields.join(", ")}`,
+      );
       return;
     }
 
