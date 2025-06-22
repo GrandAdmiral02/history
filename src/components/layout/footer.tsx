@@ -61,19 +61,19 @@ export function Footer() {
           {/* Company info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-green-600 rounded-full">
+              <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-green-600 to-green-700 rounded-full shadow-lg">
                 <Mountain className="h-5 w-5 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-green-400">
+                <h3 className="text-xl font-bold text-green-700">
                   Nghệ An Historical
                 </h3>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-slate-600">
                   Du lịch di tích lịch sử
                 </p>
               </div>
             </div>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-sm text-slate-700 leading-relaxed">
               Khám phá vẻ đẹp lịch sử và văn hóa của mảnh đất xứ Nghệ, nơi lưu
               giữ những di tích lịch sử mang đậm bản sắc dân tộc. Chúng tôi tự
               hào mang đến những trải nghiệm du lịch ý nghĩa và đáng nhớ.
@@ -190,7 +190,7 @@ export function Footer() {
                 >
                   <div className="flex items-center">
                     <MapPin className="h-3 w-3 mr-2 text-green-500" />
-                    Truông B���n
+                    Truông Bồn
                   </div>
                   <div className="text-xs text-slate-500 ml-5">
                     Di tích cách mạng
