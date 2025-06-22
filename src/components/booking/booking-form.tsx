@@ -150,9 +150,13 @@ export function BookingForm({
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Đặt tour</CardTitle>
+        <CardTitle className="flex items-center gap-2">
+          <CheckIcon className="h-5 w-5 text-green-600" />
+          Đặt tour không cần đăng nhập
+        </CardTitle>
         <CardDescription>
-          Điền thông tin để đặt tour {tourName} ({tourDuration})
+          Điền thông tin để đặt tour {tourName} ({tourDuration}). Bạn có thể đặt
+          tour ngay mà không cần tạo tài khoản.
         </CardDescription>
       </CardHeader>
       <CardContent>
