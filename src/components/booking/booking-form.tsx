@@ -128,10 +128,11 @@ export function BookingForm({
       const result = await response.json();
 
       if (!response.ok) {
+        console.error("Booking failed:", result);
         throw new Error(result.details || result.error || "Đã có lỗi xảy ra");
       }
 
-      console.log("Booking response:", result);
+      console.log("Booking success:", result);
 
       // Lưu booking ID để sử dụng cho thanh toán
       const bookingId = result.bookingId;
@@ -177,7 +178,7 @@ export function BookingForm({
               <p>
                 Cảm ơn bạn đã đặt tour <strong>{tourName}</strong>
               </p>
-              <p>Chúng tôi sẽ liên hệ với bạn trong 24h để xác nhận.</p>
+              <p>Chúng tôi s��� liên hệ với bạn trong 24h để xác nhận.</p>
               <p className="text-sm">Đang chuyển đến trang thanh toán...</p>
             </div>
           </CardDescription>
