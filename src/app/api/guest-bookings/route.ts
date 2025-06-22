@@ -87,8 +87,18 @@ export async function POST(request: Request) {
   }
 }
 
+interface BookingData {
+  id: string;
+  email: string;
+  tourName: string;
+  departureDate: string;
+  participants: string;
+  totalPrice: number;
+  [key: string]: any;
+}
+
 // Giả lập hàm gửi email xác nhận
-async function sendConfirmationEmail(booking: any) {
+async function sendConfirmationEmail(booking: BookingData) {
   // Trong thực tế, bạn sẽ tích hợp với dịch vụ email như:
   // - SendGrid
   // - Nodemailer
