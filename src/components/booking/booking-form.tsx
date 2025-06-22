@@ -387,20 +387,36 @@ export function BookingForm({
             </p>
           </div>
 
-          <Button
-            type="submit"
-            className="w-full bg-green-700 hover:bg-green-800"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Đang xử lý...
-              </>
-            ) : (
-              "Tiếp tục đến thanh toán"
+          <div className="space-y-3">
+            <Button
+              type="submit"
+              className="w-full bg-green-700 hover:bg-green-800"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Đang xử lý...
+                </>
+              ) : (
+                "Tiếp tục đến thanh toán"
+              )}
+            </Button>
+
+            {isLoading && (
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={() => {
+                  setIsLoading(false);
+                  console.log("⏹️ User cancelled booking process");
+                }}
+              >
+                Hủy
+              </Button>
             )}
-          </Button>
+          </div>
         </form>
       </CardContent>
     </Card>
