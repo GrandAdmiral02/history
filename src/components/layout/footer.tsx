@@ -81,19 +81,19 @@ export function Footer() {
             <div className="flex space-x-4">
               <a
                 href="#"
-                className="text-slate-400 hover:text-green-400 transition-colors"
+                className="text-slate-600 hover:text-green-600 transition-colors p-2 rounded-lg hover:bg-green-50"
               >
                 <Facebook className="h-5 w-5" />
               </a>
               <a
                 href="#"
-                className="text-slate-400 hover:text-green-400 transition-colors"
+                className="text-slate-600 hover:text-green-600 transition-colors p-2 rounded-lg hover:bg-green-50"
               >
                 <Youtube className="h-5 w-5" />
               </a>
               <a
                 href="#"
-                className="text-slate-400 hover:text-green-400 transition-colors"
+                className="text-slate-600 hover:text-green-600 transition-colors p-2 rounded-lg hover:bg-green-50"
               >
                 <Instagram className="h-5 w-5" />
               </a>
