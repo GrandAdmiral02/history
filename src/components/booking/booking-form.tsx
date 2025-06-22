@@ -67,12 +67,16 @@ export function BookingForm({
   };
 
   const isFormValid = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
     return (
       formData.fullName.trim() !== "" &&
       formData.email.trim() !== "" &&
       formData.phone.trim() !== "" &&
       formData.address.trim() !== "" &&
-      date !== undefined
+      date !== undefined &&
+      date >= today
     );
   };
 
