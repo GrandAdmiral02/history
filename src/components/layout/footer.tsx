@@ -102,14 +102,14 @@ export function Footer() {
 
           {/* Quick links */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-green-400">
+            <h3 className="text-lg font-semibold text-green-700">
               Liên kết nhanh
             </h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   href="/"
-                  className="text-sm text-slate-300 hover:text-green-400 transition-colors flex items-center"
+                  className="text-sm text-slate-600 hover:text-green-600 transition-colors flex items-center hover:bg-green-50 p-2 rounded-lg"
                 >
                   <span>Trang chủ</span>
                 </Link>
@@ -117,7 +117,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/historical-sites"
-                  className="text-sm text-slate-300 hover:text-green-400 transition-colors"
+                  className="text-sm text-slate-600 hover:text-green-600 transition-colors hover:bg-green-50 p-2 rounded-lg block"
                 >
                   Điểm đến di tích
                 </Link>
@@ -125,7 +125,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/destinations"
-                  className="text-sm text-slate-300 hover:text-green-400 transition-colors"
+                  className="text-sm text-slate-600 hover:text-green-600 transition-colors hover:bg-green-50 p-2 rounded-lg block"
                 >
                   Hành trình du lịch
                 </Link>
@@ -133,7 +133,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/booking"
-                  className="text-sm text-slate-300 hover:text-green-400 transition-colors"
+                  className="text-sm text-slate-600 hover:text-green-600 transition-colors hover:bg-green-50 p-2 rounded-lg block"
                 >
                   Đặt tour
                 </Link>
@@ -141,7 +141,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="text-sm text-slate-300 hover:text-green-400 transition-colors"
+                  className="text-sm text-slate-600 hover:text-green-600 transition-colors hover:bg-green-50 p-2 rounded-lg block"
                 >
                   Giới thiệu
                 </Link>
