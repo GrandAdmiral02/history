@@ -297,11 +297,13 @@ export function BookingForm({
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
+                      type="button"
                       variant={"outline"}
                       className={cn(
                         "w-full justify-start text-left font-normal",
                         !date && "text-muted-foreground",
                       )}
+                      onClick={() => console.log("Calendar button clicked")}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
                       {date ? (
@@ -311,14 +313,22 @@ export function BookingForm({
                       )}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
+                  <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
                       selected={date}
-                      onSelect={setDate}
+                      onSelect={(selectedDate) => {
+                        console.log("Date selected:", selectedDate);
+                        setDate(selectedDate);
+                      }}
                       initialFocus
-                      disabled={(date) => date < new Date()}
+                      disabled={(date) => {
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        return date < today;
+                      }}
                       locale={vi}
+                      fromDate={new Date()}
                     />
                   </PopoverContent>
                 </Popover>
