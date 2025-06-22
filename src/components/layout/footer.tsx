@@ -151,17 +151,17 @@ export function Footer() {
 
           {/* Featured destinations */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-green-400">
+            <h3 className="text-lg font-semibold text-green-700">
               Điểm đến nổi bật
             </h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   href="/historical-sites/kim-lien"
-                  className="text-sm text-slate-300 hover:text-green-400 transition-colors group"
+                  className="text-sm text-slate-600 hover:text-green-600 transition-colors group hover:bg-green-50 p-2 rounded-lg block"
                 >
                   <div className="flex items-center">
-                    <MapPin className="h-3 w-3 mr-2 text-green-500" />
+                    <MapPin className="h-3 w-3 mr-2 text-green-600" />
                     Khu di tích Kim Liên
                   </div>
                   <div className="text-xs text-slate-500 ml-5">
@@ -172,10 +172,10 @@ export function Footer() {
               <li>
                 <Link
                   href="/historical-sites/den-cuong"
-                  className="text-sm text-slate-300 hover:text-green-400 transition-colors group"
+                  className="text-sm text-slate-600 hover:text-green-600 transition-colors group hover:bg-green-50 p-2 rounded-lg block"
                 >
                   <div className="flex items-center">
-                    <MapPin className="h-3 w-3 mr-2 text-green-500" />
+                    <MapPin className="h-3 w-3 mr-2 text-green-600" />
                     Đền Cuông
                   </div>
                   <div className="text-xs text-slate-500 ml-5">
@@ -186,10 +186,10 @@ export function Footer() {
               <li>
                 <Link
                   href="/historical-sites/truong-bon"
-                  className="text-sm text-slate-300 hover:text-green-400 transition-colors group"
+                  className="text-sm text-slate-600 hover:text-green-600 transition-colors group hover:bg-green-50 p-2 rounded-lg block"
                 >
                   <div className="flex items-center">
-                    <MapPin className="h-3 w-3 mr-2 text-green-500" />
+                    <MapPin className="h-3 w-3 mr-2 text-green-600" />
                     Truông Bồn
                   </div>
                   <div className="text-xs text-slate-500 ml-5">
@@ -200,10 +200,10 @@ export function Footer() {
               <li>
                 <Link
                   href="/destinations/ve-nguon"
-                  className="text-sm text-slate-300 hover:text-green-400 transition-colors group"
+                  className="text-sm text-slate-600 hover:text-green-600 transition-colors group hover:bg-green-50 p-2 rounded-lg block"
                 >
                   <div className="flex items-center">
-                    <Calendar className="h-3 w-3 mr-2 text-blue-500" />
+                    <Calendar className="h-3 w-3 mr-2 text-blue-600" />
                     Hành trình về nguồn
                   </div>
                   <div className="text-xs text-slate-500 ml-5">
