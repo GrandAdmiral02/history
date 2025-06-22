@@ -76,6 +76,7 @@ export function BookingForm({
       formData.fullName.trim() !== "" &&
       formData.email.trim() !== "" &&
       formData.phone.trim() !== "" &&
+      formData.address.trim() !== "" &&
       date !== undefined
     );
   };
