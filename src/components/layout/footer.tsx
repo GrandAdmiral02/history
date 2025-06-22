@@ -48,8 +48,8 @@ export function Footer() {
               <div className="flex items-center justify-center">
                 <Star className="h-8 w-8 text-green-400" />
               </div>
-              <div className="text-2xl font-bold text-green-400">4.8/5</div>
-              <div className="text-sm text-slate-400">Đánh giá từ du khách</div>
+              <div className="text-2xl font-bold text-green-700">4.8/5</div>
+              <div className="text-sm text-slate-600">Đánh giá từ du khách</div>
             </div>
           </div>
         </div>
@@ -190,7 +190,7 @@ export function Footer() {
                 >
                   <div className="flex items-center">
                     <MapPin className="h-3 w-3 mr-2 text-green-500" />
-                    Truông Bồn
+                    Truông B���n
                   </div>
                   <div className="text-xs text-slate-500 ml-5">
                     Di tích cách mạng
