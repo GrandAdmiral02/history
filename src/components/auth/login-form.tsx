@@ -64,9 +64,9 @@ export function LoginForm() {
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
-        <CardTitle>Đăng nhập</CardTitle>
-        <CardDescription>
-          Đăng nhập để đặt tour và quản lý tài khoản
+        <CardTitle className="text-center">Đăng nhập quản trị viên</CardTitle>
+        <CardDescription className="text-center">
+          Dành cho Admin và Super Admin
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -104,9 +104,7 @@ export function LoginForm() {
             />
           </div>
 
-          {error && (
-            <p className="text-sm text-red-500 text-center">{error}</p>
-          )}
+          {error && <p className="text-sm text-red-500 text-center">{error}</p>}
 
           <Button
             type="submit"
