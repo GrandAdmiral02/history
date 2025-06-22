@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
 
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-// import { SessionProvider } from "@/lib/auth/session-provider";
-// import { auth } from "@/lib/auth/auth";
+import { SessionProvider } from "@/lib/auth/session-provider";
+import { auth } from "@/lib/auth/auth";
 
 const fontSans = FontSans({
   subsets: ["latin", "vietnamese"],
