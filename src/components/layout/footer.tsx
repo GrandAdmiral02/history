@@ -16,9 +16,9 @@ import {
 
 export function Footer() {
   return (
-    <footer className="bg-slate-900 text-white">
+    <footer className="bg-gradient-to-br from-slate-100 via-slate-50 to-green-50/40 text-slate-800 border-t border-slate-200">
       {/* Stats section */}
-      <div className="border-b border-slate-800">
+      <div className="border-b border-slate-200/80">
         <div className="container py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="space-y-2">
