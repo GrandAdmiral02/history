@@ -321,11 +321,16 @@ export default function DestinationsPage() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex flex-col gap-2">
               <Button
                 asChild
                 className="w-full bg-green-700 hover:bg-green-800"
               >
+                <Link href="/booking?tourId=dau-an-danh-nhan">
+                  Đặt tour ngay - 2.590.000đ
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="w-full">
                 <Link href="/destinations/dau-an-danh-nhan">
                   Chi Tiết Hành Trình
                 </Link>
@@ -385,7 +390,7 @@ export default function DestinationsPage() {
               <p className="text-sm text-muted-foreground">
                 Khi tham quan các đền, chùa, di tích lịch sử, bạn nên mặc trang
                 phục lịch sự, kín đáo để thể hiện sự tôn trọng. Nên mang theo
-                mũ, kem ch��ng nắng và áo khoác nhẹ để thích ứng với thời tiết
+                mũ, kem chống nắng và áo khoác nhẹ để thích ứng với thời tiết
                 thay đổi.
               </p>
             </div>
