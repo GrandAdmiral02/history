@@ -53,7 +53,7 @@ export const authConfig: NextAuthConfig = {
 
         const { email, password } = parsedCredentials.data;
 
-        // Tìm người dùng dựa trên email
+        // Tìm ngư��i dùng dựa trên email
         const user = await prisma.user.findUnique({
           where: { email },
         });
@@ -90,7 +90,7 @@ export const authConfig: NextAuthConfig = {
     },
     async session({ session, token }) {
       if (token && session.user) {
-        session.user.role = token.role as any;
+        session.user.role = token.role as "USER" | "ADMIN" | "GUIDE";
         session.user.id = token.id as string;
       }
       return session;
