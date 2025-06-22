@@ -94,6 +94,8 @@ export function BookingForm({
       if (!formData.phone.trim()) missingFields.push("Số điện thoại");
       if (!formData.address.trim()) missingFields.push("Địa chỉ");
       if (!date) missingFields.push("Ngày khởi hành");
+      else if (date < new Date())
+        missingFields.push("Ngày khởi hành phải từ hôm nay trở đi");
 
       alert(
         `Vui lòng điền đầy đủ thông tin bắt buộc:\n${missingFields.join(", ")}`,
