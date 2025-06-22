@@ -50,6 +50,13 @@ export default function Home() {
             <Button
               asChild
               size="lg"
+              className="bg-orange-600 hover:bg-orange-700"
+            >
+              <Link href="/booking">Đặt Tour</Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
               variant="outline"
               className="text-white border-white hover:bg-white/20"
             >
@@ -78,7 +85,7 @@ export default function Home() {
               </p>
               <p className="text-muted-foreground">
                 Với gần 1.400 di tích lịch sử văn hóa, trong đó có 375 di tích
-                đã được xếp hạng cấp quốc gia đặc biệt, cấp quốc gia và cấp
+                đã được xếp hạng cấp quốc gia đ���c biệt, cấp quốc gia và cấp
                 tỉnh, Nghệ An là nơi lưu giữ và bảo tồn nhiều giá trị văn hóa,
                 lịch sử đặc sắc của dân tộc.
               </p>
