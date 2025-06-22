@@ -132,7 +132,7 @@ export default function Home() {
               <CardHeader>
                 <CardTitle>Khu di tích Kim Liên</CardTitle>
                 <CardDescription>
-                  Quê hương của Chủ tịch Hồ Chí Minh - Di tích lịch sử cấp quốc
+                  Qu�� hương của Chủ tịch Hồ Chí Minh - Di tích lịch sử cấp quốc
                   gia đặc biệt
                 </CardDescription>
               </CardHeader>
@@ -291,11 +291,16 @@ export default function Home() {
                       Sơn, và các di tích tâm linh khác.
                     </p>
                   </CardContent>
-                  <CardFooter>
+                  <CardFooter className="flex flex-col gap-2">
                     <Button
                       asChild
                       className="w-full bg-green-700 hover:bg-green-800"
                     >
+                      <Link href="/booking?tourId=di-san-tam-linh">
+                        Đặt tour ngay
+                      </Link>
+                    </Button>
+                    <Button asChild variant="outline" className="w-full">
                       <Link href="/destinations/di-san-tam-linh">Chi Tiết</Link>
                     </Button>
                   </CardFooter>
