@@ -317,10 +317,7 @@ export function BookingForm({
                     <Calendar
                       mode="single"
                       selected={date}
-                      onSelect={(selectedDate) => {
-                        console.log("Date selected:", selectedDate);
-                        setDate(selectedDate);
-                      }}
+                      onSelect={setDate}
                       initialFocus
                       disabled={(date) => {
                         const today = new Date();
