@@ -231,15 +231,73 @@ export function Header() {
               </div>
 
               <div className="hidden md:flex items-center gap-2">
-                <Link href="/login">
-                  <Button
-                    size="sm"
-                    className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-                  >
-                    <User className="w-4 h-4 mr-2" />
-                    Đăng nhập
-                  </Button>
-                </Link>
+                {session &&
+                (session.user?.role === "ADMIN" ||
+                  session.user?.role === "SUPER_ADMIN") ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        size="sm"
+                        className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                      >
+                        <User className="w-4 h-4 mr-2" />
+                        {session.user?.name || "Admin"}
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>
+                        {session.user?.role === "SUPER_ADMIN"
+                          ? "Super Admin"
+                          : "Admin"}
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin">
+                          <Settings className="mr-2 h-4 w-4" />
+                          Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin/tours">
+                          <MapPin className="mr-2 h-4 w-4" />
+                          Quản lý Tours
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin/products">
+                          <ShoppingBag className="mr-2 h-4 w-4" />
+                          Quản lý Sản phẩm
+                        </Link>
+                      </DropdownMenuItem>
+                      {session.user?.role === "SUPER_ADMIN" && (
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin/analytics">
+                            <Settings className="mr-2 h-4 w-4" />
+                            Thống kê doanh thu
+                          </Link>
+                        </DropdownMenuItem>
+                      )}
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={() => signOut({ callbackUrl: "/" })}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Đăng xuất
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Link href="/login">
+                    <Button
+                      size="sm"
+                      className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                    >
+                      <User className="w-4 h-4 mr-2" />
+                      Admin Login
+                    </Button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
