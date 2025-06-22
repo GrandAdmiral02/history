@@ -184,11 +184,16 @@ export default function DestinationsPage() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex flex-col gap-2">
               <Button
                 asChild
                 className="w-full bg-green-700 hover:bg-green-800"
               >
+                <Link href="/booking?tourId=con-duong-huyen-thoai">
+                  Đặt tour ngay - 1.890.000đ
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="w-full">
                 <Link href="/destinations/con-duong-huyen-thoai">
                   Chi Tiết Hành Trình
                 </Link>
@@ -295,7 +300,7 @@ export default function DestinationsPage() {
                     <li>Tham quan Khu di tích Kim Liên</li>
                     <li>Viếng mộ bà Hoàng Thị Loan</li>
                     <li>Tham quan Di tích lưu niệm cụ Phan Bội Châu</li>
-                    <li>Nghỉ ��êm tại Nam Đàn hoặc Vinh</li>
+                    <li>Nghỉ đêm tại Nam Đàn hoặc Vinh</li>
                   </ul>
                 </div>
                 <div>
@@ -327,7 +332,7 @@ export default function DestinationsPage() {
         {/* Travel tips */}
         <div className="mt-16 bg-green-50 rounded-lg p-8">
           <h2 className="text-2xl font-bold mb-6 text-center">
-            Lời Khuyên Cho Chuyến Đi
+            Lời Khuyên Cho Chuyến ��i
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="space-y-3">
@@ -384,8 +389,8 @@ export default function DestinationsPage() {
                 Hướng dẫn viên
               </h3>
               <p className="text-sm text-muted-foreground">
-                Để hiểu sâu hơn về giá trị lịch sử, văn h��a của các di tích,
-                bạn nên thuê hướng dẫn viên địa phương. Họ sẽ giúp bạn khám phá
+                Để hiểu sâu hơn về giá trị lịch sử, văn hóa của các di tích, bạn
+                nên thuê hướng dẫn viên địa phương. Họ sẽ giúp bạn khám phá
                 những câu chuyện thú vị mà sách vở không đề cập đến.
               </p>
             </div>
