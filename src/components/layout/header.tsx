@@ -21,6 +21,10 @@ import {
   Facebook,
   Youtube,
   ShoppingBag,
+  Route,
+  Info,
+  User,
+  Compass,
 } from "lucide-react";
 import { MobileMenu } from "./mobile-menu";
 // import { useSession } from "next-auth/react";
