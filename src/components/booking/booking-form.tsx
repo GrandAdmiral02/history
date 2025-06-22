@@ -178,7 +178,7 @@ export function BookingForm({
               <p>
                 Cảm ơn bạn đã đặt tour <strong>{tourName}</strong>
               </p>
-              <p>Chúng tôi s��� liên hệ với bạn trong 24h để xác nhận.</p>
+              <p>Chúng tôi sẽ liên hệ với bạn trong 24h để xác nhận.</p>
               <p className="text-sm">Đang chuyển đến trang thanh toán...</p>
             </div>
           </CardDescription>
@@ -384,20 +384,34 @@ export function BookingForm({
             </p>
           </div>
 
-          <Button
-            type="submit"
-            className="w-full bg-green-700 hover:bg-green-800"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Đang xử lý...
-              </>
-            ) : (
-              "Tiếp tục đến thanh toán"
-            )}
-          </Button>
+          <div className="space-y-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={() => {
+                console.log("Form data:", formData);
+                console.log("Selected date:", date);
+                console.log("Form valid:", isFormValid());
+              }}
+            >
+              Debug Form (Test)
+            </Button>
+            <Button
+              type="submit"
+              className="w-full bg-green-700 hover:bg-green-800"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Đang xử lý...
+                </>
+              ) : (
+                "Tiếp tục đến thanh toán"
+              )}
+            </Button>
+          </div>
         </form>
       </CardContent>
     </Card>
