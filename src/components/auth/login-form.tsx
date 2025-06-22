@@ -128,49 +128,10 @@ export function LoginForm() {
             )}
           </Button>
         </form>
-
-        <div className="mt-4">
-          <p className="text-center text-sm">Hoặc đăng nhập với</p>
-          <div className="flex gap-2 mt-2">
-            <Button
-              variant="outline"
-              className="w-full"
-              type="button"
-              onClick={() => signIn("google", { callbackUrl: "/" })}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                className="h-5 w-5 mr-2"
-              >
-                <path
-                  fill="#EA4335"
-                  d="M12 5.04c1.44 0 2.88.59 3.94 1.65l2.91-2.91C17.06 2.04 14.62 1 12 1 7.5 1 3.56 3.35 1.64 7.04l3.36 2.61c.9-2.68 3.39-4.61 7-4.61z"
-                />
-                <path
-                  fill="#4285F4"
-                  d="M23 12c0-.84-.07-1.66-.21-2.44H12v4.62h6.21c-.27 1.44-1.09 2.66-2.31 3.49l3.26 2.53c1.91-1.78 3-4.37 3-7.2z"
-                />
-                <path
-                  fill="#FBBC05"
-                  d="M5 12c0-.93.15-1.82.44-2.65L2.08 6.74C1.37 8.31 1 10.11 1 12c0 1.89.37 3.69 1.08 5.26l3.36-2.61c-.29-.83-.44-1.72-.44-2.65z"
-                />
-                <path
-                  fill="#34A853"
-                  d="M12 23c2.62 0 5.06-1.04 6.85-2.81l-3.26-2.53c-.91.61-2.07.97-3.59.97-3.61 0-6.1-1.93-7-4.61L1.64 16.56C3.56 20.65 7.5 23 12 23z"
-                />
-              </svg>
-              Google
-            </Button>
-          </div>
-        </div>
       </CardContent>
       <CardFooter className="flex flex-col space-y-2">
-        <p className="text-center text-sm">
-          Chưa có tài khoản?{" "}
-          <Link href="/register" className="text-green-700 hover:underline">
-            Đăng ký ngay
-          </Link>
+        <p className="text-center text-xs text-muted-foreground">
+          Liên hệ Super Admin để được cấp tài khoản
         </p>
       </CardFooter>
     </Card>
