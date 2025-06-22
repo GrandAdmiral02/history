@@ -118,11 +118,16 @@ export default function DestinationsPage() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex flex-col gap-2">
               <Button
                 asChild
                 className="w-full bg-green-700 hover:bg-green-800"
               >
+                <Link href="/booking?tourId=ve-nguon">
+                  Đặt tour ngay - 2.990.000đ
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="w-full">
                 <Link href="/destinations/ve-nguon">Chi Tiết Hành Trình</Link>
               </Button>
             </CardFooter>
@@ -243,7 +248,7 @@ export default function DestinationsPage() {
                   <ul className="text-sm text-muted-foreground list-disc list-inside mt-2 space-y-1">
                     <li>Di chuyển đến huyện Con Cuông</li>
                     <li>Tham quan đền Cửa Rào</li>
-                    <li>Khám phá Vườn quốc gia Pù Mát</li>
+                    <li>Khám phá Vườn quốc gia Pù M��t</li>
                     <li>Kết thúc hành trình</li>
                   </ul>
                 </div>
@@ -290,7 +295,7 @@ export default function DestinationsPage() {
                     <li>Tham quan Khu di tích Kim Liên</li>
                     <li>Viếng mộ bà Hoàng Thị Loan</li>
                     <li>Tham quan Di tích lưu niệm cụ Phan Bội Châu</li>
-                    <li>Nghỉ đêm tại Nam Đàn hoặc Vinh</li>
+                    <li>Nghỉ ��êm tại Nam Đàn hoặc Vinh</li>
                   </ul>
                 </div>
                 <div>
@@ -379,8 +384,8 @@ export default function DestinationsPage() {
                 Hướng dẫn viên
               </h3>
               <p className="text-sm text-muted-foreground">
-                Để hiểu sâu hơn về giá trị lịch sử, văn hóa của các di tích, bạn
-                nên thuê hướng dẫn viên địa phương. Họ sẽ giúp bạn khám phá
+                Để hiểu sâu hơn về giá trị lịch sử, văn h��a của các di tích,
+                bạn nên thuê hướng dẫn viên địa phương. Họ sẽ giúp bạn khám phá
                 những câu chuyện thú vị mà sách vở không đề cập đến.
               </p>
             </div>
