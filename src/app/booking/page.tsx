@@ -111,16 +111,8 @@ export default function BookingPage() {
                       <Button
                         asChild
                         className="bg-green-700 hover:bg-green-800"
-                        onClick={() =>
-                          console.log("Book now clicked for tour:", tour.id)
-                        }
                       >
-                        <Link
-                          href={`/booking?tourId=${tour.id}`}
-                          onClick={() =>
-                            console.log("Link clicked for tour:", tour.id)
-                          }
-                        >
+                        <Link href={`/booking?tourId=${tour.id}`}>
                           Đặt ngay
                         </Link>
                       </Button>
