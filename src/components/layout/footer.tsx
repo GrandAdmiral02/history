@@ -41,8 +41,8 @@ export function Footer() {
               <div className="flex items-center justify-center">
                 <Award className="h-8 w-8 text-green-400" />
               </div>
-              <div className="text-2xl font-bold text-green-400">375</div>
-              <div className="text-sm text-slate-400">Di tích đã xếp hạng</div>
+              <div className="text-2xl font-bold text-green-700">375</div>
+              <div className="text-sm text-slate-600">Di tích đã xếp hạng</div>
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-center">
