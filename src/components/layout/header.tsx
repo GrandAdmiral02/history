@@ -88,7 +88,7 @@ const journeys = [
 ];
 
 export function Header() {
-  // const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   return (
     <>
