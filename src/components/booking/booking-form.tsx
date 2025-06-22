@@ -312,10 +312,8 @@ export function BookingForm({
                     type="date"
                     value={date ? date.toISOString().split("T")[0] : ""}
                     onChange={(e) => {
-                      console.log("Date input changed:", e.target.value);
                       if (e.target.value) {
                         const selectedDate = new Date(e.target.value);
-                        console.log("Setting date:", selectedDate);
                         setDate(selectedDate);
                       } else {
                         setDate(undefined);
