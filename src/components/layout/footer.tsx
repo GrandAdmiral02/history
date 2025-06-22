@@ -34,8 +34,8 @@ export function Footer() {
               <div className="flex items-center justify-center">
                 <MapPin className="h-8 w-8 text-green-400" />
               </div>
-              <div className="text-2xl font-bold text-green-400">50+</div>
-              <div className="text-sm text-slate-400">Điểm đến lịch sử</div>
+              <div className="text-2xl font-bold text-green-700">50+</div>
+              <div className="text-sm text-slate-600">Điểm đến lịch sử</div>
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-center">
