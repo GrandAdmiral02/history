@@ -25,10 +25,11 @@ import {
   Info,
   User,
   Compass,
+  LogOut,
+  Settings,
 } from "lucide-react";
 import { MobileMenu } from "./mobile-menu";
 import { useSession, signOut } from "next-auth/react";
-import { User, LogOut, Settings } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
