@@ -164,7 +164,13 @@ export function BookingForm({
             Đặt tour thành công!
           </CardTitle>
           <CardDescription className="text-center">
-            Chuyển hướng đến trang thanh toán...
+            <div className="space-y-2">
+              <p>
+                Cảm ơn bạn đã đặt tour <strong>{tourName}</strong>
+              </p>
+              <p>Chúng tôi sẽ liên hệ với bạn trong 24h để xác nhận.</p>
+              <p className="text-sm">Đang chuyển đến trang thanh toán...</p>
+            </div>
           </CardDescription>
         </CardHeader>
         <CardContent className="flex justify-center">
