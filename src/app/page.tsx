@@ -262,11 +262,16 @@ export default function Home() {
                       mốc số 0 đường Hồ Chí Minh.
                     </p>
                   </CardContent>
-                  <CardFooter>
+                  <CardFooter className="flex flex-col gap-2">
                     <Button
                       asChild
                       className="w-full bg-green-700 hover:bg-green-800"
                     >
+                      <Link href="/booking?tourId=con-duong-huyen-thoai">
+                        Đặt tour ngay
+                      </Link>
+                    </Button>
+                    <Button asChild variant="outline" className="w-full">
                       <Link href="/destinations/con-duong-huyen-thoai">
                         Chi Tiết
                       </Link>
