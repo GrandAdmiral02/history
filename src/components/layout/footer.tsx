@@ -260,11 +260,11 @@ export function Footer() {
       </div>
 
       {/* Bottom footer */}
-      <div className="border-t border-slate-800">
+      <div className="border-t border-slate-200/80 bg-gradient-to-r from-slate-50 to-green-50/30">
         <div className="container py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-center md:text-left">
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-slate-600">
                 © 2025 Nghệ An Historical. Tất cả quyền được bảo lưu.
               </p>
               <p className="text-xs text-slate-500 mt-1">
@@ -274,19 +274,19 @@ export function Footer() {
             <div className="flex items-center space-x-6 text-xs text-slate-500">
               <Link
                 href="/privacy"
-                className="hover:text-green-400 transition-colors"
+                className="hover:text-green-600 transition-colors hover:bg-green-50 px-2 py-1 rounded"
               >
                 Chính sách bảo mật
               </Link>
               <Link
                 href="/terms"
-                className="hover:text-green-400 transition-colors"
+                className="hover:text-green-600 transition-colors hover:bg-green-50 px-2 py-1 rounded"
               >
                 Điều khoản sử dụng
               </Link>
               <Link
                 href="/sitemap"
-                className="hover:text-green-400 transition-colors"
+                className="hover:text-green-600 transition-colors hover:bg-green-50 px-2 py-1 rounded"
               >
                 Sơ đồ trang web
               </Link>
