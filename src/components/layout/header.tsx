@@ -227,6 +227,7 @@ export function Header() {
                     size="sm"
                     className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                   >
+                    <User className="w-4 h-4 mr-2" />
                     Đăng nhập
                   </Button>
                 </Link>
