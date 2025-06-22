@@ -25,7 +25,8 @@ const tours: Record<string, Tour> = {
     duration: "3 ngày 2 đêm",
     price: 2990000,
     image: "https://ext.same-assets.com/4052699563/777305328.jpeg",
-    description: "Khám phá quê hương và cuộc đời của Chủ tịch Hồ Chí Minh tại Nghệ An"
+    description:
+      "Khám phá quê hương và cuộc đời của Chủ tịch Hồ Chí Minh tại Nghệ An",
   },
   "con-duong-huyen-thoai": {
     id: "con-duong-huyen-thoai",
@@ -33,7 +34,7 @@ const tours: Record<string, Tour> = {
     duration: "2 ngày 1 đêm",
     price: 1890000,
     image: "https://ext.same-assets.com/3334769225/3220782747.jpeg",
-    description: "Hành trình theo dấu chân những người anh hùng"
+    description: "Hành trình theo dấu chân những người anh hùng",
   },
   "di-san-tam-linh": {
     id: "di-san-tam-linh",
@@ -41,7 +42,7 @@ const tours: Record<string, Tour> = {
     duration: "4 ngày 3 đêm",
     price: 3490000,
     image: "https://ext.same-assets.com/3334769225/3110326546.jpeg",
-    description: "Hành trình khám phá các đền, chùa nổi tiếng xứ Nghệ"
+    description: "Hành trình khám phá các đền, chùa nổi tiếng xứ Nghệ",
   },
   "dau-an-danh-nhan": {
     id: "dau-an-danh-nhan",
@@ -49,8 +50,8 @@ const tours: Record<string, Tour> = {
     duration: "3 ngày 2 đêm",
     price: 2590000,
     image: "https://ext.same-assets.com/3334769225/3359488301.jpeg",
-    description: "Hành trình theo chân những danh nhân lịch sử xứ Nghệ"
-  }
+    description: "Hành trình theo chân những danh nhân lịch sử xứ Nghệ",
+  },
 };
 
 export default function BookingPage() {
@@ -110,8 +111,16 @@ export default function BookingPage() {
                       <Button
                         asChild
                         className="bg-green-700 hover:bg-green-800"
+                        onClick={() =>
+                          console.log("Book now clicked for tour:", tour.id)
+                        }
                       >
-                        <Link href={`/booking?tourId=${tour.id}`}>
+                        <Link
+                          href={`/booking?tourId=${tour.id}`}
+                          onClick={() =>
+                            console.log("Link clicked for tour:", tour.id)
+                          }
+                        >
                           Đặt ngay
                         </Link>
                       </Button>
@@ -222,15 +231,9 @@ export default function BookingPage() {
 
             <div className="border rounded-lg p-4">
               <h3 className="font-semibold mb-2">Hỗ trợ</h3>
-              <p className="text-sm mb-2">
-                Cần hỗ trợ? Liên hệ với chúng tôi:
-              </p>
-              <p className="text-sm font-medium">
-                Hotline: 0238 1234 567
-              </p>
-              <p className="text-sm">
-                (Hỗ trợ 24/7, bao gồm cả ngày lễ)
-              </p>
+              <p className="text-sm mb-2">Cần hỗ trợ? Liên hệ với chúng tôi:</p>
+              <p className="text-sm font-medium">Hotline: 0238 1234 567</p>
+              <p className="text-sm">(Hỗ trợ 24/7, bao gồm cả ngày lễ)</p>
             </div>
           </div>
         </div>
