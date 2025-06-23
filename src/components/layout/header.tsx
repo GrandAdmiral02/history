@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -16,7 +15,14 @@ import { SearchButton } from "@/components/search";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { UserAccountNav } from "@/components/auth/user-account-nav";
-import { MapPin, ShoppingBag, Phone, Mail } from "lucide-react";
+import {
+  MapPin,
+  ShoppingBag,
+  Home,
+  Compass,
+  Info,
+  BookOpen,
+} from "lucide-react";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -61,126 +67,112 @@ export function Header() {
   const { data: session } = useSession();
 
   return (
-    <>
-      {/* Top Bar */}
-      <div className="bg-green-800 text-white py-2 text-sm">
-        <div className="container flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              <Phone className="h-4 w-4" />
-              <span>+84 238 1234 567</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Mail className="h-4 w-4" />
-              <span>info@nghean-historical.vn</span>
-            </div>
+    <header className="border-b bg-green-50 sticky top-0 z-50 shadow-md">
+      <div className="container flex items-center justify-between py-4">
+        <Link href="/" className="flex items-center space-x-3">
+          <div className="w-12 h-12 bg-green-700 rounded-full flex items-center justify-center">
+            <span className="text-white font-bold text-xl">NH</span>
           </div>
-          <div className="flex items-center gap-4">
-            <span className="text-xs">Khám phá lịch sử xứ Nghệ cùng chúng tôi</span>
+          <div className="flex flex-col">
+            <span className="text-2xl font-bold text-green-700">
+              Nghệ An Historical
+            </span>
+            <span className="text-sm text-muted-foreground">
+              Khám phá di sản lịch sử xứ Nghệ
+            </span>
+          </div>
+        </Link>
+
+        <div className="flex items-center gap-6">
+          <SearchButton />
+
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <Link href="/" legacyBehavior passHref>
+                  <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-green-100 hover:text-green-700 focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                    <Home className="h-4 w-4 mr-2" />
+                    Trang Chủ
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="hover:bg-green-100 hover:text-green-700">
+                  <Compass className="h-4 w-4 mr-2" />
+                  Điểm Đến
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                    {components.map((component) => (
+                      <ListItem
+                        key={component.title}
+                        title={component.title}
+                        href={component.href}
+                      >
+                        {component.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <Link href="/destinations" legacyBehavior passHref>
+                  <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-green-100 hover:text-green-700 focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                    <BookOpen className="h-4 w-4 mr-2" />
+                    Hành Trình
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <Link href="/shop" legacyBehavior passHref>
+                  <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-green-100 hover:text-green-700 focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                    <ShoppingBag className="h-4 w-4 mr-2" />
+                    Cửa Hàng
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <Link href="/map" legacyBehavior passHref>
+                  <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-green-100 hover:text-green-700 focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                    <MapPin className="h-4 w-4 mr-2" />
+                    Bản Đồ
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <Link href="/about" legacyBehavior passHref>
+                  <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-green-100 hover:text-green-700 focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                    <Info className="h-4 w-4 mr-2" />
+                    Giới Thiệu
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+
+          <div className="flex items-center gap-2">
+            {session?.user ? (
+              <UserAccountNav user={session.user} />
+            ) : (
+              <Link href="/login">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="hover:bg-green-100 hover:text-green-700"
+                >
+                  Admin
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
-
-      {/* Main Header */}
-      <header className="border-b bg-background sticky top-0 z-50 shadow-md">
-        <div className="container flex items-center justify-between py-4">
-          <Link href="/" className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-green-700 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-xl">NH</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-2xl font-bold text-green-700">
-                Nghệ An Historical
-              </span>
-              <span className="text-sm text-muted-foreground">
-                Khám phá di sản lịch sử xứ Nghệ
-              </span>
-            </div>
-          </Link>
-
-          <div className="flex items-center gap-6">
-            <SearchButton />
-            
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <Link href="/" legacyBehavior passHref>
-                    <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-green-50 hover:text-green-700 focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
-                      Trang Chủ
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="hover:bg-green-50 hover:text-green-700">
-                    Điểm Đến
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                      {components.map((component) => (
-                        <ListItem
-                          key={component.title}
-                          title={component.title}
-                          href={component.href}
-                        >
-                          {component.description}
-                        </ListItem>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <Link href="/destinations" legacyBehavior passHref>
-                    <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-green-50 hover:text-green-700 focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
-                      Hành Trình
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <Link href="/shop" legacyBehavior passHref>
-                    <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-green-50 hover:text-green-700 focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
-                      <ShoppingBag className="h-4 w-4 mr-2" />
-                      Cửa Hàng
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <Link href="/map" legacyBehavior passHref>
-                    <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-green-50 hover:text-green-700 focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
-                      <MapPin className="h-4 w-4 mr-2" />
-                      Bản Đồ
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <Link href="/about" legacyBehavior passHref>
-                    <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-green-50 hover:text-green-700 focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
-                      Giới Thiệu
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-            
-            <div className="flex items-center gap-2">
-              {session?.user ? (
-                <UserAccountNav user={session.user} />
-              ) : (
-                <Link href="/login">
-                  <Button variant="ghost" size="sm" className="hover:bg-green-50 hover:text-green-700">
-                    Admin
-                  </Button>
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
-    </>
+    </header>
   );
 }
 
@@ -194,8 +186,8 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-green-50 hover:text-green-700 focus:bg-accent focus:text-accent-foreground",
-            className
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-green-100 hover:text-green-700 focus:bg-accent focus:text-accent-foreground",
+            className,
           )}
           {...props}
         >
