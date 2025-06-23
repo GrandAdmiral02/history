@@ -470,6 +470,3 @@ export default function VeNguonPage() {
   );
 }
 ```
-
-```python
-</replit_final_file>
