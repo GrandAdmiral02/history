@@ -454,9 +454,7 @@ export default function VeNguonPage() {
                 <h3 className="text-lg font-semibold text-green-800">Đặt tour</h3>
               </div>
               <div className="p-6 space-y-4">
-                <Button asChild className="w-full bg-green-700 hover:bg-green-800">
-                  <Link href="/booking?tourId=ve-nguon&tourName=Hành trình về nguồn&price=1290000&duration=3 ngày 2 đêm">Đặt Tour Ngay</Link>
-                </Button>
+                <Button className="w-full bg-green-700 hover:bg-green-800">Đặt tour ngay</Button>
                 <p className="text-sm text-muted-foreground text-center">
                   Hoặc liên hệ với chúng tôi qua hotline
                 </p>
