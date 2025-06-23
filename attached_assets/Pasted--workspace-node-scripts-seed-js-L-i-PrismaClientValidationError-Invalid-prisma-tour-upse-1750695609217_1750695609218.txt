@@ -1,0 +1,47 @@
+~/workspace$ node scripts/seed.js
+
+❌ Lỗi: PrismaClientValidationError: 
+Invalid `prisma.tour.upsert()` invocation in
+/home/runner/workspace/scripts/seed.js:98:23
+
+  95 ];
+  96 
+  97 for (const tourData of tours) {
+→ 98   await prisma.tour.upsert({
+         where: {
+           name: "Tour Kim Liên - Quê hương Bác Hồ",
+       ?   id?: String,
+       ?   AND?: TourWhereInput | TourWhereInput[],
+       ?   OR?: TourWhereInput[],
+       ?   NOT?: TourWhereInput | TourWhereInput[],
+       ?   description?: StringNullableFilter | String | Null,
+       ?   price?: FloatFilter | Float,
+       ?   duration?: StringFilter | String,
+       ?   location?: StringFilter | String,
+       ?   image?: StringNullableFilter | String | Null,
+       ?   maxPeople?: IntFilter | Int,
+       ?   createdAt?: DateTimeFilter | DateTime,
+       ?   updatedAt?: DateTimeFilter | DateTime,
+       ?   bookings?: BookingListRelationFilter
+         },
+         update: {},
+         create: {
+           name: "Tour Kim Liên - Quê hương Bác Hồ",
+           description: "Khám phá làng Sen quê hương Chủ tịch Hồ Chí Minh với những di tích lịch sử ý nghĩa.",
+           price: 500000,
+           duration: "1 ngày",
+           location: "Nam Đàn, Nghệ An",
+           image: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800",
+           maxPeople: 30
+         }
+       })
+
+Argument `where` of type TourWhereUniqueInput needs at least one of `id` arguments. Available options are marked with ?.
+    at kn (/home/runner/workspace/node_modules/@prisma/client/runtime/library.js:29:1363)
+    at Zn.handleRequestError (/home/runner/workspace/node_modules/@prisma/client/runtime/library.js:121:7102)
+    at Zn.handleAndLogRequestError (/home/runner/workspace/node_modules/@prisma/client/runtime/library.js:121:6784)
+    at Zn.request (/home/runner/workspace/node_modules/@prisma/client/runtime/library.js:121:6491)
+    at async l (/home/runner/workspace/node_modules/@prisma/client/runtime/library.js:130:9778)
+    at async main (/home/runner/workspace/scripts/seed.js:98:5) {
+  clientVersion: '6.8.2'
+}
