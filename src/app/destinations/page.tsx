@@ -118,16 +118,11 @@ export default function DestinationsPage() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="flex flex-col gap-2">
+            <CardFooter>
               <Button
                 asChild
                 className="w-full bg-green-700 hover:bg-green-800"
               >
-                <Link href="/booking?tourId=ve-nguon">
-                  Đặt tour ngay - 2.990.000đ
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="w-full">
                 <Link href="/destinations/ve-nguon">Chi Tiết Hành Trình</Link>
               </Button>
             </CardFooter>
@@ -292,7 +287,7 @@ export default function DestinationsPage() {
             <CardHeader>
               <CardTitle>Dấu ấn danh nhân</CardTitle>
               <CardDescription>
-                Hành trình theo chân những danh nhân lịch sử xứ Nghệ
+                Hành trình theo ch��n những danh nhân lịch sử xứ Nghệ
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-1">
