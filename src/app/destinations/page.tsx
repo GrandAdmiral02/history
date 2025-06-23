@@ -51,10 +51,10 @@ export default function DestinationsPage() {
         <div className="max-w-3xl mx-auto text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">Lịch Trình Đề Xuất</h2>
           <p className="text-muted-foreground">
-            Chúng tôi đã chuẩn bị các hành trình tham quan tiêu biểu để giúp bạn
-            khám phá trọn vẹn vẻ đẹp lịch sử, văn hóa của vùng đất Nghệ An. Mỗi
-            hành trình đều được thiết kế tỉ mỉ để mang đến trải nghiệm phong phú
-            và đáng nhớ.
+            Chúng tôi đã chuẩn bị các hành trình tham quan ti��u biểu để giúp
+            bạn khám phá trọn vẹn vẻ đẹp lịch sử, văn hóa của vùng đất Nghệ An.
+            Mỗi hành trình đều được thiết kế tỉ mỉ để mang đến trải nghiệm phong
+            phú và đáng nhớ.
           </p>
         </div>
 
@@ -306,16 +306,11 @@ export default function DestinationsPage() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="flex flex-col gap-2">
+            <CardFooter>
               <Button
                 asChild
                 className="w-full bg-green-700 hover:bg-green-800"
               >
-                <Link href="/booking?tourId=dau-an-danh-nhan">
-                  Đặt tour ngay - 2.590.000đ
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="w-full">
                 <Link href="/destinations/dau-an-danh-nhan">
                   Chi Tiết Hành Trình
                 </Link>
