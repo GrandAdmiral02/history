@@ -242,7 +242,7 @@ export default function Home() {
                       asChild
                       className="w-full bg-green-700 hover:bg-green-800"
                     >
-                      <Link href="/destinations/ve-nguon">Chi Tiết</Link>
+                      <Link href="/destinations">Chi Tiết</Link>
                     </Button>
                   </CardFooter>
                 </Card>
@@ -322,7 +322,7 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <p className="line-clamp-3">
-                  Về quê Bắc, ghé thăm khu di tích lịch sử Kim Liên Nghệ An -
+                  Về quê Bắc, gh�� thăm khu di tích lịch sử Kim Liên Nghệ An -
                   nơi lưu giữ những hiện vật về Người, bạn sẽ càng thêm kính mến
                   vị lãnh tụ vĩ đại của dân tộc và yêu hơn vẻ đẹp, những giá trị
                   văn hóa lịch sử của vùng đất này.
