@@ -286,7 +286,7 @@ export default function Home() {
                       asChild
                       className="w-full bg-green-700 hover:bg-green-800"
                     >
-                      <Link href="/destinations/di-san-tam-linh">Chi Tiết</Link>
+                      <Link href="/destinations">Chi Tiết</Link>
                     </Button>
                   </CardFooter>
                 </Card>
