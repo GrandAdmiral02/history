@@ -218,6 +218,134 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Media Gallery */}
+      <section className="py-16 bg-muted/50">
+        <div className="container">
+          <div className="flex flex-col items-center text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Video Du Lịch Nghệ An</h2>
+            <p className="text-muted-foreground max-w-3xl">
+              Khám phá Nghệ An qua những video hấp dẫn từ YouTube và TikTok
+            </p>
+          </div>
+
+          {/* YouTube Section */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold text-center mb-8 text-green-800">Video YouTube</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+              <div className="aspect-video rounded-lg overflow-hidden">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/uUXkdzWvrVE"
+                  title="Du lịch Nghệ An 1"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="w-full h-full"
+                ></iframe>
+              </div>
+              <div className="aspect-video rounded-lg overflow-hidden">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/b0tCeCAjTVE"
+                  title="Du lịch Nghệ An 2"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="w-full h-full"
+                ></iframe>
+              </div>
+              <div className="aspect-video rounded-lg overflow-hidden">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/ZBS7RuwgeRg"
+                  title="Du lịch Nghệ An 3"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="w-full h-full"
+                ></iframe>
+              </div>
+              <div className="aspect-video rounded-lg overflow-hidden">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/VJe5CyJEVL4"
+                  title="Du lịch Nghệ An 4"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="w-full h-full"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+
+          {/* TikTok Section */}
+          <div>
+            <h3 className="text-2xl font-bold text-center mb-8 text-green-800">Video TikTok</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="flex justify-center">
+                <blockquote
+                  className="tiktok-embed"
+                  cite="https://www.tiktok.com/@ngoavan83/video/7323564956945779986"
+                  data-video-id="7323564956945779986"
+                  style={{ maxWidth: '325px', minWidth: '285px' }}
+                >
+                  <section>
+                    <a
+                      target="_blank"
+                      title="@ngoavan83"
+                      href="https://www.tiktok.com/@ngoavan83/video/7323564956945779986"
+                    >
+                      @ngoavan83
+                    </a>
+                  </section>
+                </blockquote>
+              </div>
+              <div className="flex justify-center">
+                <blockquote
+                  className="tiktok-embed"
+                  cite="https://www.tiktok.com/@abogo.com/video/7507089691112492296"
+                  data-video-id="7507089691112492296"
+                  style={{ maxWidth: '325px', minWidth: '285px' }}
+                >
+                  <section>
+                    <a
+                      target="_blank"
+                      title="@abogo.com"
+                      href="https://www.tiktok.com/@abogo.com/video/7507089691112492296"
+                    >
+                      @abogo.com
+                    </a>
+                  </section>
+                </blockquote>
+              </div>
+              <div className="flex justify-center">
+                <blockquote
+                  className="tiktok-embed"
+                  cite="https://www.tiktok.com/@lacavietnam1/video/7271974233117445381"
+                  data-video-id="7271974233117445381"
+                  style={{ maxWidth: '325px', minWidth: '285px' }}
+                >
+                  <section>
+                    <a
+                      target="_blank"
+                      title="@lacavietnam1"
+                      href="https://www.tiktok.com/@lacavietnam1/video/7271974233117445381"
+                    >
+                      @lacavietnam1
+                    </a>
+                  </section>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Latest posts */}
       <section className="py-16">
         <div className="container">

@@ -34,12 +34,11 @@ export default async function RootLayout({
         )}
       >
         <SessionProvider session={session}>
-          <div className="relative flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
         </SessionProvider>
+        <script async src="https://www.tiktok.com/embed.js"></script>
       </body>
     </html>
   );
