@@ -114,12 +114,7 @@ export function LoginForm() {
           </Button>
         </form>
 
-        <div className="mt-4 text-center text-sm text-muted-foreground">
-          <p>Tài khoản demo:</p>
-          <p>Admin Tour: admin.tour@nghean.com / admin123</p>
-          <p>Admin Shop: admin.shop@nghean.com / admin123</p>
-          <p>Super Admin: super.admin@nghean.com / admin123</p>
-        </div>
+        
       </CardContent>
     </Card>
   );
