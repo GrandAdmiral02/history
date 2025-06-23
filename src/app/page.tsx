@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { SearchDialog } from "@/components/search";
-import { TourReviews } from "@/components/reviews/tour-reviews"; // Added TourReviews component
 
 export default function Home() {
   return (
@@ -391,13 +390,7 @@ export default function Home() {
         </div>
       </section>
 
-       {/* Tour Reviews Section */}
-       <section className="py-16 bg-gray-100">
-        <div className="container">
-          <h2 className="text-3xl font-bold text-center mb-8">Đánh Giá Tour Du Lịch</h2>
-          <TourReviews />
-        </div>
-      </section>
+       
     </div>
   );
 }
