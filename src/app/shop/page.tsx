@@ -1,8 +1,9 @@
+
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,121 +15,144 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
-import { ShoppingCart, Star, Heart, Filter, X } from "lucide-react";
+import { ShoppingCart, Star, Heart, Filter, X, Plus, Minus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 
-const products = [
-  {
-    id: 1,
-    name: "Kẹo Cu Đơ Nghệ An",
-    price: 150000,
-    originalPrice: 180000,
-    image:
-      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=300&fit=crop",
-    description: "Đặc sản nổi tiếng xứ Nghệ, hương vị truyền thống",
-    rating: 4.8,
-    sold: 245,
-    category: "Đặc sản",
-    discount: "17%",
-  },
-  {
-    id: 2,
-    name: "Bánh Mướt Nghệ An",
-    price: 120000,
-    originalPrice: null,
-    image:
-      "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=300&h=300&fit=crop",
-    description: "Bánh truyền thống làm từ bột gạo, nhân đậu xanh",
-    rating: 4.6,
-    sold: 156,
-    category: "Đặc sản",
-    discount: null,
-  },
-  {
-    id: 3,
-    name: "Tranh Dân Gian Kim Liên",
-    price: 280000,
-    originalPrice: null,
-    image:
-      "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=300&h=300&fit=crop",
-    description: "Tranh vẽ tay mô tả phong cảnh làng Sen quê Bác",
-    rating: 4.9,
-    sold: 89,
-    category: "Lưu niệm",
-    discount: null,
-  },
-  {
-    id: 4,
-    name: "Áo thun in hình Bác Hồ",
-    price: 199000,
-    originalPrice: 250000,
-    image:
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=300&fit=crop",
-    description: "Áo cotton cao cấp, in hình chân dung Bác Hồ",
-    rating: 4.7,
-    sold: 324,
-    category: "Thời trang",
-    discount: "20%",
-  },
-  {
-    id: 5,
-    name: "Mũ cói truyền thống",
-    price: 85000,
-    originalPrice: null,
-    image:
-      "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=300&h=300&fit=crop",
-    description: "Mũ cói thủ công, kiểu dáng truyền thống Nghệ An",
-    rating: 4.5,
-    sold: 178,
-    category: "Thời trang",
-    discount: null,
-  },
-  {
-    id: 6,
-    name: "Sách lịch sử Nghệ An",
-    price: 165000,
-    originalPrice: null,
-    image:
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop",
-    description: "Tập sách chi tiết về lịch sử và văn hóa xứ Nghệ",
-    rating: 4.8,
-    sold: 92,
-    category: "Sách",
-    discount: null,
-  },
-];
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  originalPrice?: number;
+  image?: string;
+  description?: string;
+  rating: number;
+  sold: number;
+  category: string;
+  discount?: string;
+  stock: number;
+}
+
+interface CartItem extends Product {
+  quantity: number;
+}
 
 const categories = [
-  { name: "Tất cả", count: products.length },
-  ...Array.from(new Set(products.map((p) => p.category))).map((category) => ({
-    name: category,
-    count: products.filter((p) => p.category === category).length,
-  })),
+  "Tất cả",
+  "Đặc sản",
+  "Lưu niệm",
+  "Thời trang",
+  "Sách",
+  "Khác"
 ];
 
 export default function ShopPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("Tất cả");
   const [priceRange, setPriceRange] = useState([0, 500000]);
   const [sortBy, setSortBy] = useState("Mới nhất");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const filteredProducts = products
-    .filter((product) =>
-      selectedCategory === "Tất cả"
-        ? true
-        : product.category === selectedCategory,
-    )
-    .filter(
-      (product) =>
-        product.price >= priceRange[0] && product.price <= priceRange[1],
-    )
-    .sort((a, b) => {
-      if (sortBy === "Giá thấp đến cao") return a.price - b.price;
-      if (sortBy === "Giá cao đến thấp") return b.price - a.price;
-      if (sortBy === "Bán chạy nhất") return b.sold - a.sold;
-      if (sortBy === "Đánh giá cao nhất") return b.rating - a.rating;
-      return 0;
-    });
+  // Load sản phẩm từ API
+  useEffect(() => {
+    fetchProducts();
+  }, [selectedCategory, sortBy]);
+
+  // Load giỏ hàng từ localStorage
+  useEffect(() => {
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
+    }
+  }, []);
+
+  // Lưu giỏ hàng vào localStorage
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const params = new URLSearchParams();
+      if (selectedCategory !== "Tất cả") {
+        params.append('category', selectedCategory);
+      }
+      
+      const response = await fetch(`/api/products?${params}`);
+      const data = await response.json();
+      
+      if (response.ok) {
+        let sortedProducts = [...data.products];
+        
+        // Sắp xếp sản phẩm
+        if (sortBy === "Giá thấp đến cao") {
+          sortedProducts.sort((a, b) => a.price - b.price);
+        } else if (sortBy === "Giá cao đến thấp") {
+          sortedProducts.sort((a, b) => b.price - a.price);
+        } else if (sortBy === "Bán chạy nhất") {
+          sortedProducts.sort((a, b) => b.sold - a.sold);
+        } else if (sortBy === "Đánh giá cao nhất") {
+          sortedProducts.sort((a, b) => b.rating - a.rating);
+        }
+        
+        setProducts(sortedProducts);
+      } else {
+        toast.error("Không thể tải danh sách sản phẩm");
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      toast.error("Đã xảy ra lỗi khi tải sản phẩm");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredProducts = products.filter(
+    (product) =>
+      product.price >= priceRange[0] && product.price <= priceRange[1]
+  );
+
+  const addToCart = (product: Product) => {
+    const existingItem = cart.find(item => item.id === product.id);
+    
+    if (existingItem) {
+      if (existingItem.quantity < product.stock) {
+        setCart(cart.map(item =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        ));
+        toast.success(`Đã thêm ${product.name} vào giỏ hàng`);
+      } else {
+        toast.error("Không đủ hàng trong kho");
+      }
+    } else {
+      if (product.stock > 0) {
+        setCart([...cart, { ...product, quantity: 1 }]);
+        toast.success(`Đã thêm ${product.name} vào giỏ hàng`);
+      } else {
+        toast.error("Sản phẩm đã hết hàng");
+      }
+    }
+  };
+
+  const getCartItemCount = () => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
+          <p>Đang tải sản phẩm...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -148,7 +172,7 @@ export default function ShopPage() {
               Khám phá những món quà độc đáo mang đậm dấu ấn văn hóa và lịch sử
               Nghệ An
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
               <Button
                 size="lg"
                 className="bg-white text-green-800 hover:bg-gray-100"
@@ -156,13 +180,16 @@ export default function ShopPage() {
                 <ShoppingCart className="mr-2 h-5 w-5" />
                 Mua sắm ngay
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white text-white hover:bg-white hover:text-green-800"
-              >
-                Xem sản phẩm nổi bật
-              </Button>
+              <Link href="/checkout">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-white text-white hover:bg-white hover:text-green-800 relative"
+                >
+                  <ShoppingCart className="mr-2 h-5 w-5" />
+                  Giỏ hàng ({getCartItemCount()})
+                </Button>
+              </Link>
             </div>
           </motion.div>
         </div>
@@ -211,20 +238,17 @@ export default function ShopPage() {
                     <CardContent className="space-y-2">
                       {categories.map((category) => (
                         <button
-                          key={category.name}
-                          onClick={() => setSelectedCategory(category.name)}
+                          key={category}
+                          onClick={() => setSelectedCategory(category)}
                           className={`flex items-center justify-between w-full text-left p-2 rounded-md transition-colors ${
-                            selectedCategory === category.name
+                            selectedCategory === category
                               ? "bg-green-100 text-green-800"
                               : "hover:bg-green-50"
                           }`}
                         >
                           <span className="text-sm font-medium">
-                            {category.name}
+                            {category}
                           </span>
-                          <Badge variant="secondary" className="text-xs">
-                            {category.count}
-                          </Badge>
                         </button>
                       ))}
                     </CardContent>
@@ -290,7 +314,7 @@ export default function ShopPage() {
                       <div className="relative">
                         <div className="aspect-square relative overflow-hidden">
                           <Image
-                            src={product.image}
+                            src={product.image || "/placeholder-product.jpg"}
                             alt={product.name}
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -301,13 +325,11 @@ export default function ShopPage() {
                             -{product.discount}
                           </Badge>
                         )}
-                        <Button
-                          size="sm"
-                          variant="secondary"
-                          className="absolute top-2 right-2 p-2 bg-white/90 hover:bg-white"
-                        >
-                          <Heart className="h-4 w-4 group-hover:text-red-500 transition-colors" />
-                        </Button>
+                        {product.stock === 0 && (
+                          <Badge className="absolute top-2 right-2 bg-gray-500">
+                            Hết hàng
+                          </Badge>
+                        )}
                       </div>
                       <CardHeader className="pb-2">
                         <div className="flex items-center gap-2 mb-1">
@@ -316,9 +338,7 @@ export default function ShopPage() {
                           </Badge>
                         </div>
                         <CardTitle className="text-lg line-clamp-1 hover:text-green-700 transition-colors">
-                          <Link href={`/shop/${product.id}`}>
-                            {product.name}
-                          </Link>
+                          {product.name}
                         </CardTitle>
                         <CardDescription className="line-clamp-2 text-sm">
                           {product.description}
@@ -335,6 +355,9 @@ export default function ShopPage() {
                           <span className="text-xs text-muted-foreground">
                             Đã bán {product.sold}
                           </span>
+                          <span className="text-xs text-muted-foreground">
+                            Còn {product.stock}
+                          </span>
                         </div>
                         <div className="flex items-center gap-2">
                           <span className="text-lg font-bold text-green-600">
@@ -348,9 +371,13 @@ export default function ShopPage() {
                         </div>
                       </CardContent>
                       <CardFooter>
-                        <Button className="w-full bg-green-700 hover:bg-green-800">
+                        <Button 
+                          className="w-full bg-green-700 hover:bg-green-800"
+                          onClick={() => addToCart(product)}
+                          disabled={product.stock === 0}
+                        >
                           <ShoppingCart className="mr-2 h-4 w-4" />
-                          Thêm vào giỏ
+                          {product.stock === 0 ? "Hết hàng" : "Thêm vào giỏ"}
                         </Button>
                       </CardFooter>
                     </Card>
@@ -359,16 +386,9 @@ export default function ShopPage() {
               </AnimatePresence>
             </motion.div>
 
-            {/* Load More */}
-            {filteredProducts.length > 0 && (
-              <div className="text-center mt-12">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="hover:bg-green-100"
-                >
-                  Xem thêm sản phẩm
-                </Button>
+            {filteredProducts.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-gray-500">Không tìm thấy sản phẩm nào</p>
               </div>
             )}
           </div>

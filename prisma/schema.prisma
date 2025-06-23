@@ -14,7 +14,9 @@ datasource db {
 enum UserRole {
   USER
   GUIDE
-  ADMIN
+  ADMIN_TOUR     // Admin quản lý tour
+  ADMIN_SHOP     // Admin quản lý cửa hàng
+  SUPER_ADMIN    // Super admin có mọi quyền
 }
 
 // Enum định nghĩa trạng thái đặt tour
@@ -58,6 +60,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   bookings      Booking[]
+  orders        Order[]
 
   @@map("users")
 }
@@ -145,7 +148,8 @@ model Booking {
 // Model thanh toán
 model Payment {
   id                String        @id @default(cuid())
-  bookingId         String
+  bookingId         String?       
+  orderId           String?       
   amount            Float
   paymentMethod     PaymentMethod
   paymentStatus     PaymentStatus @default(PENDING)
@@ -155,7 +159,80 @@ model Payment {
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
 
-  booking           Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  booking           Booking?      @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  order             Order?        @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
   @@map("payments")
+}
+
+// Model sản phẩm
+model Product {
+  id          String     @id @default(cuid())
+  name        String
+  description String?    @db.Text
+  price       Float
+  originalPrice Float?
+  image       String?
+  category    String
+  stock       Int        @default(0)
+  discount    String?
+  rating      Float      @default(0)
+  sold        Int        @default(0)
+  isActive    Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  orderItems  OrderItem[]
+
+  @@map("products")
+}
+
+// Model đơn hàng
+model Order {
+  id            String      @id @default(cuid())
+  userId        String?
+  customerName  String
+  customerEmail String
+  customerPhone String
+  customerAddress String
+  totalAmount   Float
+  shippingFee   Float       @default(30000)
+  status        OrderStatus @default(PENDING)
+  paymentMethod PaymentMethod
+  notes         String?     @db.Text
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  user          User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  orderItems    OrderItem[]
+  payments      Payment[]
+
+  @@map("orders")
+}
+
+// Model sản phẩm trong đơn hàng
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Float    // Giá tại thời điểm đặt hàng
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("order_items")
+}
+
+// Enum trạng thái đơn hàng
+enum OrderStatus {
+  PENDING      // Chờ xử lý
+  CONFIRMED    // Đã xác nhận
+  PROCESSING   // Đang xử lý
+  SHIPPING     // Đang giao hàng
+  DELIVERED    // Đã giao
+  CANCELLED    // Đã hủy
+  REFUNDED     // Đã hoàn tiền
 }
