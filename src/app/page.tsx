@@ -283,16 +283,11 @@ export default function Home() {
                       Sơn, và các di tích tâm linh khác.
                     </p>
                   </CardContent>
-                  <CardFooter className="flex flex-col gap-2">
+                  <CardFooter>
                     <Button
                       asChild
                       className="w-full bg-green-700 hover:bg-green-800"
                     >
-                      <Link href="/booking?tourId=di-san-tam-linh">
-                        Đặt tour ngay
-                      </Link>
-                    </Button>
-                    <Button asChild variant="outline" className="w-full">
                       <Link href="/destinations/di-san-tam-linh">Chi Tiết</Link>
                     </Button>
                   </CardFooter>
