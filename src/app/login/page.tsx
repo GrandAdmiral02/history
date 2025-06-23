@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import { LoginForm } from "@/components/auth/login-form";
 
 export const metadata: Metadata = {
-  title: "Đăng nhập | Nghệ An Historical",
-  description: "Đăng nhập vào tài khoản để đặt tour và quản lý thông tin cá nhân",
+  title: "Đăng nhập Admin | Nghệ An Historical",
+  description: "Đăng nhập dành cho quản trị viên hệ thống",
 };
 
 export default function LoginPage() {
@@ -13,7 +13,7 @@ export default function LoginPage() {
         <div className="hidden md:block">
           <div className="bg-green-700/10 p-6 rounded-lg border border-green-200">
             <h2 className="text-2xl font-semibold text-green-800 mb-4">
-              Đăng nhập để trải nghiệm
+              Khu vực quản trị hệ thống
             </h2>
             <ul className="space-y-3">
               <li className="flex items-start">
@@ -30,7 +30,7 @@ export default function LoginPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span>Đặt tour trực tuyến nhanh chóng và tiện lợi</span>
+                <span>Quản lý đặt tour từ khách hàng</span>
               </li>
               <li className="flex items-start">
                 <svg
@@ -46,7 +46,7 @@ export default function LoginPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span>Quản lý thông tin đặt tour và lịch sử thanh toán</span>
+                <span>Theo dõi và xử lý thanh toán</span>
               </li>
               <li className="flex items-start">
                 <svg
@@ -62,7 +62,7 @@ export default function LoginPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span>Nhận thông báo về các ưu đãi đặc biệt và tour mới</span>
+                <span>Quản lý nội dung và thông tin tour</span>
               </li>
               <li className="flex items-start">
                 <svg
@@ -78,7 +78,7 @@ export default function LoginPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span>Đánh giá và chia sẻ trải nghiệm của bạn</span>
+                <span>Báo cáo và thống kê hệ thống</span>
               </li>
             </ul>
           </div>

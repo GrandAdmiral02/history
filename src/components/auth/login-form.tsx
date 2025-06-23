@@ -10,7 +10,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -64,9 +63,9 @@ export function LoginForm() {
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
-        <CardTitle>Đăng nhập</CardTitle>
+        <CardTitle>Đăng nhập Admin</CardTitle>
         <CardDescription>
-          Đăng nhập để đặt tour và quản lý tài khoản
+          Dành cho quản trị viên hệ thống
         </CardDescription>
       </CardHeader>
       <CardContent>

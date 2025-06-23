@@ -91,5 +91,15 @@ export const authConfig: NextAuthConfig = {
       }
       return session;
     },
+    async signIn({ user, account, profile }) {
+        if (account?.provider === "credentials") {
+          // Chỉ cho phép admin đăng nhập
+          if (user.email && (user.email.includes("admin") || user.role === "ADMIN" || user.role === "SUPER_ADMIN")) {
+            return true;
+          }
+          return false;
+        }
+        return true;
+      },
   },
 };

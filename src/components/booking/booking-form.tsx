@@ -107,8 +107,11 @@ export function BookingForm({
       console.log("Booking data:", bookingData);
 
       // Store booking data in localStorage for demo purposes
-      const bookingId = `booking-${Date.now()}`;
-      localStorage.setItem(bookingId, JSON.stringify(bookingData));
+      const bookingId = `guest-booking-${Date.now()}`;
+      localStorage.setItem(bookingId, JSON.stringify({
+        ...bookingData,
+        isGuestBooking: true
+      }));
 
       setFormSubmitted(true);
 

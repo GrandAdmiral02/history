@@ -5,11 +5,11 @@ import { auth } from "@/lib/auth/auth";
 const publicRoutes = [
   "/",
   "/login",
-  "/register",
   "/about",
   "/destinations",
   "/historical-sites",
   "/search",
+  "/booking",
   "/api/auth",
 ];
 
@@ -54,8 +54,7 @@ export async function middleware(request: NextRequest) {
 
   // Các trang yêu cầu đăng nhập nhưng không yêu cầu quyền đặc biệt
   if (
-    (pathname.startsWith("/booking") ||
-    pathname.startsWith("/profile") ||
+    (pathname.startsWith("/profile") ||
     pathname.startsWith("/dashboard")) &&
     !session
   ) {

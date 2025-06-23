@@ -116,12 +116,7 @@ export function Header() {
               <>
                 <Link href="/login">
                   <Button variant="ghost" size="sm">
-                    Đăng nhập
-                  </Button>
-                </Link>
-                <Link href="/register">
-                  <Button variant="default" size="sm" className="bg-green-700 hover:bg-green-800">
-                    Đăng ký
+                    Admin
                   </Button>
                 </Link>
               </>
