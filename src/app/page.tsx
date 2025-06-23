@@ -290,18 +290,12 @@ export default function Home() {
               <div className="flex justify-center">
                 <blockquote
                   className="tiktok-embed"
-                  cite="https://www.tiktok.com/@ngoavan83/video/7323564956945779986"
-                  data-video-id="7323564956945779986"
-                  style={{ maxWidth: '325px', minWidth: '285px' }}
+                  cite="https://www.tiktok.com/@lacavietnam1/video/7271974233117445381"
+                  data-video-id="7271974233117445381"
+                  style={{ maxWidth: '605px', minWidth: '325px' }}
                 >
                   <section>
-                    <a
-                      target="_blank"
-                      title="@ngoavan83"
-                      href="https://www.tiktok.com/@ngoavan83/video/7323564956945779986"
-                    >
-                      @ngoavan83
-                    </a>
+                    <a target="_blank" title="@lacavietnam1" href="https://www.tiktok.com/@lacavietnam1?refer=embed">@lacavietnam1</a> Phần 7| 📍Khu di tích lịch sử Truông Bồn<a title="dulich" target="_blank" href="https://www.tiktok.com/tag/dulich?refer=embed">#dulich</a> <a title="lacavietnam1" target="_blank" href="https://www.tiktok.com/tag/lacavietnam1?refer=embed">#lacavietnam1</a> <a title="quockhanh02thang09" target="_blank" href="https://www.tiktok.com/tag/quockhanh02thang09?refer=embed">#quockhanh02thang09</a> <a title="truongbonnghean" target="_blank" href="https://www.tiktok.com/tag/truongbonnghean?refer=embed">#truongbonnghean</a> <a title="ditichlichsu" target="_blank" href="https://www.tiktok.com/tag/ditichlichsu?refer=embed">#ditichlichsu</a> <a title="nghean" target="_blank" href="https://www.tiktok.com/tag/nghean?refer=embed">#nghean</a> <a target="_blank" title="♬ nhạc nền - La Cà Việt Nam" href="https://www.tiktok.com/music/nhạc-nền-7271974359064136453?refer=embed">♬ nhạc nền - La Cà Việt Nam</a>
                   </section>
                 </blockquote>
               </div>
@@ -310,34 +304,22 @@ export default function Home() {
                   className="tiktok-embed"
                   cite="https://www.tiktok.com/@abogo.com/video/7507089691112492296"
                   data-video-id="7507089691112492296"
-                  style={{ maxWidth: '325px', minWidth: '285px' }}
+                  style={{ maxWidth: '605px', minWidth: '325px' }}
                 >
                   <section>
-                    <a
-                      target="_blank"
-                      title="@abogo.com"
-                      href="https://www.tiktok.com/@abogo.com/video/7507089691112492296"
-                    >
-                      @abogo.com
-                    </a>
+                    <a target="_blank" title="@abogo.com" href="https://www.tiktok.com/@abogo.com?refer=embed">@abogo.com</a> Vẻ đẹp của Nghệ An tầm nhìn từ trên cao. Anh em 37 ơi. <a title="abogodanang" target="_blank" href="https://www.tiktok.com/tag/abogodanang?refer=embed">#abogodanang</a> <a title="abogo" target="_blank" href="https://www.tiktok.com/tag/abogo?refer=embed">#abogo</a> <a title="dulich" target="_blank" href="https://www.tiktok.com/tag/dulich?refer=embed">#dulich</a> <a title="viral" target="_blank" href="https://www.tiktok.com/tag/viral?refer=embed">#viral</a> <a title="travel" target="_blank" href="https://www.tiktok.com/tag/travel?refer=embed">#travel</a> <a title="bookingvilla" target="_blank" href="https://www.tiktok.com/tag/bookingvilla?refer=embed">#bookingvilla</a> <a title="fyp" target="_blank" href="https://www.tiktok.com/tag/fyp?refer=embed">#fyp</a> <a target="_blank" title="♬ nhạc nền - Law┊music 🎶 - Law┊Music 🎧" href="https://www.tiktok.com/music/nhạc-nền-Law┊music-🎶-7393561668305439504?refer=embed">♬ nhạc nền - Law┊music 🎶 - Law┊Music 🎧</a>
                   </section>
                 </blockquote>
               </div>
               <div className="flex justify-center">
                 <blockquote
                   className="tiktok-embed"
-                  cite="https://www.tiktok.com/@lacavietnam1/video/7271974233117445381"
-                  data-video-id="7271974233117445381"
-                  style={{ maxWidth: '325px', minWidth: '285px' }}
+                  cite="https://www.tiktok.com/@ngoavan83/video/7323564956945779986"
+                  data-video-id="7323564956945779986"
+                  style={{ maxWidth: '605px', minWidth: '325px' }}
                 >
                   <section>
-                    <a
-                      target="_blank"
-                      title="@lacavietnam1"
-                      href="https://www.tiktok.com/@lacavietnam1/video/7271974233117445381"
-                    >
-                      @lacavietnam1
-                    </a>
+                    <a target="_blank" title="@ngoavan83" href="https://www.tiktok.com/@ngoavan83?refer=embed">@ngoavan83</a> Mình Về thăm Làng Sen Quê Bác bao nhiêu lần rồi-Thật bồi hồi xúc động mỗi lần một cảm xúc khác nhau thật khó diễn tả..Có ai như mình ko? ...<a title="langsenquebac" target="_blank" href="https://www.tiktok.com/tag/langsenquebac?refer=embed">#langsenquebac</a> <a title="báchokinhyeu❤️❤️" target="_blank" href="https://www.tiktok.com/tag/b%C3%A1chokinhyeu%E2%9D%A4%EF%B8%8F%E2%9D%A4%EF%B8%8F?refer=embed">#báchokinhyeu❤️❤️</a> <a title="quêbacnghean" target="_blank" href="https://www.tiktok.com/tag/qu%C3%AAbacnghean?refer=embed">#quêbacnghean</a> <a title="xuhuong" target="_blank" href="https://www.tiktok.com/tag/xuhuong?refer=embed">#xuhuong</a> <a title="hochiminh" target="_blank" href="https://www.tiktok.com/tag/hochiminh?refer=embed">#hochiminh</a> <a title="quebacho" target="_blank" href="https://www.tiktok.com/tag/quebacho?refer=embed">#quebacho</a> <a title="nhasanbacho" target="_blank" href="https://www.tiktok.com/tag/nhasanbacho?refer=embed">#nhasanbacho</a> <a target="_blank" title="♬ nhạc nền  - Việt Sử Quán" href="https://www.tiktok.com/music/nhạc-nền-Việt-Sử-Quán-7292634253635963649?refer=embed">♬ nhạc nền  - Việt Sử Quán</a>
                   </section>
                 </blockquote>
               </div>
