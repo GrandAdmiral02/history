@@ -179,16 +179,11 @@ export default function DestinationsPage() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="flex flex-col gap-2">
+            <CardFooter>
               <Button
                 asChild
                 className="w-full bg-green-700 hover:bg-green-800"
               >
-                <Link href="/booking?tourId=con-duong-huyen-thoai">
-                  Đặt tour ngay - 1.890.000đ
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="w-full">
                 <Link href="/destinations/con-duong-huyen-thoai">
                   Chi Tiết Hành Trình
                 </Link>
