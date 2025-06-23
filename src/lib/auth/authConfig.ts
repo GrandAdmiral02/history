@@ -1,9 +1,9 @@
+
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
 import { z } from "zod";
 
 const prisma = new PrismaClient();
@@ -18,10 +18,6 @@ export const authConfig: NextAuthConfig = {
     error: "/error",
   },
   providers: [
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
     Credentials({
       name: "credentials",
       credentials: {
@@ -58,6 +54,11 @@ export const authConfig: NextAuthConfig = {
           return null;
         }
 
+        // Chỉ cho phép admin và super admin đăng nhập
+        if (!["ADMIN_TOUR", "ADMIN_SHOP", "SUPER_ADMIN"].includes(user.role)) {
+          return null;
+        }
+
         // Kiểm tra mật khẩu
         const passwordsMatch = await bcrypt.compare(password, user.password);
 
@@ -78,7 +79,6 @@ export const authConfig: NextAuthConfig = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        // Thêm thông tin vai trò vào token
         token.role = user.role;
         token.id = user.id;
       }
@@ -91,15 +91,12 @@ export const authConfig: NextAuthConfig = {
       }
       return session;
     },
-    async signIn({ user, account, profile }) {
-        if (account?.provider === "credentials") {
-          // Chỉ cho phép admin đăng nhập
-          if (user.email && (user.email.includes("admin") || user.role === "ADMIN" || user.role === "SUPER_ADMIN")) {
-            return true;
-          }
-          return false;
-        }
+    async signIn({ user }) {
+      // Chỉ cho phép admin và super admin đăng nhập
+      if (user.role && ["ADMIN_TOUR", "ADMIN_SHOP", "SUPER_ADMIN"].includes(user.role)) {
         return true;
-      },
+      }
+      return false;
+    },
   },
 };

@@ -1,58 +1,45 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/request";
 import { auth } from "@/lib/auth/auth";
 
-// Danh sách các đường dẫn công khai mà không cần xác thực
-const publicRoutes = [
-  "/",
-  "/login",
-  "/about",
-  "/destinations",
-  "/historical-sites",
-  "/search",
-  "/booking",
-  "/api/auth",
-];
-
-// Middleware để kiểm tra xác thực và phân quyền
 export async function middleware(request: NextRequest) {
   const session = await auth();
   const { pathname } = request.nextUrl;
 
-  // Kiểm tra xem đường dẫn hiện tại có trong danh sách công khai không
-  const isPublicRoute = publicRoutes.some(route => {
-    // Kiểm tra chính xác route hoặc nếu là subpath của route public
-    if (route.endsWith("/")) {
-      return pathname === route || pathname.startsWith(`${route}`);
+  // Trang admin chung - chỉ cho phép admin và super admin
+  if (pathname.startsWith("/admin") && pathname === "/admin") {
+    if (!session || !session.user || 
+        !["ADMIN_TOUR", "ADMIN_SHOP", "SUPER_ADMIN"].includes(session.user.role || "")) {
+      return NextResponse.redirect(new URL("/login", request.url));
     }
-    return pathname === route || pathname.startsWith(`${route}/`);
-  });
-
-  // Kiểm tra các API routes
-  if (pathname.startsWith("/api") && isPublicRoute) {
-    return NextResponse.next();
   }
 
-  // Người dùng chưa đăng nhập và truy cập trang yêu cầu đăng nhập
-  if (!session && !isPublicRoute) {
-    const signInUrl = new URL("/login", request.url);
-    signInUrl.searchParams.set("callbackUrl", pathname);
-    return NextResponse.redirect(signInUrl);
+  // Trang quản lý tour - chỉ cho phép ADMIN_TOUR và SUPER_ADMIN
+  if (pathname.startsWith("/admin/tours") || pathname.startsWith("/admin/bookings")) {
+    if (!session || !session.user || 
+        !["ADMIN_TOUR", "SUPER_ADMIN"].includes(session.user.role || "")) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
   }
 
-  // Kiểm tra quyền admin cho các trang admin
-  if (pathname.startsWith("/admin") && session?.user?.role !== "ADMIN") {
-    return NextResponse.redirect(new URL("/", request.url));
+  // Trang quản lý shop - chỉ cho phép ADMIN_SHOP và SUPER_ADMIN
+  if (pathname.startsWith("/admin/products") || pathname.startsWith("/admin/orders")) {
+    if (!session || !session.user || 
+        !["ADMIN_SHOP", "SUPER_ADMIN"].includes(session.user.role || "")) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
   }
 
-  // Kiểm tra quyền guide hoặc admin cho các trang dành cho hướng dẫn viên
-  if (
-    pathname.startsWith("/guide") &&
-    !(session?.user?.role === "GUIDE" || session?.user?.role === "ADMIN")
-  ) {
-    return NextResponse.redirect(new URL("/", request.url));
+  // Trang quản lý users và thống kê - chỉ cho phép SUPER_ADMIN
+  if (pathname.startsWith("/admin/users") || 
+      pathname.startsWith("/admin/analytics") || 
+      pathname.startsWith("/admin/settings")) {
+    if (!session || !session.user || session.user.role !== "SUPER_ADMIN") {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
   }
 
-  // Các trang yêu cầu đăng nhập nhưng không yêu cầu quyền đặc biệt
+  // Các trang yêu cầu đăng nhập
   if (
     (pathname.startsWith("/profile") ||
     pathname.startsWith("/dashboard")) &&
@@ -66,17 +53,8 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// Cấu hình để middleware chỉ chạy trên các route cần thiết
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public (public files)
-     */
-    "/((?!_next/static|_next/image|favicon.ico|public).*)",
-    "/api/:path*",
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
