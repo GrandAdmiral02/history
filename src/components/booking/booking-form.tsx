@@ -215,6 +215,7 @@ export function BookingForm({
                         "w-full justify-start text-left font-normal",
                         !date && "text-muted-foreground"
                       )}
+                      type="button"
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
                       {date ? (
@@ -224,14 +225,19 @@ export function BookingForm({
                       )}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
+                  <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
                       selected={date}
-                      onSelect={setDate}
+                      onSelect={(selectedDate) => {
+                        setDate(selectedDate);
+                      }}
                       initialFocus
-                      disabled={(date) => date < new Date()}
-                      locale={vi}
+                      disabled={(date) => {
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        return date < today;
+                      }}
                     />
                   </PopoverContent>
                 </Popover>
