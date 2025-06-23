@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TourReviews } from "@/components/reviews/tour-reviews";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function VeNguonPage() {
@@ -164,6 +165,7 @@ export default function VeNguonPage() {
                       <li><strong>16:00:</strong> Tiễn khách, kết thúc chương trình.</li>
                     </ul>
                   </div>
+                  <TourReviews />
                 </div>
               </TabsContent>
               <TabsContent value="attractions" className="space-y-6 mt-6">
@@ -461,49 +463,13 @@ export default function VeNguonPage() {
             </div>
 
             {/* Reviews */}
-            <div className="border rounded-lg overflow-hidden">
-              <div className="bg-green-100 px-6 py-4">
-                <h3 className="text-lg font-semibold text-green-800">Đánh giá từ khách hàng</h3>
-              </div>
-              <div className="p-6 space-y-6">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-medium">Nguyễn Văn A</h4>
-                    <div className="flex items-center">
-                      <span className="text-yellow-500">★★★★★</span>
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    "Tour rất ý nghĩa, giúp tôi hiểu rõ hơn về cuộc đời và sự nghiệp của Bác Hồ. Hướng dẫn viên nhiệt tình, ăn ở tốt."
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-medium">Trần Thị B</h4>
-                    <div className="flex items-center">
-                      <span className="text-yellow-500">★★★★☆</span>
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    "Chuyến đi đáng nhớ với gia đình tôi. Các con được học hỏi nhiều điều về lịch sử và truyền thống. Chỉ tiếc thời gian hơi ngắn."
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-medium">Lê Văn C</h4>
-                    <div className="flex items-center">
-                      <span className="text-yellow-500">★★★★★</span>
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    "Đồ ăn ngon, cảnh đẹp, hướng dẫn viên chuyên nghiệp. Sẽ giới thiệu cho bạn bè và đồng nghiệp về tour này."
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+```
+
+```python
+</replit_final_file>

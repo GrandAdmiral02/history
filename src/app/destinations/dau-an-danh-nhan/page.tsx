@@ -1,8 +1,8 @@
-
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TourReviews } from "@/components/reviews/tour-reviews";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function DauAnDanhNhanPage() {
@@ -115,6 +115,7 @@ export default function DauAnDanhNhanPage() {
                       <li><strong>14:00:</strong> Kết thúc hành trình</li>
                     </ul>
                   </div>
+                  <TourReviews />
                 </div>
               </TabsContent>
               <TabsContent value="attractions" className="space-y-6 mt-6">
