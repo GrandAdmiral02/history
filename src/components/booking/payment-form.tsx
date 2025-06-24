@@ -464,41 +464,73 @@ export function PaymentForm({ bookingId }: PaymentFormProps) {
         )}
 
         {paymentMethod === "e-wallet" && (
-          <div className="border rounded-lg p-4 text-center">
-            <p className="mb-4">
-              Trên trang thanh toán thật, bạn sẽ được chuyển hướng đến trang thanh toán của ví điện tử để hoàn tất giao dịch.
-            </p>
-            <div className="flex justify-center space-x-4">
-              <Button variant="outline" size="sm">
-                <Image
-                  src="/momo.svg"
-                  alt="MoMo"
-                  width={24}
-                  height={24}
-                  className="mr-2"
-                />
-                MoMo
-              </Button>
-              <Button variant="outline" size="sm">
-                <Image
-                  src="/zalopay.svg"
-                  alt="ZaloPay"
-                  width={24}
-                  height={24}
-                  className="mr-2"
-                />
-                ZaloPay
-              </Button>
-              <Button variant="outline" size="sm">
-                <Image
-                  src="/vnpay.svg"
-                  alt="VNPay"
-                  width={24}
-                  height={24}
-                  className="mr-2"
-                />
-                VNPay
-              </Button>
+          <div className="border rounded-lg p-6 text-center space-y-6">
+            <div>
+              <h3 className="font-semibold text-lg mb-2">Chọn ví điện tử</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Quét mã QR hoặc chuyển khoản để thanh toán
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* MoMo Payment */}
+              <div className="border rounded-lg p-4 space-y-3">
+                <div className="flex items-center justify-center space-x-2 mb-3">
+                  <Image
+                    src="/momo.svg"
+                    alt="MoMo"
+                    width={32}
+                    height={32}
+                  />
+                  <span className="font-semibold text-lg">MoMo</span>
+                </div>
+                <div className="bg-pink-50 rounded-lg p-4">
+                  <div className="w-32 h-32 mx-auto bg-white border rounded-lg flex items-center justify-center mb-3">
+                    <div className="text-xs text-center">
+                      <div className="w-24 h-24 bg-gray-200 rounded mb-2 flex items-center justify-center">
+                        <span className="text-gray-500">QR MoMo</span>
+                      </div>
+                      <p className="text-pink-600 font-medium">Vận đỏ chắc tay</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-pink-600 font-medium">Mở nhận tiền của tôi</p>
+                  <p className="text-xs text-gray-600">Quét mã để chuyển tiền</p>
+                </div>
+              </div>
+
+              {/* ZaloPay Payment */}
+              <div className="border rounded-lg p-4 space-y-3">
+                <div className="flex items-center justify-center space-x-2 mb-3">
+                  <Image
+                    src="/zalopay.svg"
+                    alt="ZaloPay"
+                    width={32}
+                    height={32}
+                  />
+                  <span className="font-semibold text-lg">ZaloPay</span>
+                </div>
+                <div className="bg-blue-50 rounded-lg p-4">
+                  <div className="w-32 h-32 mx-auto bg-white border rounded-lg flex items-center justify-center mb-3">
+                    <div className="text-xs text-center">
+                      <div className="w-24 h-24 bg-gray-200 rounded mb-2 flex items-center justify-center">
+                        <span className="text-gray-500">QR ZaloPay</span>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-sm text-blue-600 font-medium">HA DUY BINH</p>
+                  <p className="text-xs text-gray-600">QR nhận tiền từ mọi ứng dụng chuyển tiền</p>
+                  <div className="flex justify-center space-x-1 mt-2">
+                    <span className="text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded">Zalo</span>
+                    <span className="text-xs px-2 py-1 bg-red-100 text-red-600 rounded">50+</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <p className="text-sm text-yellow-800">
+                <strong>Hướng dẫn:</strong> Sau khi chuyển khoản thành công, vui lòng chụp ảnh màn hình và gửi cho chúng tôi để xác nhận thanh toán.
+              </p>
             </div>
           </div>
         )}
