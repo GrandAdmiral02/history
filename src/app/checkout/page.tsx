@@ -69,9 +69,73 @@ export default function CheckoutPage() {
       return;
     }
 
+    // Tạo mã vé duy nhất
+    const ticketCode = `NA${Date.now().toString().slice(-8)}`;
+    
     // Xử lý thanh toán (có thể gọi API tại đây)
-    console.log("Đặt hàng:", { ...formData, cartItems, total });
-    alert("Đặt hàng thành công!");
+    console.log("Đặt hàng:", { ...formData, cartItems, total, ticketCode });
+    
+    // Hiển thị vé
+    const ticketHTML = `
+      <div style="max-width: 400px; margin: 0 auto; border: 2px dashed #16a34a; border-radius: 12px; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 20px; font-family: Arial, sans-serif;">
+        <div style="text-align: center; border-bottom: 1px dashed #16a34a; padding-bottom: 15px; margin-bottom: 15px;">
+          <h2 style="color: #15803d; margin: 0; font-size: 18px;">🎫 VÉ MUA HÀNG NGHỆ AN</h2>
+          <p style="color: #166534; margin: 5px 0; font-size: 12px;">Cửa hàng lưu niệm xứ Nghệ</p>
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+          <div style="background: #16a34a; color: white; padding: 8px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 14px;">
+            MÃ VÉ: ${ticketCode}
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+          <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Khách hàng:</strong> ${formData.fullName}</p>
+          <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Điện thoại:</strong> ${formData.phone}</p>
+          <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Địa chỉ:</strong> ${formData.address}</p>
+        </div>
+        
+        <div style="border-top: 1px dashed #16a34a; padding-top: 15px;">
+          ${cartItems.map(item => `
+            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px;">
+              <span>${item.name} x${item.quantity}</span>
+              <span>${(item.price * item.quantity).toLocaleString()}đ</span>
+            </div>
+          `).join('')}
+          <div style="border-top: 1px solid #16a34a; margin-top: 10px; padding-top: 10px;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px;">
+              <span>Phí vận chuyển:</span>
+              <span>${shippingFee.toLocaleString()}đ</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-weight: bold; color: #15803d;">
+              <span>TỔNG CỘNG:</span>
+              <span>${total.toLocaleString()}đ</span>
+            </div>
+          </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #16a34a;">
+          <p style="margin: 0; font-size: 10px; color: #166534;">Cảm ơn bạn đã mua hàng!</p>
+          <p style="margin: 0; font-size: 10px; color: #166534;">Thời gian: ${new Date().toLocaleString('vi-VN')}</p>
+        </div>
+      </div>
+    `;
+    
+    const newWindow = window.open('', '_blank');
+    if (newWindow) {
+      newWindow.document.write(`
+        <html>
+          <head><title>Vé mua hàng - ${ticketCode}</title></head>
+          <body style="margin: 20px; background: #f3f4f6;">
+            ${ticketHTML}
+            <div style="text-align: center; margin-top: 20px;">
+              <button onclick="window.print()" style="background: #16a34a; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">In vé</button>
+            </div>
+          </body>
+        </html>
+      `);
+      newWindow.document.close();
+    }
   };
 
   return (

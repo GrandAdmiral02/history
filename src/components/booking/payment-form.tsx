@@ -397,7 +397,10 @@ export function PaymentForm({ bookingId }: PaymentFormProps) {
         {paymentMethod === "card" && (
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="space-y-2">
-              <Label htmlFor="cardNumber">Số thẻ</Label>
+              <Label htmlFor="cardNumber" className="flex items-center gap-2">
+                <CreditCard className="h-4 w-4" />
+                Số thẻ
+              </Label>
               <Input
                 id="cardNumber"
                 name="cardNumber"
@@ -409,7 +412,10 @@ export function PaymentForm({ bookingId }: PaymentFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="cardHolder">Tên chủ thẻ</Label>
+              <Label htmlFor="cardHolder" className="flex items-center gap-2">
+                <Wallet className="h-4 w-4" />
+                Tên chủ thẻ
+              </Label>
               <Input
                 id="cardHolder"
                 name="cardHolder"

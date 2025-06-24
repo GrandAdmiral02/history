@@ -67,17 +67,17 @@ export function Header() {
   const { data: session } = useSession();
 
   return (
-    <header className="border-b bg-green-50 sticky top-0 z-50 shadow-md">
-      <div className="container flex items-center justify-between py-4">
-        <Link href="/" className="flex items-center space-x-3">
-          <div className="w-12 h-12 bg-green-700 rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-xl">NH</span>
+    <header className="border-b bg-green-50 sticky top-0 z-50 shadow-sm">
+      <div className="container flex items-center justify-between py-2">
+        <Link href="/" className="flex items-center space-x-2">
+          <div className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center">
+            <span className="text-white font-bold text-sm">NH</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-2xl font-bold text-green-700">
+            <span className="text-lg font-bold text-green-700">
               Nghệ An Historical
             </span>
-            <span className="text-sm text-muted-foreground">
+            <span className="text-xs text-muted-foreground">
               Khám phá di sản lịch sử xứ Nghệ
             </span>
           </div>

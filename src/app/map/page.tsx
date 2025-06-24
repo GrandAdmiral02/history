@@ -128,22 +128,20 @@ export default function MapPage() {
 
           {/* Map and Details */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Map Placeholder */}
+            {/* Google Maps */}
             <Card>
               <CardContent className="p-0">
-                <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-blue-500 opacity-20"></div>
-                  <div className="text-center z-10">
-                    <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600 font-medium">Bản đồ tương tác</p>
-                    <p className="text-sm text-gray-500">Tích hợp Google Maps/OpenStreetMap</p>
-                  </div>
-                  
-                  {/* Sample markers */}
-                  <div className="absolute top-1/4 left-1/3 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
-                  <div className="absolute top-1/2 right-1/3 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
-                  <div className="absolute bottom-1/3 left-1/2 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
-                  <div className="absolute top-1/3 right-1/4 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+                <div className="aspect-video rounded-lg overflow-hidden">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d965994.4827138134!2d104.4477718!3d19.2149515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3139ce640b5a1dad%3A0x5c61bf7cd719a519!2sNgh%E1%BB%87%20An%2C%20Vi%E1%BB%87t%20Nam!5e0!3m2!1svi!2s!4v1640995200000!5m2!1svi!2s"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Bản đồ Nghệ An"
+                  ></iframe>
                 </div>
               </CardContent>
             </Card>

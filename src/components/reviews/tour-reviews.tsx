@@ -18,22 +18,32 @@ interface Review {
 }
 
 export function TourReviews({ tourId }: { tourId?: string }) {
-  const [reviews, setReviews] = useState<Review[]>([
-    {
-      id: "1",
-      name: "Nguyễn Văn A",
-      rating: 5,
-      comment: "Tour rất tuyệt vời, hướng dẫn viên nhiệt tình. Tôi sẽ quay lại!",
-      date: "2024-01-15",
-    },
-    {
-      id: "2", 
-      name: "Trần Thị B",
-      rating: 4,
-      comment: "Chuyến đi thú vị, học được nhiều điều về lịch sử Nghệ An.",
-      date: "2024-01-10",
-    },
-  ]);
+  const getStoredReviews = () => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem(`reviews-${tourId || 'default'}`);
+      if (stored) {
+        return JSON.parse(stored);
+      }
+    }
+    return [
+      {
+        id: "1",
+        name: "Nguyễn Văn A",
+        rating: 5,
+        comment: "Tour rất tuyệt vời, hướng dẫn viên nhiệt tình. Tôi sẽ quay lại!",
+        date: "2024-01-15",
+      },
+      {
+        id: "2", 
+        name: "Trần Thị B",
+        rating: 4,
+        comment: "Chuyến đi thú vị, học được nhiều điều về lịch sử Nghệ An.",
+        date: "2024-01-10",
+      },
+    ];
+  };
+
+  const [reviews, setReviews] = useState<Review[]>(getStoredReviews);
 
   const [newReview, setNewReview] = useState({
     name: "",
@@ -56,7 +66,14 @@ export function TourReviews({ tourId }: { tourId?: string }) {
       date: new Date().toISOString().split('T')[0],
     };
 
-    setReviews([review, ...reviews]);
+    const updatedReviews = [review, ...reviews];
+    setReviews(updatedReviews);
+    
+    // Lưu vào localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(`reviews-${tourId || 'default'}`, JSON.stringify(updatedReviews));
+    }
+    
     setNewReview({ name: "", rating: 0, comment: "" });
     alert("Cảm ơn bạn đã đánh giá!");
   };
