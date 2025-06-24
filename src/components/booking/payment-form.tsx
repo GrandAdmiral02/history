@@ -388,8 +388,17 @@ export function PaymentForm({ bookingId }: PaymentFormProps) {
                 htmlFor="cash"
                 className="flex-1 flex items-center cursor-pointer"
               >
+                <Wallet className="h-5 w-5 mr-2" />
                 <span>Thanh toán khi tham gia tour</span>
               </Label>
+              <div className="relative h-6 w-10">
+                <Image
+                  src="/cash.svg"
+                  alt="Cash"
+                  fill
+                  className="object-contain"
+                />
+              </div>
             </div>
           </RadioGroup>
         </div>
