@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 
 export const authConfig: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || "nghean-historical-secret-key-2024",
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
@@ -35,6 +35,8 @@ export const authConfig: NextAuthConfig = {
       },
       async authorize(credentials) {
         try {
+          console.log("🔐 Starting authentication process...");
+          
           const parsedCredentials = z
             .object({
               email: z.string().email(),
@@ -55,8 +57,8 @@ export const authConfig: NextAuthConfig = {
             where: { email: email.toLowerCase() },
           });
 
-          if (!user || !user.password) {
-            console.log("❌ User not found or no password");
+          if (!user) {
+            console.log("❌ User not found");
             return null;
           }
 
@@ -69,7 +71,10 @@ export const authConfig: NextAuthConfig = {
           }
 
           // Kiểm tra mật khẩu
-          const passwordsMatch = await bcrypt.compare(password, user.password);
+          let passwordsMatch = false;
+          if (user.password) {
+            passwordsMatch = await bcrypt.compare(password, user.password);
+          }
 
           if (!passwordsMatch) {
             console.log("❌ Password mismatch");
@@ -115,5 +120,6 @@ export const authConfig: NextAuthConfig = {
       return false;
     },
   },
+  trustHost: true,
   debug: process.env.NODE_ENV === "development",
 };

@@ -51,17 +51,26 @@ export function LoginForm() {
         redirect: false,
         email: email.toLowerCase().trim(),
         password,
+        callbackUrl: "/admin"
       });
 
       console.log("📋 Login result:", result);
 
       if (result?.error) {
-        setError("Email hoặc mật khẩu không chính xác, hoặc bạn không có quyền truy cập");
+        console.error("Login error:", result.error);
+        if (result.error === "CredentialsSignin") {
+          setError("Email hoặc mật khẩu không chính xác");
+        } else {
+          setError("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.");
+        }
         return;
       }
 
-      if (result?.ok) {
+      if (result?.ok && result?.url) {
         console.log("✅ Login successful, redirecting...");
+        window.location.href = "/admin";
+      } else if (result?.ok) {
+        console.log("✅ Login successful, redirecting manually...");
         router.push("/admin");
         router.refresh();
       } else {
