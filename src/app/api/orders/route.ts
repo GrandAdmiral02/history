@@ -1,58 +1,77 @@
-
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { z } from "zod";
+import { auth } from "@/lib/auth/auth";
 
 const prisma = new PrismaClient();
 
-const OrderItemSchema = z.object({
-  productId: z.string(),
-  quantity: z.number().int().min(1),
-  price: z.number().min(0),
-});
-
-const OrderSchema = z.object({
-  customerName: z.string().min(1, "Tên khách hàng không được để trống"),
-  customerEmail: z.string().email("Email không hợp lệ"),
-  customerPhone: z.string().min(1, "Số điện thoại không được để trống"),
-  customerAddress: z.string().min(1, "Địa chỉ không được để trống"),
-  paymentMethod: z.enum(["CREDIT_CARD", "E_WALLET", "BANK_TRANSFER", "CASH"]),
-  items: z.array(OrderItemSchema).min(1, "Đơn hàng phải có ít nhất 1 sản phẩm"),
-  notes: z.string().optional(),
-});
-
-export async function POST(request: Request) {
+export async function GET() {
   try {
-    const body = await request.json();
-    const validatedData = OrderSchema.safeParse(body);
+    const session = await auth();
 
-    if (!validatedData.success) {
+    if (!session?.user || !["ADMIN_PRODUCT", "SUPER_ADMIN"].includes(session.user.role || "")) {
       return NextResponse.json(
-        { error: validatedData.error.errors[0].message },
-        { status: 400 }
+        { error: "Không có quyền truy cập" },
+        { status: 403 }
       );
     }
 
-    const orderData = validatedData.data;
+    const orders = await prisma.order.findMany({
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+        orderItems: {
+          include: {
+            product: {
+              select: {
+                name: true,
+                price: true,
+                image: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
 
-    // Tính tổng tiền
-    const subtotal = orderData.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const shippingFee = 30000; // Phí vận chuyển cố định
-    const totalAmount = subtotal + shippingFee;
+    return NextResponse.json(orders);
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    return NextResponse.json(
+      { error: "Lỗi khi tải dữ liệu đơn hàng" },
+      { status: 500 }
+    );
+  }
+}
 
-    // Tạo đơn hàng và các sản phẩm trong đơn hàng
+export async function POST(request: NextRequest) {
+  try {
+    const session = await auth();
+
+    if (!session?.user || !["ADMIN_PRODUCT", "SUPER_ADMIN"].includes(session.user.role || "")) {
+      return NextResponse.json(
+        { error: "Không có quyền truy cập" },
+        { status: 403 }
+      );
+    }
+
+    const data = await request.json();
+
     const order = await prisma.order.create({
       data: {
-        customerName: orderData.customerName,
-        customerEmail: orderData.customerEmail,
-        customerPhone: orderData.customerPhone,
-        customerAddress: orderData.customerAddress,
-        totalAmount,
-        shippingFee,
-        paymentMethod: orderData.paymentMethod,
-        notes: orderData.notes,
+        userId: data.userId,
+        totalAmount: data.totalAmount,
+        status: data.status || "PENDING",
+        shippingAddress: data.shippingAddress,
+        paymentMethod: data.paymentMethod,
         orderItems: {
-          create: orderData.items.map(item => ({
+          create: data.items.map((item: any) => ({
             productId: item.productId,
             quantity: item.quantity,
             price: item.price,
@@ -60,91 +79,32 @@ export async function POST(request: Request) {
         },
       },
       include: {
+        user: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
         orderItems: {
           include: {
-            product: true,
+            product: {
+              select: {
+                name: true,
+                price: true,
+                image: true,
+              },
+            },
           },
         },
       },
     });
 
-    // Cập nhật số lượng tồn kho và số lượng đã bán
-    for (const item of orderData.items) {
-      await prisma.product.update({
-        where: { id: item.productId },
-        data: {
-          stock: { decrement: item.quantity },
-          sold: { increment: item.quantity },
-        },
-      });
-    }
-
-    return NextResponse.json(
-      {
-        message: "Tạo đơn hàng thành công",
-        order
-      },
-      { status: 201 }
-    );
+    return NextResponse.json(order);
   } catch (error) {
     console.error("Error creating order:", error);
     return NextResponse.json(
-      { error: "Đã xảy ra lỗi khi tạo đơn hàng" },
+      { error: "Lỗi khi tạo đơn hàng" },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
-  }
-}
-
-export async function GET(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get('limit') || '20');
-    const page = parseInt(searchParams.get('page') || '1');
-    const status = searchParams.get('status');
-
-    const skip = (page - 1) * limit;
-
-    const where: any = {};
-    if (status) {
-      where.status = status;
-    }
-
-    const [orders, total] = await Promise.all([
-      prisma.order.findMany({
-        where,
-        skip,
-        take: limit,
-        include: {
-          orderItems: {
-            include: {
-              product: true,
-            },
-          },
-          payments: true,
-        },
-        orderBy: { createdAt: 'desc' },
-      }),
-      prisma.order.count({ where }),
-    ]);
-
-    return NextResponse.json({
-      orders,
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit),
-      }
-    });
-  } catch (error) {
-    console.error("Error fetching orders:", error);
-    return NextResponse.json(
-      { error: "Đã xảy ra lỗi khi lấy danh sách đơn hàng" },
-      { status: 500 }
-    );
-  } finally {
-    await prisma.$disconnect();
   }
 }

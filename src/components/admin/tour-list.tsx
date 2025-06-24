@@ -199,6 +199,7 @@ function TourForm({ tour, onSubmit }: { tour?: Tour; onSubmit: (data: FormData) 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    onSubmit(formData);ata(e.currentTarget);
     onSubmit(formData);
   };
 
