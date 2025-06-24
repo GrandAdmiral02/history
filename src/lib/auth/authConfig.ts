@@ -13,10 +13,11 @@ export const authConfig: NextAuthConfig = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
     signIn: "/login",
-    error: "/error",
+    error: "/login",
   },
   providers: [
     Credentials({
@@ -25,55 +26,69 @@ export const authConfig: NextAuthConfig = {
         email: {
           label: "Email",
           type: "email",
-          placeholder: "example@gmail.com",
+          placeholder: "admin@nghean.com",
         },
         password: {
-          label: "Mật khẩu",
+          label: "Mật khẩu", 
           type: "password",
         },
       },
       async authorize(credentials) {
-        const parsedCredentials = z
-          .object({
-            email: z.string().email(),
-            password: z.string().min(6),
-          })
-          .safeParse(credentials);
+        try {
+          const parsedCredentials = z
+            .object({
+              email: z.string().email(),
+              password: z.string().min(6),
+            })
+            .safeParse(credentials);
 
-        if (!parsedCredentials.success) {
+          if (!parsedCredentials.success) {
+            console.log("❌ Invalid credentials format");
+            return null;
+          }
+
+          const { email, password } = parsedCredentials.data;
+          console.log("🔍 Attempting login for:", email);
+
+          // Tìm người dùng dựa trên email
+          const user = await prisma.user.findUnique({
+            where: { email: email.toLowerCase() },
+          });
+
+          if (!user || !user.password) {
+            console.log("❌ User not found or no password");
+            return null;
+          }
+
+          console.log("👤 Found user:", user.email, "Role:", user.role);
+
+          // Chỉ cho phép admin và super admin đăng nhập
+          if (!["ADMIN_TOUR", "ADMIN_SHOP", "SUPER_ADMIN"].includes(user.role)) {
+            console.log("❌ User role not allowed:", user.role);
+            return null;
+          }
+
+          // Kiểm tra mật khẩu
+          const passwordsMatch = await bcrypt.compare(password, user.password);
+
+          if (!passwordsMatch) {
+            console.log("❌ Password mismatch");
+            return null;
+          }
+
+          console.log("✅ Login successful for:", user.email);
+
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            image: user.image,
+            role: user.role,
+          };
+        } catch (error) {
+          console.error("❌ Auth error:", error);
           return null;
         }
-
-        const { email, password } = parsedCredentials.data;
-
-        // Tìm người dùng dựa trên email
-        const user = await prisma.user.findUnique({
-          where: { email },
-        });
-
-        if (!user || !user.password) {
-          return null;
-        }
-
-        // Chỉ cho phép admin và super admin đăng nhập
-        if (!["ADMIN_TOUR", "ADMIN_SHOP", "SUPER_ADMIN"].includes(user.role)) {
-          return null;
-        }
-
-        // Kiểm tra mật khẩu
-        const passwordsMatch = await bcrypt.compare(password, user.password);
-
-        if (!passwordsMatch) {
-          return null;
-        }
-
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          image: user.image,
-          role: user.role,
-        };
       },
     }),
   ],
@@ -100,4 +115,5 @@ export const authConfig: NextAuthConfig = {
       return false;
     },
   },
+  debug: process.env.NODE_ENV === "development",
 };

@@ -1,8 +1,8 @@
+
 "use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,8 @@ export function LoginForm() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (error) setError("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,22 +40,36 @@ export function LoginForm() {
     try {
       const { email, password } = formData;
 
-      const result = await signIn("credentials", {
-        redirect: false,
-        email,
-        password,
-      });
-
-      if (result?.error) {
-        setError("Email hoặc mật khẩu không chính xác hoặc bạn không có quyền truy cập");
+      if (!email || !password) {
+        setError("Vui lòng nhập đầy đủ email và mật khẩu");
         return;
       }
 
-      router.push("/admin");
-      router.refresh();
+      console.log("🚀 Attempting login...");
+
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: email.toLowerCase().trim(),
+        password,
+      });
+
+      console.log("📋 Login result:", result);
+
+      if (result?.error) {
+        setError("Email hoặc mật khẩu không chính xác, hoặc bạn không có quyền truy cập");
+        return;
+      }
+
+      if (result?.ok) {
+        console.log("✅ Login successful, redirecting...");
+        router.push("/admin");
+        router.refresh();
+      } else {
+        setError("Đã xảy ra lỗi không mong muốn");
+      }
     } catch (error) {
-      console.error("Login error:", error);
-      setError("Đã xảy ra lỗi khi đăng nhập");
+      console.error("❌ Login error:", error);
+      setError("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.");
     } finally {
       setIsLoading(false);
     }
@@ -75,10 +91,11 @@ export function LoginForm() {
               id="email"
               name="email"
               type="email"
-              placeholder="admin@nghean.com"
+              placeholder="admin.tour@nghean.com"
               value={formData.email}
               onChange={handleInputChange}
               required
+              autoComplete="email"
             />
           </div>
 
@@ -88,14 +105,18 @@ export function LoginForm() {
               id="password"
               name="password"
               type="password"
+              placeholder="Nhập mật khẩu"
               value={formData.password}
               onChange={handleInputChange}
               required
+              autoComplete="current-password"
             />
           </div>
 
           {error && (
-            <p className="text-sm text-red-500 text-center">{error}</p>
+            <div className="bg-red-50 border border-red-200 rounded-md p-3">
+              <p className="text-sm text-red-600">{error}</p>
+            </div>
           )}
 
           <Button
@@ -114,7 +135,14 @@ export function LoginForm() {
           </Button>
         </form>
 
-        
+        <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-md">
+          <p className="text-sm text-blue-800 font-medium mb-2">Tài khoản demo:</p>
+          <div className="text-xs text-blue-700 space-y-1">
+            <div>• Admin Tour: admin.tour@nghean.com / admin123</div>
+            <div>• Admin Shop: admin.shop@nghean.com / admin123</div>
+            <div>• Super Admin: super.admin@nghean.com / admin123</div>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
