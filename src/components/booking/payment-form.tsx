@@ -485,15 +485,16 @@ export function PaymentForm({ bookingId }: PaymentFormProps) {
                   <span className="font-semibold text-lg">MoMo</span>
                 </div>
                 <div className="bg-pink-50 rounded-lg p-4">
-                  <div className="w-32 h-32 mx-auto bg-white border rounded-lg flex items-center justify-center mb-3">
-                    <div className="text-xs text-center">
-                      <div className="w-24 h-24 bg-gray-200 rounded mb-2 flex items-center justify-center">
-                        <span className="text-gray-500">QR MoMo</span>
-                      </div>
-                      <p className="text-pink-600 font-medium">Vận đỏ chắc tay</p>
-                    </div>
+                  <div className="w-48 h-48 mx-auto bg-white border rounded-lg flex items-center justify-center mb-3 relative">
+                    <Image
+                      src="/attached_assets/image_1750740007757.png"
+                      alt="QR MoMo"
+                      fill
+                      className="object-contain p-2"
+                    />
                   </div>
-                  <p className="text-sm text-pink-600 font-medium">Mở nhận tiền của tôi</p>
+                  <p className="text-sm text-pink-600 font-medium">Vận đỏ chắc tay</p>
+                  <p className="text-xs text-gray-600">Mở nhận tiền của tôi</p>
                   <p className="text-xs text-gray-600">Quét mã để chuyển tiền</p>
                 </div>
               </div>
@@ -510,12 +511,13 @@ export function PaymentForm({ bookingId }: PaymentFormProps) {
                   <span className="font-semibold text-lg">ZaloPay</span>
                 </div>
                 <div className="bg-blue-50 rounded-lg p-4">
-                  <div className="w-32 h-32 mx-auto bg-white border rounded-lg flex items-center justify-center mb-3">
-                    <div className="text-xs text-center">
-                      <div className="w-24 h-24 bg-gray-200 rounded mb-2 flex items-center justify-center">
-                        <span className="text-gray-500">QR ZaloPay</span>
-                      </div>
-                    </div>
+                  <div className="w-48 h-48 mx-auto bg-white border rounded-lg flex items-center justify-center mb-3 relative">
+                    <Image
+                      src="/attached_assets/image_1750740022070.png"
+                      alt="QR ZaloPay"
+                      fill
+                      className="object-contain p-2"
+                    />
                   </div>
                   <p className="text-sm text-blue-600 font-medium">HA DUY BINH</p>
                   <p className="text-xs text-gray-600">QR nhận tiền từ mọi ứng dụng chuyển tiền</p>
@@ -527,10 +529,22 @@ export function PaymentForm({ bookingId }: PaymentFormProps) {
               </div>
             </div>
 
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <p className="text-sm text-yellow-800">
-                <strong>Hướng dẫn:</strong> Sau khi chuyển khoản thành công, vui lòng chụp ảnh màn hình và gửi cho chúng tôi để xác nhận thanh toán.
-              </p>
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 space-y-3">
+              <div className="text-left">
+                <p className="text-sm font-semibold text-yellow-800 mb-2">
+                  📝 Hướng dẫn nhập nội dung chuyển khoản:
+                </p>
+                <div className="text-sm text-yellow-800 space-y-1">
+                  <p><strong>Nội dung chuyển khoản:</strong> <span className="font-mono bg-yellow-100 px-2 py-1 rounded">TOUR {bookingData.tourName.slice(0, 10)} {bookingData.participants}NGUOI</span></p>
+                  <p><strong>Số tiền:</strong> <span className="font-mono bg-yellow-100 px-2 py-1 rounded">{bookingData.totalPrice.toLocaleString()} VNĐ</span></p>
+                  <p><strong>Họ tên người chuyển:</strong> <span className="font-mono bg-yellow-100 px-2 py-1 rounded">{bookingData.fullName}</span></p>
+                </div>
+              </div>
+              <div className="border-t border-yellow-300 pt-3">
+                <p className="text-sm text-yellow-800">
+                  <strong>⚠️ Lưu ý quan trọng:</strong> Sau khi chuyển khoản thành công, vui lòng chụp ảnh màn hình giao dịch và gửi cho chúng tôi qua Zalo: <strong>0123-456-789</strong> để xác nhận thanh toán nhanh chóng.
+                </p>
+              </div>
             </div>
           </div>
         )}
