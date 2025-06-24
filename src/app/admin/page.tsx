@@ -92,6 +92,13 @@ export default async function AdminDashboardPage() {
                 <CalendarCheck className="h-5 w-5 mr-3 text-muted-foreground" />
                 <span>Quản lý đặt tour</span>
               </Link>
+              <Link
+                href="/admin/payments"
+                className="flex items-center p-3 rounded-md hover:bg-muted/50 transition-colors"
+              >
+                <CreditCard className="h-5 w-5 mr-3 text-muted-foreground" />
+                <span>Quản lý thanh toán</span>
+              </Link>
             </CardContent>
           </Card>
         )}
@@ -119,6 +126,13 @@ export default async function AdminDashboardPage() {
               >
                 <ShoppingBag className="h-5 w-5 mr-3 text-muted-foreground" />
                 <span>Quản lý đơn hàng</span>
+              </Link>
+              <Link
+                href="/admin/payments"
+                className="flex items-center p-3 rounded-md hover:bg-muted/50 transition-colors"
+              >
+                <CreditCard className="h-5 w-5 mr-3 text-muted-foreground" />
+                <span>Quản lý thanh toán</span>
               </Link>
             </CardContent>
           </Card>

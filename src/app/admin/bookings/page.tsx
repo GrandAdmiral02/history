@@ -2,6 +2,7 @@
 import { Metadata } from "next";
 import { auth } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
+import { BookingList } from "@/components/admin/booking-list";
 
 export const metadata: Metadata = {
   title: "Quản lý đặt tour | Admin",
@@ -26,13 +27,7 @@ export default async function BookingsAdminPage() {
       </div>
 
       <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold mb-4">Danh sách đặt tour</h2>
-        <p className="text-muted-foreground">
-          Tính năng quản lý đặt tour sẽ được phát triển ở đây.
-        </p>
-        <p className="text-sm text-green-600 mt-2">
-          Quyền truy cập: {session.user.role === "SUPER_ADMIN" ? "Super Admin" : "Admin Tour"}
-        </p>
+        <BookingList />
       </div>
     </div>
   );

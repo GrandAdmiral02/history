@@ -2,6 +2,7 @@
 import { Metadata } from "next";
 import { auth } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
+import { OrderList } from "@/components/admin/order-list";
 
 export const metadata: Metadata = {
   title: "Quản lý đơn hàng | Admin",
@@ -26,13 +27,7 @@ export default async function OrdersAdminPage() {
       </div>
 
       <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold mb-4">Danh sách đơn hàng</h2>
-        <p className="text-muted-foreground">
-          Tính năng quản lý đơn hàng sẽ được phát triển ở đây.
-        </p>
-        <p className="text-sm text-green-600 mt-2">
-          Quyền truy cập: {session.user.role === "SUPER_ADMIN" ? "Super Admin" : "Admin Shop"}
-        </p>
+        <OrderList />
       </div>
     </div>
   );
