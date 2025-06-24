@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default async function AdminUsersPage() {
   const session = await auth();
 
-  if (!session || !session.user || session.user.role !== "ADMIN") {
+  if (!session || !session.user || session.user.role !== "SUPER_ADMIN") {
     redirect("/login?callbackUrl=/admin/users");
   }
 

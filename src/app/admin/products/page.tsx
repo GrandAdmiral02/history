@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -59,7 +58,7 @@ export default function ProductsAdminPage() {
 
   // Kiểm tra phân quyền
   if (status === "loading") return <div>Đang tải...</div>;
-  
+
   if (!session || !session.user || 
       !["ADMIN_SHOP", "SUPER_ADMIN"].includes(session.user.role || "")) {
     redirect("/login");
@@ -110,7 +109,7 @@ export default function ProductsAdminPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const productData = {
       ...formData,
       price: parseInt(formData.price),
@@ -140,7 +139,7 @@ export default function ProductsAdminPage() {
         setProducts([...products, newProduct]);
         alert("Thêm sản phẩm mới thành công!");
       }
-      
+
       resetForm();
       setIsDialogOpen(false);
     } catch (error) {
@@ -218,7 +217,7 @@ export default function ProductsAdminPage() {
               Thêm, sửa, xóa sản phẩm trong cửa hàng
             </p>
           </div>
-          
+
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button onClick={() => resetForm()}>
@@ -235,7 +234,7 @@ export default function ProductsAdminPage() {
                   {editingProduct ? "Cập nhật thông tin sản phẩm" : "Nhập thông tin sản phẩm mới"}
                 </DialogDescription>
               </DialogHeader>
-              
+
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -267,7 +266,7 @@ export default function ProductsAdminPage() {
                     </Select>
                   </div>
                 </div>
-                
+
                 <div>
                   <Label htmlFor="description">Mô tả</Label>
                   <Textarea
@@ -279,7 +278,7 @@ export default function ProductsAdminPage() {
                     required
                   />
                 </div>
-                
+
                 <div className="grid grid-cols-3 gap-4">
                   <div>
                     <Label htmlFor="price">Giá bán (VNĐ)</Label>
@@ -314,7 +313,7 @@ export default function ProductsAdminPage() {
                     />
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-3 gap-4">
                   <div>
                     <Label htmlFor="discount">Giảm giá (%)</Label>
@@ -349,7 +348,7 @@ export default function ProductsAdminPage() {
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <Label htmlFor="image">URL hình ảnh</Label>
                   <Input
@@ -360,7 +359,7 @@ export default function ProductsAdminPage() {
                     required
                   />
                 </div>
-                
+
                 <div className="flex justify-end gap-2 pt-4">
                   <Button type="button" variant="outline" onClick={handleDialogClose}>
                     Hủy
@@ -373,7 +372,7 @@ export default function ProductsAdminPage() {
             </DialogContent>
           </Dialog>
         </div>
-        
+
         <div className="mt-4">
           <Badge variant="secondary">
             Quyền truy cập: {session.user.role === "SUPER_ADMIN" ? "Super Admin" : "Admin Shop"}
@@ -466,7 +465,7 @@ export default function ProductsAdminPage() {
               ))}
             </TableBody>
           </Table>
-          
+
           {products.length === 0 && (
             <div className="text-center py-8 text-muted-foreground">
               Chưa có sản phẩm nào. Hãy thêm sản phẩm đầu tiên!
