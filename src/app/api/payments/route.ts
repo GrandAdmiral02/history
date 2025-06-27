@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
       data: {
         amount: data.amount,
         paymentMethod: data.paymentMethod,
-        status: data.status || "PENDING",
+        paymentStatus: data.status || "PENDING",
         transactionId: data.transactionId,
         bookingId: data.bookingId || null,
         orderId: data.orderId || null,
