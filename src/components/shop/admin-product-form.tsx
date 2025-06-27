@@ -66,12 +66,9 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
     const newErrors: { [key: string]: string } = {};
 
     if (!formData.name.trim()) newErrors.name = "Vui lòng nhập tên sản phẩm";
-    if (!formData.price.trim()) newErrors.price = "Vui lòng nhập giá";
-    else if (isNaN(parseFloat(formData.price)) || parseFloat(formData.price) <= 0) {
-      newErrors.price = "Giá phải là số dương";
-    }
+    if (!formData.price || formData.price <= 0) newErrors.price = "Vui lòng nhập giá hợp lệ";
     if (!formData.category.trim()) newErrors.category = "Vui lòng chọn danh mục";
-    if (formData.stock.trim() && (isNaN(parseInt(formData.stock)) || parseInt(formData.stock) < 0)) {
+    if (formData.stock < 0) {
       newErrors.stock = "Số lượng tồn kho phải là số không âm";
     }
 
@@ -89,12 +86,14 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...formData,
           name: formData.name.trim(),
           description: formData.description.trim(),
+          price: formData.price,
+          originalPrice: formData.originalPrice || null,
           category: formData.category.trim(),
-          image: formData.image.trim(),
-          discount: formData.discount.trim(),
+          image: formData.image.trim() || null,
+          stock: formData.stock,
+          discount: formData.discount.trim() || null,
         }),
       });
 
