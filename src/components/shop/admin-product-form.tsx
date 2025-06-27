@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -64,29 +63,50 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    
-    try {
-      const url = "/api/products";
-      const method = product ? "PUT" : "POST";
-      const data = product ? { ...formData, id: product.id } : formData;
+    const newErrors: { [key: string]: string } = {};
 
-      const response = await fetch(url, {
-        method,
+    if (!formData.name.trim()) newErrors.name = "Vui lòng nhập tên sản phẩm";
+    if (!formData.price.trim()) newErrors.price = "Vui lòng nhập giá";
+    else if (isNaN(parseFloat(formData.price)) || parseFloat(formData.price) <= 0) {
+      newErrors.price = "Giá phải là số dương";
+    }
+    if (!formData.category.trim()) newErrors.category = "Vui lòng chọn danh mục";
+    if (formData.stock.trim() && (isNaN(parseInt(formData.stock)) || parseInt(formData.stock) < 0)) {
+      newErrors.stock = "Số lượng tồn kho phải là số không âm";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      //setErrors(newErrors);
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/products", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...formData,
+          name: formData.name.trim(),
+          description: formData.description.trim(),
+          category: formData.category.trim(),
+          image: formData.image.trim(),
+          discount: formData.discount.trim(),
+        }),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error("Có lỗi xảy ra");
+        throw new Error(result.error || "Không thể thêm sản phẩm");
       }
 
-      toast.success(product ? "Cập nhật sản phẩm thành công!" : "Thêm sản phẩm thành công!");
       onSave();
-      onClose();
-      
+      toast.success("Thêm sản phẩm thành công!");
+
       // Reset form
       setFormData({
         name: "",
@@ -98,8 +118,11 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
         stock: 0,
         discount: "",
       });
+      //setErrors({});
+      onClose();
     } catch (error) {
-      toast.error("Có lỗi xảy ra khi lưu sản phẩm");
+      console.error("Error adding product:", error);
+      toast.error(error instanceof Error ? error.message : "Đã có lỗi xảy ra khi thêm sản phẩm");
     } finally {
       setIsLoading(false);
     }
@@ -116,7 +139,7 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
             {product ? "Cập nhật thông tin sản phẩm" : "Điền thông tin sản phẩm mới"}
           </DialogDescription>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
           <div className="grid gap-2">
             <Label htmlFor="name">Tên sản phẩm</Label>
@@ -127,7 +150,7 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
               required
             />
           </div>
-          
+
           <div className="grid gap-2">
             <Label htmlFor="description">Mô tả</Label>
             <Textarea
@@ -137,7 +160,7 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
               required
             />
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
               <Label htmlFor="price">Giá bán</Label>
@@ -149,7 +172,7 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
                 required
               />
             </div>
-            
+
             <div className="grid gap-2">
               <Label htmlFor="originalPrice">Giá gốc</Label>
               <Input
@@ -160,7 +183,7 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
               />
             </div>
           </div>
-          
+
           <div className="grid gap-2">
             <Label htmlFor="category">Danh mục</Label>
             <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
@@ -176,7 +199,7 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
               </SelectContent>
             </Select>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
               <Label htmlFor="stock">Số lượng</Label>
@@ -188,7 +211,7 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
                 required
               />
             </div>
-            
+
             <div className="grid gap-2">
               <Label htmlFor="discount">Giảm giá (%)</Label>
               <Input
@@ -199,7 +222,7 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
               />
             </div>
           </div>
-          
+
           <div className="grid gap-2">
             <Label htmlFor="image">URL hình ảnh</Label>
             <Input
@@ -210,7 +233,7 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
               placeholder="https://..."
             />
           </div>
-          
+
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
               Hủy

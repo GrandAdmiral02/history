@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { auth } from "@/lib/auth/auth";
@@ -45,28 +44,55 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await auth();
-    
+
     if (!session?.user || !["ADMIN_SHOP", "SUPER_ADMIN"].includes(session.user.role || "")) {
       return NextResponse.json(
-        { error: "Không có quyền truy cập" },
+        { error: "Không có quyền thêm sản phẩm" },
         { status: 403 }
       );
     }
 
     const data = await request.json();
-    
+
+    // Validate required fields
+    if (!data.name || !data.price || !data.category) {
+      return NextResponse.json(
+        { error: "Thiếu thông tin bắt buộc (tên, giá, danh mục)" },
+        { status: 400 }
+      );
+    }
+
+    // Validate price is a valid number
+    const price = parseFloat(data.price);
+    if (isNaN(price) || price <= 0) {
+      return NextResponse.json(
+        { error: "Giá sản phẩm không hợp lệ" },
+        { status: 400 }
+      );
+    }
+
+    // Validate stock is a valid number
+    const stock = parseInt(data.stock) || 0;
+    if (stock < 0) {
+      return NextResponse.json(
+        { error: "Số lượng tồn kho không hợp lệ" },
+        { status: 400 }
+      );
+    }
+
     const product = await prisma.product.create({
       data: {
-        name: data.name,
-        description: data.description,
-        price: parseFloat(data.price),
+        name: data.name.trim(),
+        description: data.description?.trim() || null,
+        price: price,
         originalPrice: data.originalPrice ? parseFloat(data.originalPrice) : null,
-        image: data.image || null,
-        category: data.category,
-        stock: parseInt(data.stock),
+        image: data.image?.trim() || "/placeholder.jpg",
+        category: data.category.trim(),
+        stock: stock,
+        discount: data.discount?.trim() || null,
         rating: 0,
         sold: 0,
-        discount: data.discount || null,
+        isActive: true,
       },
     });
 
@@ -74,7 +100,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Error creating product:", error);
     return NextResponse.json(
-      { error: "Lỗi khi tạo sản phẩm" },
+      { error: "Lỗi khi tạo sản phẩm: " + (error instanceof Error ? error.message : "Unknown error") },
       { status: 500 }
     );
   }
@@ -83,7 +109,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const session = await auth();
-    
+
     if (!session?.user || !["ADMIN_SHOP", "SUPER_ADMIN"].includes(session.user.role || "")) {
       return NextResponse.json(
         { error: "Không có quyền truy cập" },
@@ -92,7 +118,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const data = await request.json();
-    
+
     const product = await prisma.product.update({
       where: { id: data.id },
       data: {
@@ -120,7 +146,7 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     const session = await auth();
-    
+
     if (!session?.user || !["ADMIN_SHOP", "SUPER_ADMIN"].includes(session.user.role || "")) {
       return NextResponse.json(
         { error: "Không có quyền truy cập" },
