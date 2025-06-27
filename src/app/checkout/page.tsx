@@ -105,6 +105,7 @@ export default function CheckoutPage() {
           customerPhone: formData.phone,
           shippingAddress: formData.address,
           totalAmount: total,
+          paymentMethod: getPaymentMethodCode(formData.paymentMethod),
           items: cartItems.map(item => ({
             productId: `product-${item.id}`,
             quantity: item.quantity,

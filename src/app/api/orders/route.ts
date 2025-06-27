@@ -73,6 +73,7 @@ export async function POST(request: NextRequest) {
         customerPhone: data.customerPhone,
         customerAddress: data.shippingAddress,
         totalAmount: data.totalAmount,
+        paymentMethod: data.paymentMethod || "CASH",
         status: "PENDING",
         orderItems: {
           create: data.items.map((item: any) => ({
