@@ -17,6 +17,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { SearchDialog } from "@/components/search";
+import { TikTokEmbed } from "@/components/ui/tiktok-embed";
 
 export default function Home() {
   return (

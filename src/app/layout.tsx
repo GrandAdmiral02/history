@@ -38,7 +38,7 @@ export default async function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
         </SessionProvider>
-        <script async src="https://www.tiktok.com/embed.js"></script>
+        <script async src="https://www.tiktok.com/embed.js"></script>mbed.js"></script>
       </body>
     </html>
   );
