@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -49,57 +50,82 @@ const categories = [
 ];
 
 export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProductFormProps) {
-  const [formData, setFormData] = useState<Product>({
+  const [formData, setFormData] = useState({
     name: "",
     description: "",
-    price: 0,
-    originalPrice: 0,
+    price: "",
+    originalPrice: "",
     image: "",
     category: "",
-    stock: 0,
+    stock: "",
     discount: "",
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  // Reset form data khi product thay đổi
+  // Reset form data khi product thay đổi hoặc dialog mở/đóng
   useEffect(() => {
-    if (product) {
-      setFormData({
-        name: product.name || "",
-        description: product.description || "",
-        price: product.price || 0,
-        originalPrice: product.originalPrice || 0,
-        image: product.image || "",
-        category: product.category || "",
-        stock: product.stock || 0,
-        discount: product.discount || "",
-      });
-    } else {
-      setFormData({
-        name: "",
-        description: "",
-        price: 0,
-        originalPrice: 0,
-        image: "",
-        category: "",
-        stock: 0,
-        discount: "",
-      });
+    if (isOpen) {
+      if (product) {
+        setFormData({
+          name: product.name || "",
+          description: product.description || "",
+          price: product.price?.toString() || "",
+          originalPrice: product.originalPrice?.toString() || "",
+          image: product.image || "",
+          category: product.category || "",
+          stock: product.stock?.toString() || "",
+          discount: product.discount || "",
+        });
+      } else {
+        setFormData({
+          name: "",
+          description: "",
+          price: "",
+          originalPrice: "",
+          image: "",
+          category: "",
+          stock: "",
+          discount: "",
+        });
+      }
     }
   }, [product, isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newErrors: { [key: string]: string } = {};
-
-    if (!formData.name.trim()) newErrors.name = "Vui lòng nhập tên sản phẩm";
-    if (!formData.price || formData.price <= 0) newErrors.price = "Vui lòng nhập giá hợp lệ";
-    if (!formData.category.trim()) newErrors.category = "Vui lòng chọn danh mục";
-    if (formData.stock < 0) {
-      newErrors.stock = "Số lượng tồn kho phải là số không âm";
+    
+    // Validation
+    const errors: string[] = [];
+    
+    if (!formData.name.trim()) {
+      errors.push("Vui lòng nhập tên sản phẩm");
+    }
+    
+    if (!formData.description.trim()) {
+      errors.push("Vui lòng nhập mô tả sản phẩm");
+    }
+    
+    const price = parseFloat(formData.price);
+    if (!formData.price || isNaN(price) || price <= 0) {
+      errors.push("Vui lòng nhập giá bán hợp lệ");
+    }
+    
+    if (!formData.category) {
+      errors.push("Vui lòng chọn danh mục");
+    }
+    
+    const stock = parseInt(formData.stock);
+    if (!formData.stock || isNaN(stock) || stock < 0) {
+      errors.push("Vui lòng nhập số lượng tồn kho hợp lệ");
+    }
+    
+    const originalPrice = formData.originalPrice ? parseFloat(formData.originalPrice) : null;
+    if (formData.originalPrice && (isNaN(originalPrice!) || originalPrice! <= 0)) {
+      errors.push("Giá gốc phải là số dương");
     }
 
-    if (Object.keys(newErrors).length > 0) {
+    if (errors.length > 0) {
+      toast.error(errors[0]);
       return;
     }
 
@@ -113,18 +139,20 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
       const requestBody = {
         name: formData.name.trim(),
         description: formData.description.trim(),
-        price: formData.price,
-        originalPrice: formData.originalPrice || null,
-        category: formData.category.trim(),
+        price: parseFloat(formData.price),
+        originalPrice: originalPrice,
+        category: formData.category,
         image: formData.image.trim() || "/placeholder.jpg",
-        stock: formData.stock,
+        stock: parseInt(formData.stock),
         discount: formData.discount.trim() || null,
       };
 
       // Nếu đang sửa, thêm ID vào body
-      if (isEditing) {
-        requestBody.id = product.id;
+      if (isEditing && product?.id) {
+        (requestBody as any).id = product.id;
       }
+
+      console.log("Sending request:", { method, url, body: requestBody });
 
       const response = await fetch(url, {
         method,
@@ -135,26 +163,20 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
       });
 
       const result = await response.json();
+      console.log("Response:", { status: response.status, data: result });
 
       if (!response.ok) {
         throw new Error(result.error || `Không thể ${isEditing ? 'cập nhật' : 'thêm'} sản phẩm`);
       }
 
-      onSave();
+      // Gọi onSave để refresh danh sách
+      await onSave();
+      
       toast.success(`${isEditing ? 'Cập nhật' : 'Thêm'} sản phẩm thành công!`);
 
-      // Reset form
-      setFormData({
-        name: "",
-        description: "",
-        price: 0,
-        originalPrice: 0,
-        image: "",
-        category: "",
-        stock: 0,
-        discount: "",
-      });
+      // Đóng dialog
       onClose();
+      
     } catch (error) {
       console.error("Error saving product:", error);
       toast.error(error instanceof Error ? error.message : `Đã có lỗi xảy ra khi ${product?.id ? 'cập nhật' : 'thêm'} sản phẩm`);
@@ -163,9 +185,24 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
     }
   };
 
+  const handleClose = () => {
+    // Reset form khi đóng
+    setFormData({
+      name: "",
+      description: "",
+      price: "",
+      originalPrice: "",
+      image: "",
+      category: "",
+      stock: "",
+      discount: "",
+    });
+    onClose();
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
             {product ? "Sửa sản phẩm" : "Thêm sản phẩm mới"}
@@ -177,51 +214,60 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
 
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <Label htmlFor="name">Tên sản phẩm</Label>
+            <Label htmlFor="name">Tên sản phẩm *</Label>
             <Input
               id="name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              required
+              placeholder="Nhập tên sản phẩm"
             />
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="description">Mô tả</Label>
+            <Label htmlFor="description">Mô tả *</Label>
             <Textarea
               id="description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              required
+              placeholder="Nhập mô tả sản phẩm"
+              rows={3}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="price">Giá bán</Label>
+              <Label htmlFor="price">Giá bán (VNĐ) *</Label>
               <Input
                 id="price"
                 type="number"
-                value={formData.price || ""}
-                onChange={(e) => setFormData({ ...formData, price: e.target.value ? parseFloat(e.target.value) : 0 })}
-                required
+                min="0"
+                step="1000"
+                value={formData.price}
+                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                placeholder="0"
               />
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="originalPrice">Giá gốc</Label>
+              <Label htmlFor="originalPrice">Giá gốc (VNĐ)</Label>
               <Input
                 id="originalPrice"
                 type="number"
-                value={formData.originalPrice || ""}
-                onChange={(e) => setFormData({ ...formData, originalPrice: e.target.value ? parseFloat(e.target.value) : 0 })}
+                min="0"
+                step="1000"
+                value={formData.originalPrice}
+                onChange={(e) => setFormData({ ...formData, originalPrice: e.target.value })}
+                placeholder="0"
               />
             </div>
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="category">Danh mục</Label>
-            <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+            <Label htmlFor="category">Danh mục *</Label>
+            <Select 
+              value={formData.category} 
+              onValueChange={(value) => setFormData({ ...formData, category: value })}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Chọn danh mục" />
               </SelectTrigger>
@@ -237,18 +283,19 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
 
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="stock">Số lượng</Label>
+              <Label htmlFor="stock">Số lượng tồn kho *</Label>
               <Input
                 id="stock"
                 type="number"
-                value={formData.stock || ""}
-                onChange={(e) => setFormData({ ...formData, stock: e.target.value ? parseInt(e.target.value) : 0 })}
-                required
+                min="0"
+                value={formData.stock}
+                onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                placeholder="0"
               />
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="discount">Giảm giá (%)</Label>
+              <Label htmlFor="discount">Giảm giá</Label>
               <Input
                 id="discount"
                 value={formData.discount}
@@ -265,12 +312,12 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
               type="url"
               value={formData.image}
               onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-              placeholder="https://..."
+              placeholder="https://example.com/image.jpg"
             />
           </div>
 
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose}>
+          <DialogFooter className="gap-2">
+            <Button type="button" variant="outline" onClick={handleClose} disabled={isLoading}>
               Hủy
             </Button>
             <Button type="submit" disabled={isLoading}>
