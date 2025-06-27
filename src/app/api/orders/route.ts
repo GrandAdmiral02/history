@@ -1,3 +1,4 @@
+
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { auth } from "@/lib/auth/auth";
@@ -8,7 +9,7 @@ export async function GET() {
   try {
     const session = await auth();
 
-    if (!session?.user || !["ADMIN_PRODUCT", "SUPER_ADMIN"].includes(session.user.role || "")) {
+    if (!session?.user || !["ADMIN_TOUR", "ADMIN_PRODUCT", "SUPER_ADMIN"].includes(session.user.role || "")) {
       return NextResponse.json(
         { error: "Không có quyền truy cập" },
         { status: 403 }
@@ -17,21 +18,23 @@ export async function GET() {
 
     const orders = await prisma.order.findMany({
       include: {
-        user: {
-          select: {
-            name: true,
-            email: true,
-          },
-        },
         orderItems: {
           include: {
             product: {
               select: {
                 name: true,
-                price: true,
                 image: true,
               },
             },
+          },
+        },
+        payments: {
+          select: {
+            id: true,
+            amount: true,
+            paymentMethod: true,
+            status: true,
+            createdAt: true,
           },
         },
       },
@@ -52,54 +55,54 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth();
+    const data = await request.json();
 
-    if (!session?.user || !["ADMIN_PRODUCT", "SUPER_ADMIN"].includes(session.user.role || "")) {
+    // Validate required fields
+    if (!data.customerName || !data.customerEmail || !data.customerPhone || !data.shippingAddress || !data.items) {
       return NextResponse.json(
-        { error: "Không có quyền truy cập" },
-        { status: 403 }
+        { error: "Thiếu thông tin bắt buộc" },
+        { status: 400 }
       );
     }
 
-    const data = await request.json();
-
+    // Create order with items
     const order = await prisma.order.create({
       data: {
-        userId: data.userId,
-        totalAmount: data.totalAmount,
-        status: data.status || "PENDING",
+        customerName: data.customerName,
+        customerEmail: data.customerEmail,
+        customerPhone: data.customerPhone,
         shippingAddress: data.shippingAddress,
-        paymentMethod: data.paymentMethod,
+        totalAmount: data.totalAmount,
+        status: "PENDING",
         orderItems: {
           create: data.items.map((item: any) => ({
-            productId: item.productId,
             quantity: item.quantity,
             price: item.price,
+            product: {
+              connectOrCreate: {
+                where: { id: item.productId },
+                create: {
+                  name: `Sản phẩm ${item.productId}`,
+                  description: "",
+                  price: item.price,
+                  stock: 100,
+                  category: "OTHER",
+                },
+              },
+            },
           })),
         },
       },
       include: {
-        user: {
-          select: {
-            name: true,
-            email: true,
-          },
-        },
         orderItems: {
           include: {
-            product: {
-              select: {
-                name: true,
-                price: true,
-                image: true,
-              },
-            },
+            product: true,
           },
         },
       },
     });
 
-    return NextResponse.json(order);
+    return NextResponse.json(order, { status: 201 });
   } catch (error) {
     console.error("Error creating order:", error);
     return NextResponse.json(
