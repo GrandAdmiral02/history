@@ -69,11 +69,11 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
         setFormData({
           name: product.name || "",
           description: product.description || "",
-          price: product.price?.toString() || "",
-          originalPrice: product.originalPrice?.toString() || "",
+          price: product.price ? product.price.toString() : "",
+          originalPrice: product.originalPrice ? product.originalPrice.toString() : "",
           image: product.image || "",
           category: product.category || "",
-          stock: product.stock?.toString() || "",
+          stock: product.stock ? product.stock.toString() : "",
           discount: product.discount || "",
         });
       } else {
@@ -105,7 +105,7 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
       errors.push("Vui lòng nhập mô tả sản phẩm");
     }
     
-    const price = parseFloat(formData.price);
+    const price = formData.price ? parseFloat(formData.price) : 0;
     if (!formData.price || isNaN(price) || price <= 0) {
       errors.push("Vui lòng nhập giá bán hợp lệ");
     }
@@ -114,7 +114,7 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
       errors.push("Vui lòng chọn danh mục");
     }
     
-    const stock = parseInt(formData.stock);
+    const stock = formData.stock ? parseInt(formData.stock) : 0;
     if (!formData.stock || isNaN(stock) || stock < 0) {
       errors.push("Vui lòng nhập số lượng tồn kho hợp lệ");
     }
@@ -139,11 +139,11 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
       const requestBody = {
         name: formData.name.trim(),
         description: formData.description.trim(),
-        price: parseFloat(formData.price),
+        price: price,
         originalPrice: originalPrice,
         category: formData.category,
         image: formData.image.trim() || "/placeholder.jpg",
-        stock: parseInt(formData.stock),
+        stock: stock,
         discount: formData.discount.trim() || null,
       };
 
