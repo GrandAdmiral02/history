@@ -127,7 +127,6 @@ export default function CheckoutPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: session?.user?.id || null,
           orderId: order.id,
           amount: total,
           paymentMethod: getPaymentMethodCode(formData.paymentMethod),

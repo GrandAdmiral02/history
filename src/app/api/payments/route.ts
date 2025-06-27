@@ -17,12 +17,6 @@ export async function GET() {
 
     const payments = await prisma.payment.findMany({
       include: {
-        user: {
-          select: {
-            name: true,
-            email: true,
-          },
-        },
         booking: {
           select: {
             id: true,
@@ -78,7 +72,6 @@ export async function POST(request: NextRequest) {
 
     const payment = await prisma.payment.create({
       data: {
-        userId: data.userId,
         amount: data.amount,
         paymentMethod: data.paymentMethod,
         status: data.status || "PENDING",
@@ -87,12 +80,6 @@ export async function POST(request: NextRequest) {
         orderId: data.orderId || null,
       },
       include: {
-        user: {
-          select: {
-            name: true,
-            email: true,
-          },
-        },
         booking: {
           select: {
             id: true,
