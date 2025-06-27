@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
-import { ShoppingCart, Star, Heart, Filter, X, Plus, Minus, Edit, Trash2, Package } from "lucide-react";
+import { ShoppingCart, Star, Heart, Filter, X, Plus, Minus, Edit, Trash2, Package, CreditCard } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
@@ -183,16 +183,9 @@ export default function ShopPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Package className="h-5 w-5 text-blue-600" />
-              <span className="font-medium text-blue-800">Chế độ quản lý cửa hàng</span>
+              <span className="font-medium text-blue-800">Quản lý cửa hàng</span>
             </div>
-            <div className="flex gap-2">
-              <Button
-                variant={adminMode ? "default" : "outline"}
-                size="sm"
-                onClick={() => setAdminMode(!adminMode)}
-              >
-                {adminMode ? "Tắt chế độ admin" : "Bật chế độ admin"}
-              </Button>
+            <div className="flex gap-2 flex-wrap">
               <Button
                 onClick={() => {
                   setEditingProduct(null);
@@ -204,6 +197,25 @@ export default function ShopPage() {
                 <Plus className="h-4 w-4 mr-1" />
                 Thêm sản phẩm
               </Button>
+              <Button
+                variant={adminMode ? "default" : "outline"}
+                size="sm"
+                onClick={() => setAdminMode(!adminMode)}
+              >
+                {adminMode ? "Ẩn nút chỉnh sửa" : "Hiện nút chỉnh sửa"}
+              </Button>
+              <Link href="/admin/orders">
+                <Button variant="outline" size="sm">
+                  <ShoppingCart className="h-4 w-4 mr-1" />
+                  Quản lý đơn hàng
+                </Button>
+              </Link>
+              <Link href="/admin/payments">
+                <Button variant="outline" size="sm">
+                  <CreditCard className="h-4 w-4 mr-1" />
+                  Quản lý thanh toán
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
