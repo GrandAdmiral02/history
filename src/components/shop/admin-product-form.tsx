@@ -21,7 +21,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import { Upload, Image as ImageIcon, DollarSign, Package, Tag, Star, Info } from "lucide-react";
 
 interface Product {
   id?: string;
@@ -43,10 +47,10 @@ interface AdminProductFormProps {
 }
 
 const categories = [
-  "Đặc sản",
-  "Lưu niệm",
-  "Thời trang",
-  "Khác"
+  { value: "Đặc sản", label: "Đặc sản", description: "Món ăn đặc trưng của vùng" },
+  { value: "Lưu niệm", label: "Lưu niệm", description: "Vật phẩm kỷ niệm" },
+  { value: "Thời trang", label: "Thời trang", description: "Quần áo, phụ kiện" },
+  { value: "Khác", label: "Khác", description: "Sản phẩm khác" }
 ];
 
 export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProductFormProps) {
@@ -61,12 +65,14 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
     discount: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   // Reset form data khi product thay đổi hoặc dialog mở/đóng
   useEffect(() => {
     if (isOpen) {
       if (product) {
-        setFormData({
+        const newFormData = {
           name: product.name || "",
           description: product.description || "",
           price: product.price ? product.price.toString() : "",
@@ -75,9 +81,11 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
           category: product.category || "",
           stock: product.stock ? product.stock.toString() : "",
           discount: product.discount || "",
-        });
+        };
+        setFormData(newFormData);
+        setPreviewImage(product.image || null);
       } else {
-        setFormData({
+        const emptyFormData = {
           name: "",
           description: "",
           price: "",
@@ -86,46 +94,94 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
           category: "",
           stock: "",
           discount: "",
-        });
+        };
+        setFormData(emptyFormData);
+        setPreviewImage(null);
       }
+      setErrors({});
     }
   }, [product, isOpen]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validation
-    const errors: string[] = [];
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
     
     if (!formData.name.trim()) {
-      errors.push("Vui lòng nhập tên sản phẩm");
+      newErrors.name = "Tên sản phẩm là bắt buộc";
+    } else if (formData.name.length < 3) {
+      newErrors.name = "Tên sản phẩm phải có ít nhất 3 ký tự";
     }
     
     if (!formData.description.trim()) {
-      errors.push("Vui lòng nhập mô tả sản phẩm");
+      newErrors.description = "Mô tả sản phẩm là bắt buộc";
+    } else if (formData.description.length < 10) {
+      newErrors.description = "Mô tả phải có ít nhất 10 ký tự";
     }
     
     const price = formData.price ? parseFloat(formData.price) : 0;
     if (!formData.price || isNaN(price) || price <= 0) {
-      errors.push("Vui lòng nhập giá bán hợp lệ");
+      newErrors.price = "Giá bán phải là số dương";
+    } else if (price < 1000) {
+      newErrors.price = "Giá bán phải ít nhất 1,000 VNĐ";
     }
     
     if (!formData.category) {
-      errors.push("Vui lòng chọn danh mục");
+      newErrors.category = "Vui lòng chọn danh mục";
     }
     
     const stock = formData.stock ? parseInt(formData.stock) : 0;
     if (!formData.stock || isNaN(stock) || stock < 0) {
-      errors.push("Vui lòng nhập số lượng tồn kho hợp lệ");
+      newErrors.stock = "Số lượng tồn kho phải là số không âm";
     }
     
     const originalPrice = formData.originalPrice ? parseFloat(formData.originalPrice) : null;
     if (formData.originalPrice && (isNaN(originalPrice!) || originalPrice! <= 0)) {
-      errors.push("Giá gốc phải là số dương");
+      newErrors.originalPrice = "Giá gốc phải là số dương";
     }
 
-    if (errors.length > 0) {
-      toast.error(errors[0]);
+    if (originalPrice && originalPrice <= price) {
+      newErrors.originalPrice = "Giá gốc phải lớn hơn giá bán";
+    }
+
+    if (formData.image && !isValidUrl(formData.image)) {
+      newErrors.image = "URL hình ảnh không hợp lệ";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const isValidUrl = (string: string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
+  const handleImageChange = (url: string) => {
+    setFormData({ ...formData, image: url });
+    if (url && isValidUrl(url)) {
+      setPreviewImage(url);
+    } else {
+      setPreviewImage(null);
+    }
+  };
+
+  const calculateDiscount = () => {
+    const price = parseFloat(formData.price) || 0;
+    const originalPrice = parseFloat(formData.originalPrice) || 0;
+    if (price > 0 && originalPrice > price) {
+      return Math.round(((originalPrice - price) / originalPrice) * 100);
+    }
+    return 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      toast.error("Vui lòng kiểm tra lại thông tin đã nhập");
       return;
     }
 
@@ -135,6 +191,10 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
       const isEditing = !!product?.id;
       const url = isEditing ? `/api/products/${product.id}` : "/api/products";
       const method = isEditing ? "PUT" : "POST";
+
+      const price = parseFloat(formData.price);
+      const originalPrice = formData.originalPrice ? parseFloat(formData.originalPrice) : null;
+      const stock = parseInt(formData.stock);
 
       const requestBody = {
         name: formData.name.trim(),
@@ -147,7 +207,6 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
         discount: formData.discount.trim() || null,
       };
 
-      // Nếu đang sửa, thêm ID vào body
       if (isEditing && product?.id) {
         (requestBody as any).id = product.id;
       }
@@ -169,12 +228,8 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
         throw new Error(result.error || `Không thể ${isEditing ? 'cập nhật' : 'thêm'} sản phẩm`);
       }
 
-      // Gọi onSave để refresh danh sách
       await onSave();
-      
       toast.success(`${isEditing ? 'Cập nhật' : 'Thêm'} sản phẩm thành công!`);
-
-      // Đóng dialog
       onClose();
       
     } catch (error) {
@@ -186,7 +241,6 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
   };
 
   const handleClose = () => {
-    // Reset form khi đóng
     setFormData({
       name: "",
       description: "",
@@ -197,131 +251,246 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
       stock: "",
       discount: "",
     });
+    setErrors({});
+    setPreviewImage(null);
     onClose();
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="flex items-center gap-2 text-xl">
+            <Package className="h-5 w-5" />
             {product ? "Sửa sản phẩm" : "Thêm sản phẩm mới"}
           </DialogTitle>
           <DialogDescription>
-            {product ? "Cập nhật thông tin sản phẩm" : "Điền thông tin sản phẩm mới"}
+            {product ? "Cập nhật thông tin sản phẩm" : "Điền thông tin sản phẩm mới vào form bên dưới"}
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="grid gap-4 py-4">
-          <div className="grid gap-2">
-            <Label htmlFor="name">Tên sản phẩm *</Label>
-            <Input
-              id="name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="Nhập tên sản phẩm"
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Basic Information */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Info className="h-4 w-4" />
+                Thông tin cơ bản
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="name" className="text-sm font-medium">
+                  Tên sản phẩm *
+                </Label>
+                <Input
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="Nhập tên sản phẩm"
+                  className={errors.name ? "border-red-500" : ""}
+                />
+                {errors.name && <p className="text-sm text-red-500 mt-1">{errors.name}</p>}
+              </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="description">Mô tả *</Label>
-            <Textarea
-              id="description"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              placeholder="Nhập mô tả sản phẩm"
-              rows={3}
-            />
-          </div>
+              <div>
+                <Label htmlFor="description" className="text-sm font-medium">
+                  Mô tả sản phẩm *
+                </Label>
+                <Textarea
+                  id="description"
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  placeholder="Nhập mô tả chi tiết về sản phẩm"
+                  rows={4}
+                  className={errors.description ? "border-red-500" : ""}
+                />
+                {errors.description && <p className="text-sm text-red-500 mt-1">{errors.description}</p>}
+                <p className="text-xs text-gray-500 mt-1">
+                  {formData.description.length}/500 ký tự
+                </p>
+              </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="price">Giá bán (VNĐ) *</Label>
-              <Input
-                id="price"
-                type="number"
-                min="0"
-                step="1000"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                placeholder="0"
-              />
-            </div>
+              <div>
+                <Label htmlFor="category" className="text-sm font-medium">
+                  Danh mục *
+                </Label>
+                <Select 
+                  value={formData.category} 
+                  onValueChange={(value) => setFormData({ ...formData, category: value })}
+                >
+                  <SelectTrigger className={errors.category ? "border-red-500" : ""}>
+                    <SelectValue placeholder="Chọn danh mục sản phẩm" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((category) => (
+                      <SelectItem key={category.value} value={category.value}>
+                        <div>
+                          <div className="font-medium">{category.label}</div>
+                          <div className="text-sm text-gray-500">{category.description}</div>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.category && <p className="text-sm text-red-500 mt-1">{errors.category}</p>}
+              </div>
+            </CardContent>
+          </Card>
 
-            <div className="grid gap-2">
-              <Label htmlFor="originalPrice">Giá gốc (VNĐ)</Label>
-              <Input
-                id="originalPrice"
-                type="number"
-                min="0"
-                step="1000"
-                value={formData.originalPrice}
-                onChange={(e) => setFormData({ ...formData, originalPrice: e.target.value })}
-                placeholder="0"
-              />
-            </div>
-          </div>
+          {/* Pricing */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <DollarSign className="h-4 w-4" />
+                Thông tin giá
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="price" className="text-sm font-medium">
+                    Giá bán (VNĐ) *
+                  </Label>
+                  <Input
+                    id="price"
+                    type="number"
+                    min="0"
+                    step="1000"
+                    value={formData.price}
+                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                    placeholder="0"
+                    className={errors.price ? "border-red-500" : ""}
+                  />
+                  {errors.price && <p className="text-sm text-red-500 mt-1">{errors.price}</p>}
+                </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="category">Danh mục *</Label>
-            <Select 
-              value={formData.category} 
-              onValueChange={(value) => setFormData({ ...formData, category: value })}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Chọn danh mục" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+                <div>
+                  <Label htmlFor="originalPrice" className="text-sm font-medium">
+                    Giá gốc (VNĐ)
+                  </Label>
+                  <Input
+                    id="originalPrice"
+                    type="number"
+                    min="0"
+                    step="1000"
+                    value={formData.originalPrice}
+                    onChange={(e) => setFormData({ ...formData, originalPrice: e.target.value })}
+                    placeholder="0"
+                    className={errors.originalPrice ? "border-red-500" : ""}
+                  />
+                  {errors.originalPrice && <p className="text-sm text-red-500 mt-1">{errors.originalPrice}</p>}
+                </div>
+              </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="stock">Số lượng tồn kho *</Label>
-              <Input
-                id="stock"
-                type="number"
-                min="0"
-                value={formData.stock}
-                onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
-                placeholder="0"
-              />
-            </div>
+              {calculateDiscount() > 0 && (
+                <div className="flex items-center gap-2">
+                  <Badge variant="destructive" className="text-sm">
+                    Giảm {calculateDiscount()}%
+                  </Badge>
+                  <span className="text-sm text-gray-500">
+                    Tiết kiệm {new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format((parseFloat(formData.originalPrice) || 0) - (parseFloat(formData.price) || 0))}
+                  </span>
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-            <div className="grid gap-2">
-              <Label htmlFor="discount">Giảm giá</Label>
-              <Input
-                id="discount"
-                value={formData.discount}
-                onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
-                placeholder="VD: -50%"
-              />
-            </div>
-          </div>
+          {/* Inventory & Media */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Package className="h-4 w-4" />
+                Kho hàng & Hình ảnh
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="stock" className="text-sm font-medium">
+                    Số lượng tồn kho *
+                  </Label>
+                  <Input
+                    id="stock"
+                    type="number"
+                    min="0"
+                    value={formData.stock}
+                    onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                    placeholder="0"
+                    className={errors.stock ? "border-red-500" : ""}
+                  />
+                  {errors.stock && <p className="text-sm text-red-500 mt-1">{errors.stock}</p>}
+                </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="image">URL hình ảnh</Label>
-            <Input
-              id="image"
-              type="url"
-              value={formData.image}
-              onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-              placeholder="https://example.com/image.jpg"
-            />
-          </div>
+                <div>
+                  <Label htmlFor="discount" className="text-sm font-medium">
+                    Nhãn giảm giá
+                  </Label>
+                  <Input
+                    id="discount"
+                    value={formData.discount}
+                    onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
+                    placeholder="VD: HOT, SALE, NEW"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Nhãn hiển thị trên sản phẩm (tùy chọn)
+                  </p>
+                </div>
+              </div>
 
-          <DialogFooter className="gap-2">
+              <Separator />
+
+              <div>
+                <Label htmlFor="image" className="text-sm font-medium">
+                  URL hình ảnh
+                </Label>
+                <Input
+                  id="image"
+                  type="url"
+                  value={formData.image}
+                  onChange={(e) => handleImageChange(e.target.value)}
+                  placeholder="https://example.com/image.jpg"
+                  className={errors.image ? "border-red-500" : ""}
+                />
+                {errors.image && <p className="text-sm text-red-500 mt-1">{errors.image}</p>}
+                <p className="text-xs text-gray-500 mt-1">
+                  Nhập URL hình ảnh hoặc để trống để sử dụng hình mặc định
+                </p>
+              </div>
+
+              {/* Image Preview */}
+              {previewImage && (
+                <div className="mt-4">
+                  <Label className="text-sm font-medium">Xem trước hình ảnh</Label>
+                  <div className="mt-2 relative w-32 h-32 border border-gray-200 rounded-lg overflow-hidden">
+                    <img
+                      src={previewImage}
+                      alt="Preview"
+                      className="w-full h-full object-cover"
+                      onError={() => setPreviewImage(null)}
+                    />
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <DialogFooter className="gap-2 pt-6">
             <Button type="button" variant="outline" onClick={handleClose} disabled={isLoading}>
               Hủy
             </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Đang lưu..." : product ? "Cập nhật" : "Thêm mới"}
+            <Button type="submit" disabled={isLoading} className="bg-green-600 hover:bg-green-700">
+              {isLoading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Đang lưu...
+                </>
+              ) : (
+                product ? "Cập nhật sản phẩm" : "Thêm sản phẩm"
+              )}
             </Button>
           </DialogFooter>
         </form>
