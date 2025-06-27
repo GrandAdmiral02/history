@@ -14,28 +14,36 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { toast } from "sonner";
 
-// Mẫu dữ liệu giỏ hàng (có thể thay bằng dữ liệu từ context hoặc API)
-const cartItems = [
-  {
-    id: 1,
-    name: "Kẹo Cu Đơ Nghệ An",
-    price: 150000,
-    quantity: 2,
-    image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=100&h=100&fit=crop",
-  },
-  {
-    id: 4,
-    name: "Áo thun in hình Bác Hồ",
-    price: 199000,
-    quantity: 1,
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=100&h=100&fit=crop",
-  },
-];
+// Lấy dữ liệu giỏ hàng từ localStorage hoặc context
+const getCartItems = () => {
+  if (typeof window !== 'undefined') {
+    const savedCart = localStorage.getItem('cart');
+    const savedProducts = localStorage.getItem('products');
+    
+    if (savedCart && savedProducts) {
+      const cart = JSON.parse(savedCart);
+      const products = JSON.parse(savedProducts);
+      
+      return Object.entries(cart).map(([productId, quantity]) => {
+        const product = products.find((p: any) => p.id === productId);
+        return product ? {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          quantity: quantity as number,
+          image: product.image
+        } : null;
+      }).filter(Boolean);
+    }
+  }
+  return [];
+};
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(false);
+  const [cartItems, setCartItems] = useState<any[]>([]);
   const [formData, setFormData] = useState({
     fullName: "",
     address: "",
@@ -44,6 +52,18 @@ export default function CheckoutPage() {
     paymentMethod: "cod",
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  // Load cart items on component mount
+  useEffect(() => {
+    const items = getCartItems();
+    setCartItems(items);
+    
+    // Redirect to shop if cart is empty
+    if (items.length === 0) {
+      router.push('/shop');
+      toast.error('Giỏ hàng trống');
+    }
+  }, [router]);
 
   // Tính tổng tiền
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -249,6 +269,9 @@ export default function CheckoutPage() {
         newWindow.document.close();
       }
 
+      // Clear cart after successful order
+      localStorage.removeItem('cart');
+      
       // Redirect về shop sau 2 giây
       setTimeout(() => {
         router.push("/shop");

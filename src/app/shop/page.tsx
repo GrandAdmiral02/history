@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -46,7 +45,7 @@ export default function ShopPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [cart, setCart] = useState<Record<string, number>>({});
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Admin states
   const [showAdminForm, setShowAdminForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -93,11 +92,17 @@ export default function ShopPage() {
   };
 
   const addToCart = (productId: string) => {
-    setCart((prev) => ({
-      ...prev,
-      [productId]: (prev[productId] || 0) + 1,
-    }));
-    toast.success("Đã thêm vào giỏ hàng!");
+    const newCart = {
+      ...cart,
+      [productId]: (cart[productId] || 0) + 1,
+    };
+    setCart(newCart);
+
+    // Save to localStorage
+    localStorage.setItem('cart', JSON.stringify(newCart));
+    localStorage.setItem('products', JSON.stringify(products));
+
+    toast.success("Đã thêm vào giỏ hàng");
   };
 
   const removeFromCart = (productId: string) => {
