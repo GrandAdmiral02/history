@@ -35,121 +35,169 @@ import {
   DollarSign,
   Download,
   ChevronRight,
+  ShoppingBag,
 } from "lucide-react";
 
-interface TourPayment {
+interface OrderPayment {
   id: string;
-  bookingId: string;
+  orderId: string;
   amount: number;
   paymentMethod: string;
   paymentStatus: string;
   transactionId?: string;
   createdAt: string;
-  booking: {
+  order: {
     id: string;
-    tourId: string;
-    departureDate: string;
-    participants: number;
+    customerName: string;
+    totalAmount: number;
     status: string;
-    tour: {
+    orderItems: {
       id: string;
-      name: string;
-    };
+      quantity: number;
+      price: number;
+      product: {
+        id: string;
+        name: string;
+        image?: string;
+      };
+    }[];
   };
 }
 
-interface PaymentListProps {
-  userId: string;
+interface ShopPaymentListProps {
+  userId?: string;
 }
 
-export function PaymentList({ userId }: PaymentListProps) {
+export function ShopPaymentList({ userId }: ShopPaymentListProps) {
   const router = useRouter();
-  const [payments, setPayments] = useState<TourPayment[]>([]);
+  const [payments, setPayments] = useState<OrderPayment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
 
   useEffect(() => {
-    const fetchTourPayments = async () => {
+    const fetchOrderPayments = async () => {
       try {
-        // Trong ứng dụng thực, chúng ta sẽ gọi API để lấy dữ liệu thanh toán tour
-        // const response = await fetch(`/api/payments/tours?userId=${userId}`);
+        // Trong ứng dụng thực, chúng ta sẽ gọi API để lấy dữ liệu thanh toán đơn hàng
+        // const response = await fetch(`/api/payments/orders?userId=${userId}`);
         // const data = await response.json();
         // setPayments(data.payments);
 
-        // Mock data cho demo - chỉ thanh toán tour
+        // Mock data cho demo - chỉ thanh toán đơn hàng shop
         await new Promise((resolve) => setTimeout(resolve, 1500));
         setPayments([
           {
-            id: "payment-tour-1",
-            bookingId: "booking-1",
-            amount: 2000000,
+            id: "payment-order-1",
+            orderId: "order-1",
+            amount: 450000,
             paymentMethod: "CREDIT_CARD",
             paymentStatus: "PAID",
-            transactionId: "tour_trx_12345678",
+            transactionId: "shop_trx_98765432",
             createdAt: new Date().toISOString(),
-            booking: {
-              id: "booking-1",
-              tourId: "tour-1",
-              departureDate: new Date().toISOString(),
-              participants: 2,
-              status: "CONFIRMED",
-              tour: {
-                id: "tour-1",
-                name: "Tour Khu di tích Kim Liên",
-              },
+            order: {
+              id: "order-1",
+              customerName: "Nguyễn Văn A",
+              totalAmount: 450000,
+              status: "DELIVERED",
+              orderItems: [
+                {
+                  id: "item-1",
+                  quantity: 2,
+                  price: 150000,
+                  product: {
+                    id: "product-1",
+                    name: "Áo thun truyền thống Nghệ An",
+                    image: "https://example.com/product1.jpg",
+                  },
+                },
+                {
+                  id: "item-2",
+                  quantity: 1,
+                  price: 150000,
+                  product: {
+                    id: "product-2",
+                    name: "Mũ lưỡi trai Bác Hồ",
+                    image: "https://example.com/product2.jpg",
+                  },
+                },
+              ],
             },
           },
           {
-            id: "payment-tour-2",
-            bookingId: "booking-2",
-            amount: 3000000,
-            paymentMethod: "CASH",
-            paymentStatus: "PENDING",
-            createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-            booking: {
-              id: "booking-2",
-              tourId: "tour-2",
-              departureDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-              participants: 3,
-              status: "PENDING",
-              tour: {
-                id: "tour-2",
-                name: "Tour Đền Cuông",
-              },
-            },
-          },
-          {
-            id: "payment-tour-3",
-            bookingId: "booking-3",
-            amount: 5000000,
+            id: "payment-order-2",
+            orderId: "order-2",
+            amount: 250000,
             paymentMethod: "E_WALLET",
+            paymentStatus: "PENDING",
+            transactionId: "momo_shop_11223344",
+            createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+            order: {
+              id: "order-2",
+              customerName: "Trần Thị B",
+              totalAmount: 250000,
+              status: "PROCESSING",
+              orderItems: [
+                {
+                  id: "item-3",
+                  quantity: 1,
+                  price: 250000,
+                  product: {
+                    id: "product-3",
+                    name: "Tranh thêu truyền thống",
+                    image: "https://example.com/product3.jpg",
+                  },
+                },
+              ],
+            },
+          },
+          {
+            id: "payment-order-3",
+            orderId: "order-3",
+            amount: 800000,
+            paymentMethod: "BANK_TRANSFER",
             paymentStatus: "PAID",
-            transactionId: "momo_tour_87654321",
-            createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-            booking: {
-              id: "booking-3",
-              tourId: "tour-3",
-              departureDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-              participants: 5,
-              status: "COMPLETED",
-              tour: {
-                id: "tour-3",
-                name: "Tour Hành trình về nguồn",
-              },
+            transactionId: "bank_shop_55667788",
+            createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+            order: {
+              id: "order-3",
+              customerName: "Lê Văn C",
+              totalAmount: 800000,
+              status: "DELIVERED",
+              orderItems: [
+                {
+                  id: "item-4",
+                  quantity: 2,
+                  price: 300000,
+                  product: {
+                    id: "product-4",
+                    name: "Gốm sứ thủ công Nghệ An",
+                    image: "https://example.com/product4.jpg",
+                  },
+                },
+                {
+                  id: "item-5",
+                  quantity: 1,
+                  price: 200000,
+                  product: {
+                    id: "product-5",
+                    name: "Lụa truyền thống",
+                    image: "https://example.com/product5.jpg",
+                  },
+                },
+              ],
             },
           },
         ]);
       } catch (err) {
-        console.error("Error fetching tour payments:", err);
-        setError("Không thể tải dữ liệu thanh toán tour");
+        console.error("Error fetching order payments:", err);
+        setError("Không thể tải dữ liệu thanh toán đơn hàng");
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchTourPayments();
+    fetchOrderPayments();
   }, [userId]);
 
   const filteredPayments = payments
@@ -164,7 +212,10 @@ export function PaymentList({ userId }: PaymentListProps) {
       if (!searchQuery) return true;
       const query = searchQuery.toLowerCase();
       return (
-        payment.booking.tour.name.toLowerCase().includes(query) ||
+        payment.order.customerName.toLowerCase().includes(query) ||
+        payment.order.orderItems.some(item => 
+          item.product.name.toLowerCase().includes(query)
+        ) ||
         (payment.transactionId && payment.transactionId.toLowerCase().includes(query))
       );
     });
@@ -193,7 +244,7 @@ export function PaymentList({ userId }: PaymentListProps) {
       case "BANK_TRANSFER":
         return "Chuyển khoản";
       case "CASH":
-        return "Tiền mặt";
+        return "Thanh toán khi nhận hàng";
       default:
         return method;
     }
@@ -241,8 +292,8 @@ export function PaymentList({ userId }: PaymentListProps) {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-12">
-        <Loader2 className="h-12 w-12 animate-spin text-green-700 mb-4" />
-        <p className="text-muted-foreground">Đang tải lịch sử thanh toán tour...</p>
+        <Loader2 className="h-12 w-12 animate-spin text-blue-700 mb-4" />
+        <p className="text-muted-foreground">Đang tải lịch sử thanh toán đơn hàng...</p>
       </div>
     );
   }
@@ -269,16 +320,16 @@ export function PaymentList({ userId }: PaymentListProps) {
   if (payments.length === 0) {
     return (
       <div className="bg-muted/30 border rounded-md p-12 text-center">
-        <CreditCard className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-        <h3 className="text-lg font-semibold mb-2">Chưa có giao dịch thanh toán tour nào</h3>
+        <ShoppingBag className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+        <h3 className="text-lg font-semibold mb-2">Chưa có giao dịch thanh toán đơn hàng nào</h3>
         <p className="text-muted-foreground mb-6">
-          Khi bạn đặt tour và thực hiện thanh toán, các giao dịch sẽ hiển thị ở đây
+          Khi bạn mua sản phẩm và thực hiện thanh toán, các giao dịch sẽ hiển thị ở đây
         </p>
         <Button
-          className="bg-green-700 hover:bg-green-800"
-          onClick={() => router.push("/historical-sites")}
+          className="bg-blue-700 hover:bg-blue-800"
+          onClick={() => router.push("/shop")}
         >
-          Khám phá các tour
+          Khám phá cửa hàng
         </Button>
       </div>
     );
@@ -290,7 +341,7 @@ export function PaymentList({ userId }: PaymentListProps) {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Tìm kiếm theo tên tour hoặc mã giao dịch"
+            placeholder="Tìm kiếm theo tên khách hàng, sản phẩm hoặc mã giao dịch"
             className="pl-10"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -312,16 +363,16 @@ export function PaymentList({ userId }: PaymentListProps) {
         <TabsContent value={activeTab}>
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle>Lịch sử thanh toán tour</CardTitle>
+              <CardTitle>Lịch sử thanh toán đơn hàng</CardTitle>
               <CardDescription>
-                Danh sách tất cả các giao dịch thanh toán tour du lịch của bạn
+                Danh sách tất cả các giao dịch thanh toán đơn hàng của bạn
               </CardDescription>
             </CardHeader>
             <CardContent>
               {filteredPayments.length === 0 ? (
                 <div className="text-center py-8">
                   <p className="text-muted-foreground">
-                    Không tìm thấy giao dịch thanh toán tour nào
+                    Không tìm thấy giao dịch thanh toán đơn hàng nào
                   </p>
                 </div>
               ) : (
@@ -329,7 +380,8 @@ export function PaymentList({ userId }: PaymentListProps) {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Thời gian</TableHead>
-                      <TableHead>Tour</TableHead>
+                      <TableHead>Khách hàng</TableHead>
+                      <TableHead>Sản phẩm</TableHead>
                       <TableHead>Phương thức</TableHead>
                       <TableHead>Mã giao dịch</TableHead>
                       <TableHead>Số tiền</TableHead>
@@ -352,13 +404,24 @@ export function PaymentList({ userId }: PaymentListProps) {
                         </TableCell>
                         <TableCell>
                           <Link
-                            href={`/dashboard/bookings/${payment.bookingId}`}
+                            href={`/admin/orders/${payment.orderId}`}
                             className="hover:underline font-medium"
                           >
-                            {payment.booking.tour.name}
+                            {payment.order.customerName}
                           </Link>
-                          <div className="text-xs text-muted-foreground">
-                            {payment.booking.participants} người
+                        </TableCell>
+                        <TableCell>
+                          <div className="space-y-1">
+                            {payment.order.orderItems.slice(0, 2).map((item) => (
+                              <div key={item.id} className="text-sm">
+                                {item.product.name} x{item.quantity}
+                              </div>
+                            ))}
+                            {payment.order.orderItems.length > 2 && (
+                              <div className="text-xs text-muted-foreground">
+                                +{payment.order.orderItems.length - 2} sản phẩm khác
+                              </div>
+                            )}
                           </div>
                         </TableCell>
                         <TableCell>
@@ -383,7 +446,7 @@ export function PaymentList({ userId }: PaymentListProps) {
                             variant="ghost"
                             size="sm"
                             className="h-8 w-8 p-0"
-                            onClick={() => router.push(`/dashboard/payments/${payment.id}`)}
+                            onClick={() => router.push(`/admin/payments/${payment.id}`)}
                           >
                             <span className="sr-only">Xem chi tiết</span>
                             <ChevronRight className="h-4 w-4" />
