@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
         customerName: data.customerName,
         customerEmail: data.customerEmail,
         customerPhone: data.customerPhone,
-        shippingAddress: data.shippingAddress,
+        customerAddress: data.shippingAddress,
         totalAmount: data.totalAmount,
         status: "PENDING",
         orderItems: {
