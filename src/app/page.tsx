@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/carousel";
 import { SearchDialog } from "@/components/search";
 import { TikTokEmbed } from "@/components/ui/tiktok-embed";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Home() {
   return (
@@ -294,7 +295,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Media Gallery */}
+      {/* Media Gallery with Tabs */}
       <section className="py-16 bg-muted/50">
         <div className="container">
           <div className="flex flex-col items-center text-center mb-12">
@@ -306,89 +307,92 @@ export default function Home() {
             </p>
           </div>
 
-          {/* YouTube Section */}
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-center mb-8 text-green-800">
-              Video YouTube
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-              <div className="aspect-video rounded-lg overflow-hidden">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://www.youtube.com/embed/uUXkdzWvrVE"
-                  title="Du lịch Nghệ An 1"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="w-full h-full"
-                ></iframe>
+          <Tabs defaultValue="youtube" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-8">
+              <TabsTrigger value="youtube" className="text-lg py-3">
+                📺 YouTube Videos
+              </TabsTrigger>
+              <TabsTrigger value="tiktok" className="text-lg py-3">
+                📱 TikTok Videos
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="youtube" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src="https://www.youtube.com/embed/uUXkdzWvrVE"
+                    title="Du lịch Nghệ An 1"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="w-full h-full"
+                  ></iframe>
+                </div>
+                <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src="https://www.youtube.com/embed/b0tCeCAjTVE"
+                    title="Du lịch Nghệ An 2"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="w-full h-full"
+                  ></iframe>
+                </div>
+                <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src="https://www.youtube.com/embed/ZBS7RuwgeRg"
+                    title="Du lịch Nghệ An 3"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="w-full h-full"
+                  ></iframe>
+                </div>
+                <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src="https://www.youtube.com/embed/VJe5CyJEVL4"
+                    title="Du lịch Nghệ An 4"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="w-full h-full"
+                  ></iframe>
+                </div>
               </div>
-              <div className="aspect-video rounded-lg overflow-hidden">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://www.youtube.com/embed/b0tCeCAjTVE"
-                  title="Du lịch Nghệ An 2"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="w-full h-full"
-                ></iframe>
+            </TabsContent>
+            
+            <TabsContent value="tiktok" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <TikTokEmbed 
+                  videoId="7271974233117445381"
+                  username="@lacavietnam1"
+                  caption="Phần 7| 📍Khu di tích lịch sử Truông Bồn #dulich #lacavietnam1 #quockhanh02thang09 #truongbonnghean #ditichlichsu #nghean"
+                  videoUrl="https://www.tiktok.com/@lacavietnam1/video/7271974233117445381"
+                />
+                <TikTokEmbed 
+                  videoId="7507089691112492296"
+                  username="@abogo.com"
+                  caption="Vẻ đẹp của Nghệ An tầm nhìn từ trên cao. Anh em 37 ơi. #abogodanang #abogo #dulich #viral #travel #bookingvilla #fyp"
+                  videoUrl="https://www.tiktok.com/@abogo.com/video/7507089691112492296"
+                />
+                <TikTokEmbed 
+                  videoId="7323564956945779986"
+                  username="@ngoavan83"
+                  caption="Mình Về thăm Làng Sen Quê Bác bao nhiêu lần rồi-Thật bồi hồi xúc động mỗi lần một cảm xúc khác nhau thật khó diễn tả..Có ai như mình ko? ... #langsenquebac #báchokinhyeu❤️❤️ #quêbacnghean #xuhuong #hochiminh #quebacho #nhasanbacho"
+                  videoUrl="https://www.tiktok.com/@ngoavan83/video/7323564956945779986"
+                />
               </div>
-              <div className="aspect-video rounded-lg overflow-hidden">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://www.youtube.com/embed/ZBS7RuwgeRg"
-                  title="Du lịch Nghệ An 3"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="w-full h-full"
-                ></iframe>
-              </div>
-              <div className="aspect-video rounded-lg overflow-hidden">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://www.youtube.com/embed/VJe5CyJEVL4"
-                  title="Du lịch Nghệ An 4"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="w-full h-full"
-                ></iframe>
-              </div>
-            </div>
-          </div>
-
-          {/* TikTok Section */}
-          <div>
-            <h3 className="text-2xl font-bold text-center mb-8 text-green-800">
-              Video TikTok
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <TikTokEmbed 
-                videoId="7271974233117445381"
-                username="@lacavietnam1"
-                caption="Phần 7| 📍Khu di tích lịch sử Truông Bồn #dulich #lacavietnam1 #quockhanh02thang09 #truongbonnghean #ditichlichsu #nghean"
-                videoUrl="https://www.tiktok.com/@lacavietnam1/video/7271974233117445381"
-              />
-              <TikTokEmbed 
-                videoId="7507089691112492296"
-                username="@abogo.com"
-                caption="Vẻ đẹp của Nghệ An tầm nhìn từ trên cao. Anh em 37 ơi. #abogodanang #abogo #dulich #viral #travel #bookingvilla #fyp"
-                videoUrl="https://www.tiktok.com/@abogo.com/video/7507089691112492296"
-              />
-              <TikTokEmbed 
-                videoId="7323564956945779986"
-                username="@ngoavan83"
-                caption="Mình Về thăm Làng Sen Quê Bác bao nhiêu lần rồi-Thật bồi hồi xúc động mỗi lần một cảm xúc khác nhau thật khó diễn tả..Có ai như mình ko? ... #langsenquebac #báchokinhyeu❤️❤️ #quêbacnghean #xuhuong #hochiminh #quebacho #nhasanbacho"
-                videoUrl="https://www.tiktok.com/@ngoavan83/video/7323564956945779986"
-              />
-            </div>
-          </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </section>
 
