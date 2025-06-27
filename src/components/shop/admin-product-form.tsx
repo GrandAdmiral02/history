@@ -202,8 +202,8 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
               <Input
                 id="price"
                 type="number"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+                value={formData.price || ""}
+                onChange={(e) => setFormData({ ...formData, price: e.target.value ? parseFloat(e.target.value) : 0 })}
                 required
               />
             </div>
@@ -213,8 +213,8 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
               <Input
                 id="originalPrice"
                 type="number"
-                value={formData.originalPrice}
-                onChange={(e) => setFormData({ ...formData, originalPrice: parseFloat(e.target.value) })}
+                value={formData.originalPrice || ""}
+                onChange={(e) => setFormData({ ...formData, originalPrice: e.target.value ? parseFloat(e.target.value) : 0 })}
               />
             </div>
           </div>
@@ -241,8 +241,8 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
               <Input
                 id="stock"
                 type="number"
-                value={formData.stock}
-                onChange={(e) => setFormData({ ...formData, stock: parseInt(e.target.value) })}
+                value={formData.stock || ""}
+                onChange={(e) => setFormData({ ...formData, stock: e.target.value ? parseInt(e.target.value) : 0 })}
                 required
               />
             </div>
