@@ -37,30 +37,10 @@ export default function Home() {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             Du Lịch Lịch Sử Nghệ An
           </h1>
-          <p className="text-lg md:text-xl max-w-2xl mb-8">
+          <p className="text-lg md:text-xl max-w-2xl">
             Khám phá những di tích lịch sử, văn hóa và danh thắng nổi tiếng của
             quê hương xứ Nghệ
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <Button
-              asChild
-              size="lg"
-              className="bg-green-700 hover:bg-green-800"
-            >
-              <Link href="/destinations">Khám Phá Ngay</Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="text-white border-white hover:bg-white/20"
-            >
-              <Link href="/about">Tìm Hiểu Thêm</Link>
-            </Button>
-          </div>
-          <div className="w-full max-w-md">
-            <SearchDialog />
-          </div>
         </div>
       </section>
 
