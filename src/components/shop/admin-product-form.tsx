@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -50,16 +50,43 @@ const categories = [
 
 export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProductFormProps) {
   const [formData, setFormData] = useState<Product>({
-    name: product?.name || "",
-    description: product?.description || "",
-    price: product?.price || 0,
-    originalPrice: product?.originalPrice || 0,
-    image: product?.image || "",
-    category: product?.category || "",
-    stock: product?.stock || 0,
-    discount: product?.discount || "",
+    name: "",
+    description: "",
+    price: 0,
+    originalPrice: 0,
+    image: "",
+    category: "",
+    stock: 0,
+    discount: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+
+  // Reset form data khi product thay đổi
+  useEffect(() => {
+    if (product) {
+      setFormData({
+        name: product.name || "",
+        description: product.description || "",
+        price: product.price || 0,
+        originalPrice: product.originalPrice || 0,
+        image: product.image || "",
+        category: product.category || "",
+        stock: product.stock || 0,
+        discount: product.discount || "",
+      });
+    } else {
+      setFormData({
+        name: "",
+        description: "",
+        price: 0,
+        originalPrice: 0,
+        image: "",
+        category: "",
+        stock: 0,
+        discount: "",
+      });
+    }
+  }, [product, isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,38 +100,48 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
     }
 
     if (Object.keys(newErrors).length > 0) {
-      //setErrors(newErrors);
       return;
     }
 
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/products", {
-        method: "POST",
+      const isEditing = !!product?.id;
+      const url = isEditing ? `/api/products/${product.id}` : "/api/products";
+      const method = isEditing ? "PUT" : "POST";
+
+      const requestBody = {
+        name: formData.name.trim(),
+        description: formData.description.trim(),
+        price: formData.price,
+        originalPrice: formData.originalPrice || null,
+        category: formData.category.trim(),
+        image: formData.image.trim() || "/placeholder.jpg",
+        stock: formData.stock,
+        discount: formData.discount.trim() || null,
+      };
+
+      // Nếu đang sửa, thêm ID vào body
+      if (isEditing) {
+        requestBody.id = product.id;
+      }
+
+      const response = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: formData.name.trim(),
-          description: formData.description.trim(),
-          price: formData.price,
-          originalPrice: formData.originalPrice || null,
-          category: formData.category.trim(),
-          image: formData.image.trim() || null,
-          stock: formData.stock,
-          discount: formData.discount.trim() || null,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Không thể thêm sản phẩm");
+        throw new Error(result.error || `Không thể ${isEditing ? 'cập nhật' : 'thêm'} sản phẩm`);
       }
 
       onSave();
-      toast.success("Thêm sản phẩm thành công!");
+      toast.success(`${isEditing ? 'Cập nhật' : 'Thêm'} sản phẩm thành công!`);
 
       // Reset form
       setFormData({
@@ -117,11 +154,10 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
         stock: 0,
         discount: "",
       });
-      //setErrors({});
       onClose();
     } catch (error) {
-      console.error("Error adding product:", error);
-      toast.error(error instanceof Error ? error.message : "Đã có lỗi xảy ra khi thêm sản phẩm");
+      console.error("Error saving product:", error);
+      toast.error(error instanceof Error ? error.message : `Đã có lỗi xảy ra khi ${product?.id ? 'cập nhật' : 'thêm'} sản phẩm`);
     } finally {
       setIsLoading(false);
     }
