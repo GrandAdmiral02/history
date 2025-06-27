@@ -15,9 +15,11 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
-import { ShoppingCart, Star, Heart, Filter, X, Plus, Minus } from "lucide-react";
+import { ShoppingCart, Star, Heart, Filter, X, Plus, Minus, Edit, Trash2, Package } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
+import { AdminProductForm } from "@/components/shop/admin-product-form";
 
 interface Product {
   id: string;
@@ -33,367 +35,403 @@ interface Product {
   stock: number;
 }
 
-interface CartItem extends Product {
-  quantity: number;
-}
-
-const categories = [
-  "Tất cả",
-  "Đặc sản",
-  "Lưu niệm",
-  "Thời trang",
-  "Sách",
-  "Khác"
-];
+const categories = ["Tất cả", "Đặc sản", "Lưu niệm", "Thời trang", "Khác"];
 
 export default function ShopPage() {
+  const { data: session } = useSession();
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("Tất cả");
-  const [priceRange, setPriceRange] = useState([0, 500000]);
-  const [sortBy, setSortBy] = useState("Mới nhất");
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [priceRange, setPriceRange] = useState([0, 1000000]);
+  const [showFilters, setShowFilters] = useState(false);
+  const [cart, setCart] = useState<Record<string, number>>({});
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Admin states
+  const [showAdminForm, setShowAdminForm] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [adminMode, setAdminMode] = useState(false);
 
-  // Load sản phẩm từ API
+  const isAdmin = session?.user?.role === "ADMIN_SHOP" || session?.user?.role === "SUPER_ADMIN";
+
   useEffect(() => {
     fetchProducts();
-  }, [selectedCategory, sortBy]);
-
-  // Load giỏ hàng từ localStorage
-  useEffect(() => {
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
-    }
   }, []);
 
-  // Lưu giỏ hàng vào localStorage
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
+    filterProducts();
+  }, [products, selectedCategory, priceRange]);
 
   const fetchProducts = async () => {
     try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (selectedCategory !== "Tất cả") {
-        params.append('category', selectedCategory);
-      }
-      
-      const response = await fetch(`/api/products?${params}`);
-      const data = await response.json();
-      
+      setIsLoading(true);
+      const response = await fetch("/api/products");
       if (response.ok) {
-        let sortedProducts = [...data.products];
-        
-        // Sắp xếp sản phẩm
-        if (sortBy === "Giá thấp đến cao") {
-          sortedProducts.sort((a, b) => a.price - b.price);
-        } else if (sortBy === "Giá cao đến thấp") {
-          sortedProducts.sort((a, b) => b.price - a.price);
-        } else if (sortBy === "Bán chạy nhất") {
-          sortedProducts.sort((a, b) => b.sold - a.sold);
-        } else if (sortBy === "Đánh giá cao nhất") {
-          sortedProducts.sort((a, b) => b.rating - a.rating);
-        }
-        
-        setProducts(sortedProducts);
-      } else {
-        toast.error("Không thể tải danh sách sản phẩm");
+        const data = await response.json();
+        setProducts(data);
       }
     } catch (error) {
       console.error("Error fetching products:", error);
-      toast.error("Đã xảy ra lỗi khi tải sản phẩm");
+      toast.error("Không thể tải danh sách sản phẩm");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.price >= priceRange[0] && product.price <= priceRange[1]
-  );
+  const filterProducts = () => {
+    let filtered = products;
 
-  const addToCart = (product: Product) => {
-    const existingItem = cart.find(item => item.id === product.id);
-    
-    if (existingItem) {
-      if (existingItem.quantity < product.stock) {
-        setCart(cart.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        ));
-        toast.success(`Đã thêm ${product.name} vào giỏ hàng`);
+    if (selectedCategory !== "Tất cả") {
+      filtered = filtered.filter((product) => product.category === selectedCategory);
+    }
+
+    filtered = filtered.filter(
+      (product) => product.price >= priceRange[0] && product.price <= priceRange[1]
+    );
+
+    setFilteredProducts(filtered);
+  };
+
+  const addToCart = (productId: string) => {
+    setCart((prev) => ({
+      ...prev,
+      [productId]: (prev[productId] || 0) + 1,
+    }));
+    toast.success("Đã thêm vào giỏ hàng!");
+  };
+
+  const removeFromCart = (productId: string) => {
+    setCart((prev) => {
+      const newCart = { ...prev };
+      if (newCart[productId] > 1) {
+        newCart[productId]--;
       } else {
-        toast.error("Không đủ hàng trong kho");
+        delete newCart[productId];
       }
-    } else {
-      if (product.stock > 0) {
-        setCart([...cart, { ...product, quantity: 1 }]);
-        toast.success(`Đã thêm ${product.name} vào giỏ hàng`);
+      return newCart;
+    });
+  };
+
+  const handleEditProduct = (product: Product) => {
+    setEditingProduct(product);
+    setShowAdminForm(true);
+  };
+
+  const handleDeleteProduct = async (productId: string) => {
+    if (!confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/products?id=${productId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        toast.success("Xóa sản phẩm thành công!");
+        fetchProducts();
       } else {
-        toast.error("Sản phẩm đã hết hàng");
+        throw new Error("Không thể xóa sản phẩm");
       }
+    } catch (error) {
+      toast.error("Có lỗi xảy ra khi xóa sản phẩm");
     }
   };
 
-  const getCartItemCount = () => {
-    return cart.reduce((total, item) => total + item.quantity, 0);
+  const handleFormClose = () => {
+    setShowAdminForm(false);
+    setEditingProduct(null);
   };
 
-  if (loading) {
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
+  };
+
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
-          <p>Đang tải sản phẩm...</p>
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex justify-center items-center min-h-[400px]">
+          <div className="text-lg">Đang tải sản phẩm...</div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-green-800 to-green-600 text-white py-16">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="max-w-3xl"
-          >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-              Cửa Hàng Lưu Niệm Xứ Nghệ
-            </h1>
-            <p className="text-xl text-green-100 mb-6">
-              Khám phá những món quà độc đáo mang đậm dấu ấn văn hóa và lịch sử
-              Nghệ An
-            </p>
-            <div className="flex gap-4 items-center">
+    <div className="container mx-auto px-4 py-8">
+      {/* Header */}
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold text-green-800 mb-4">
+          Cửa hàng lưu niệm Nghệ An
+        </h1>
+        <p className="text-gray-600 max-w-2xl mx-auto">
+          Khám phá những sản phẩm đặc biệt mang đậm văn hóa và lịch sử xứ Nghệ
+        </p>
+      </div>
+
+      {/* Admin Controls */}
+      {isAdmin && (
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Package className="h-5 w-5 text-blue-600" />
+              <span className="font-medium text-blue-800">Chế độ quản lý cửa hàng</span>
+            </div>
+            <div className="flex gap-2">
               <Button
-                size="lg"
-                className="bg-white text-green-800 hover:bg-gray-100"
+                variant={adminMode ? "default" : "outline"}
+                size="sm"
+                onClick={() => setAdminMode(!adminMode)}
               >
-                <ShoppingCart className="mr-2 h-5 w-5" />
-                Mua sắm ngay
+                {adminMode ? "Tắt chế độ admin" : "Bật chế độ admin"}
               </Button>
-              <Link href="/checkout">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-green-800 relative"
-                >
-                  <ShoppingCart className="mr-2 h-5 w-5" />
-                  Giỏ hàng ({getCartItemCount()})
-                </Button>
-              </Link>
+              <Button
+                onClick={() => {
+                  setEditingProduct(null);
+                  setShowAdminForm(true);
+                }}
+                size="sm"
+                className="bg-green-600 hover:bg-green-700"
+              >
+                <Plus className="h-4 w-4 mr-1" />
+                Thêm sản phẩm
+              </Button>
             </div>
-          </motion.div>
-        </div>
-      </div>
-
-      <div className="container py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Mobile Filter Toggle */}
-          <div className="lg:hidden mb-6">
-            <Button
-              variant="outline"
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className="w-full"
-            >
-              <Filter className="mr-2 h-4 w-4" />
-              {isFilterOpen ? "Đóng bộ lọc" : "Mở bộ lọc"}
-            </Button>
           </div>
+        </div>
+      )}
 
-          {/* Sidebar Filters */}
-          <AnimatePresence>
-            {(isFilterOpen || window.innerWidth >= 1024) && (
-              <motion.div
-                initial={{ x: -300, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -300, opacity: 0 }}
-                className="lg:col-span-1"
+      {/* Filters */}
+      <div className="mb-6">
+        <div className="flex flex-wrap gap-4 items-center justify-between">
+          <div className="flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={selectedCategory === category ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedCategory(category)}
+                className="mb-2"
               >
-                <div className="sticky top-24 space-y-6">
-                  <Card className="border-none shadow-lg">
-                    <CardHeader className="flex flex-row items-center justify-between">
-                      <CardTitle className="flex items-center gap-2">
-                        <Filter className="h-5 w-5" />
-                        Danh mục sản phẩm
-                      </CardTitle>
-                      {isFilterOpen && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setIsFilterOpen(false)}
-                        >
-                          <X className="h-4 w-4" />
-                        </Button>
-                      )}
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      {categories.map((category) => (
-                        <button
-                          key={category}
-                          onClick={() => setSelectedCategory(category)}
-                          className={`flex items-center justify-between w-full text-left p-2 rounded-md transition-colors ${
-                            selectedCategory === category
-                              ? "bg-green-100 text-green-800"
-                              : "hover:bg-green-50"
-                          }`}
-                        >
-                          <span className="text-sm font-medium">
-                            {category}
-                          </span>
-                        </button>
-                      ))}
-                    </CardContent>
-                  </Card>
+                {category}
+              </Button>
+            ))}
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowFilters(!showFilters)}
+            className="mb-2"
+          >
+            <Filter className="h-4 w-4 mr-2" />
+            Bộ lọc
+          </Button>
+        </div>
 
-                  <Card className="border-none shadow-lg">
-                    <CardHeader>
-                      <CardTitle>Khoảng giá</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <Slider
-                        value={priceRange}
-                        onValueChange={setPriceRange}
-                        max={500000}
-                        step={10000}
-                        className="py-2"
-                      />
-                      <div className="flex justify-between text-sm text-muted-foreground">
-                        <span>{priceRange[0].toLocaleString()}đ</span>
-                        <span>{priceRange[1].toLocaleString()}đ</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Products Grid */}
-          <div className="lg:col-span-3">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-semibold">
-                Sản phẩm ({filteredProducts.length})
-              </h2>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="border rounded-md px-4 py-2 text-sm bg-white shadow-sm focus:ring-2 focus:ring-green-500"
-              >
-                <option>Mới nhất</option>
-                <option>Giá thấp đến cao</option>
-                <option>Giá cao đến thấp</option>
-                <option>Bán chạy nhất</option>
-                <option>Đánh giá cao nhất</option>
-              </select>
-            </div>
-
+        <AnimatePresence>
+          {showFilters && (
             <motion.div
-              layout
-              className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mt-4 p-4 border rounded-lg bg-gray-50"
             >
-              <AnimatePresence>
-                {filteredProducts.map((product) => (
-                  <motion.div
-                    key={product.id}
-                    layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Card className="group overflow-hidden hover:shadow-xl transition-shadow duration-300 border-none">
-                      <div className="relative">
-                        <div className="aspect-square relative overflow-hidden">
-                          <Image
-                            src={product.image || "/placeholder-product.jpg"}
-                            alt={product.name}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                        {product.discount && (
-                          <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-600">
-                            -{product.discount}
-                          </Badge>
-                        )}
-                        {product.stock === 0 && (
-                          <Badge className="absolute top-2 right-2 bg-gray-500">
-                            Hết hàng
-                          </Badge>
-                        )}
-                      </div>
-                      <CardHeader className="pb-2">
-                        <div className="flex items-center gap-2 mb-1">
-                          <Badge variant="outline" className="text-xs">
-                            {product.category}
-                          </Badge>
-                        </div>
-                        <CardTitle className="text-lg line-clamp-1 hover:text-green-700 transition-colors">
-                          {product.name}
-                        </CardTitle>
-                        <CardDescription className="line-clamp-2 text-sm">
-                          {product.description}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="pb-2">
-                        <div className="flex items-center gap-2 mb-2">
-                          <div className="flex items-center gap-1">
-                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                            <span className="text-sm font-medium">
-                              {product.rating}
-                            </span>
-                          </div>
-                          <span className="text-xs text-muted-foreground">
-                            Đã bán {product.sold}
-                          </span>
-                          <span className="text-xs text-muted-foreground">
-                            Còn {product.stock}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg font-bold text-green-600">
-                            {product.price.toLocaleString()}đ
-                          </span>
-                          {product.originalPrice && (
-                            <span className="text-sm text-muted-foreground line-through">
-                              {product.originalPrice.toLocaleString()}đ
-                            </span>
-                          )}
-                        </div>
-                      </CardContent>
-                      <CardFooter>
-                        <Button 
-                          className="w-full bg-green-700 hover:bg-green-800"
-                          onClick={() => addToCart(product)}
-                          disabled={product.stock === 0}
-                        >
-                          <ShoppingCart className="mr-2 h-4 w-4" />
-                          {product.stock === 0 ? "Hết hàng" : "Thêm vào giỏ"}
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </motion.div>
-
-            {filteredProducts.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-gray-500">Không tìm thấy sản phẩm nào</p>
+              <div className="flex items-center gap-4">
+                <label className="text-sm font-medium">Khoảng giá:</label>
+                <div className="flex-1 max-w-xs">
+                  <Slider
+                    value={priceRange}
+                    onValueChange={setPriceRange}
+                    max={1000000}
+                    min={0}
+                    step={10000}
+                    className="w-full"
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>{formatPrice(priceRange[0])}</span>
+                    <span>{formatPrice(priceRange[1])}</span>
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowFilters(false)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
               </div>
-            )}
-          </div>
-        </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
+
+      {/* Products Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <AnimatePresence>
+          {filteredProducts.map((product) => (
+            <motion.div
+              key={product.id}
+              layout
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Card className="h-full flex flex-col hover:shadow-lg transition-shadow relative">
+                {/* Admin Controls Overlay */}
+                {isAdmin && adminMode && (
+                  <div className="absolute top-2 right-2 z-10 flex gap-1">
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => handleEditProduct(product)}
+                      className="h-8 w-8 p-0"
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => handleDeleteProduct(product.id)}
+                      className="h-8 w-8 p-0"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
+
+                <CardHeader className="pb-2">
+                  <div className="aspect-square relative mb-2 overflow-hidden rounded-lg">
+                    <Image
+                      src={product.image || "/placeholder.jpg"}
+                      alt={product.name}
+                      fill
+                      className="object-cover hover:scale-105 transition-transform"
+                    />
+                    {product.discount && (
+                      <Badge className="absolute top-2 left-2 bg-red-500">
+                        {product.discount}
+                      </Badge>
+                    )}
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="absolute top-2 right-2 h-8 w-8 p-0"
+                    >
+                      <Heart className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <CardTitle className="text-lg line-clamp-2">{product.name}</CardTitle>
+                  <Badge variant="secondary">{product.category}</Badge>
+                </CardHeader>
+
+                <CardContent className="flex-1">
+                  <CardDescription className="line-clamp-2 mb-2">
+                    {product.description}
+                  </CardDescription>
+                  <div className="flex items-center gap-1 mb-2">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`h-4 w-4 ${
+                          i < product.rating
+                            ? "fill-yellow-400 text-yellow-400"
+                            : "text-gray-300"
+                        }`}
+                      />
+                    ))}
+                    <span className="text-sm text-gray-500 ml-1">
+                      ({product.sold} đã bán)
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-lg font-bold text-green-600">
+                      {formatPrice(product.price)}
+                    </span>
+                    {product.originalPrice && (
+                      <span className="text-sm line-through text-gray-400">
+                        {formatPrice(product.originalPrice)}
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    Còn lại: {product.stock} sản phẩm
+                  </div>
+                </CardContent>
+
+                <CardFooter className="pt-2">
+                  <div className="flex gap-2 w-full">
+                    {cart[product.id] ? (
+                      <div className="flex items-center gap-2 flex-1">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => removeFromCart(product.id)}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                        <span className="text-sm font-medium px-2">
+                          {cart[product.id]}
+                        </span>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => addToCart(product.id)}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ) : (
+                      <Button
+                        className="flex-1"
+                        onClick={() => addToCart(product.id)}
+                        disabled={product.stock === 0}
+                      >
+                        <ShoppingCart className="h-4 w-4 mr-2" />
+                        {product.stock === 0 ? "Hết hàng" : "Thêm vào giỏ"}
+                      </Button>
+                    )}
+                  </div>
+                </CardFooter>
+              </Card>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {filteredProducts.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-gray-500">Không tìm thấy sản phẩm nào phù hợp</p>
+        </div>
+      )}
+
+      {/* Cart Summary */}
+      {Object.keys(cart).length > 0 && (
+        <div className="fixed bottom-4 right-4 bg-white shadow-lg rounded-lg p-4 border">
+          <div className="flex items-center gap-2 mb-2">
+            <ShoppingCart className="h-5 w-5" />
+            <span className="font-medium">
+              Giỏ hàng ({Object.values(cart).reduce((a, b) => a + b, 0)})
+            </span>
+          </div>
+          <Link href="/checkout">
+            <Button className="w-full">Thanh toán</Button>
+          </Link>
+        </div>
+      )}
+
+      {/* Admin Product Form */}
+      <AdminProductForm
+        isOpen={showAdminForm}
+        onClose={handleFormClose}
+        product={editingProduct}
+        onSave={fetchProducts}
+      />
     </div>
   );
 }

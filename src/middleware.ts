@@ -22,8 +22,10 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Trang quản lý shop - chỉ cho phép ADMIN_SHOP và SUPER_ADMIN
-  if (pathname.startsWith("/admin/products") || pathname.startsWith("/admin/orders")) {
+  // Removed admin/products page - functionality moved to shop page
+
+  // Trang quản lý orders - chỉ cho phép ADMIN_SHOP và SUPER_ADMIN
+  if (pathname.startsWith("/admin/orders")) {
     if (!session || !session.user || 
         !["ADMIN_SHOP", "SUPER_ADMIN"].includes(session.user.role || "")) {
       return NextResponse.redirect(new URL("/", request.url));

@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { SessionProvider } from "@/lib/auth/session-provider";
 import { auth } from "@/lib/auth/auth";
+import { Toaster } from "sonner";
 
 const fontSans = FontSans({
   subsets: ["latin", "vietnamese"],
@@ -37,6 +38,7 @@ export default async function RootLayout({
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
+          <Toaster position="top-right" richColors />
         </SessionProvider>
         <script async src="https://www.tiktok.com/embed.js"></script>
       </body>
