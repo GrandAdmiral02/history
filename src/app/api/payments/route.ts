@@ -8,7 +8,7 @@ export async function GET() {
   try {
     const session = await auth();
 
-    if (!session?.user || !["ADMIN_TOUR", "ADMIN_PRODUCT", "SUPER_ADMIN"].includes(session.user.role || "")) {
+    if (!session?.user || !["ADMIN_TOUR", "ADMIN_PRODUCT", "ADMIN_SHOP", "SUPER_ADMIN"].includes(session.user.role || "")) {
       return NextResponse.json(
         { error: "Không có quyền truy cập" },
         { status: 403 }
