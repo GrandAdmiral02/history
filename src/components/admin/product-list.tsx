@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -42,18 +41,28 @@ export function ProductList() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
+
   const fetchProducts = async () => {
     try {
-      const response = await fetch("/api/products");
+      setLoading(true);
+      const response = await fetch('/api/products');
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
       const data = await response.json();
+      console.log('Fetched products:', data);
       setProducts(data);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error('Error fetching products:', error);
     } finally {
       setLoading(false);
     }
@@ -65,7 +74,7 @@ export function ProductList() {
         method: "POST",
         body: formData,
       });
-      
+
       if (response.ok) {
         await fetchProducts();
         setIsCreateOpen(false);
@@ -77,13 +86,13 @@ export function ProductList() {
 
   const handleUpdate = async (formData: FormData) => {
     if (!selectedProduct) return;
-    
+
     try {
       const response = await fetch(`/api/products/${selectedProduct.id}`, {
         method: "PUT",
         body: formData,
       });
-      
+
       if (response.ok) {
         await fetchProducts();
         setIsEditOpen(false);
@@ -96,12 +105,12 @@ export function ProductList() {
 
   const handleDelete = async (id: string) => {
     if (!confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) return;
-    
+
     try {
       const response = await fetch(`/api/products/${id}`, {
         method: "DELETE",
       });
-      
+
       if (response.ok) {
         await fetchProducts();
       }
@@ -158,12 +167,12 @@ export function ProductList() {
                 <Package className="h-4 w-4 mr-1" />
                 {product.category}
               </div>
-              
+
               <div className="flex items-center text-sm text-muted-foreground">
                 <Star className="h-4 w-4 mr-1 fill-yellow-400 text-yellow-400" />
                 {product.rating} ({product.sold} đã bán)
               </div>
-              
+
               <div className="flex justify-between items-center">
                 <div className="flex flex-col">
                   <span className="font-semibold text-green-600">
@@ -179,7 +188,7 @@ export function ProductList() {
                   Kho: {product.stock}
                 </Badge>
               </div>
-              
+
               <div className="flex gap-2 justify-end">
                 <Button
                   size="sm"
@@ -242,7 +251,7 @@ function ProductForm({ product, onSubmit }: { product?: Product; onSubmit: (data
           required
         />
       </div>
-      
+
       <div>
         <Label htmlFor="description">Mô tả</Label>
         <Textarea
@@ -252,7 +261,7 @@ function ProductForm({ product, onSubmit }: { product?: Product; onSubmit: (data
           rows={3}
         />
       </div>
-      
+
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="price">Giá bán (VNĐ)</Label>
@@ -264,7 +273,7 @@ function ProductForm({ product, onSubmit }: { product?: Product; onSubmit: (data
             required
           />
         </div>
-        
+
         <div>
           <Label htmlFor="originalPrice">Giá gốc (VNĐ)</Label>
           <Input
@@ -275,7 +284,7 @@ function ProductForm({ product, onSubmit }: { product?: Product; onSubmit: (data
           />
         </div>
       </div>
-      
+
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="category">Danh mục</Label>
@@ -292,7 +301,7 @@ function ProductForm({ product, onSubmit }: { product?: Product; onSubmit: (data
             </SelectContent>
           </Select>
         </div>
-        
+
         <div>
           <Label htmlFor="stock">Số lượng tồn kho</Label>
           <Input
@@ -304,7 +313,7 @@ function ProductForm({ product, onSubmit }: { product?: Product; onSubmit: (data
           />
         </div>
       </div>
-      
+
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="rating">Đánh giá</Label>
@@ -318,7 +327,7 @@ function ProductForm({ product, onSubmit }: { product?: Product; onSubmit: (data
             defaultValue={product?.rating}
           />
         </div>
-        
+
         <div>
           <Label htmlFor="sold">Đã bán</Label>
           <Input
@@ -329,7 +338,7 @@ function ProductForm({ product, onSubmit }: { product?: Product; onSubmit: (data
           />
         </div>
       </div>
-      
+
       <div>
         <Label htmlFor="image">URL Hình ảnh</Label>
         <Input
@@ -340,7 +349,7 @@ function ProductForm({ product, onSubmit }: { product?: Product; onSubmit: (data
           placeholder="https://example.com/image.jpg"
         />
       </div>
-      
+
       <div>
         <Label htmlFor="discount">Giảm giá (%)</Label>
         <Input
@@ -350,7 +359,7 @@ function ProductForm({ product, onSubmit }: { product?: Product; onSubmit: (data
           placeholder="VD: 20%"
         />
       </div>
-      
+
       <div className="flex items-center space-x-2">
         <input
           type="checkbox"
@@ -361,7 +370,7 @@ function ProductForm({ product, onSubmit }: { product?: Product; onSubmit: (data
         />
         <Label htmlFor="isActive">Sản phẩm đang hoạt động</Label>
       </div>
-      
+
       <Button type="submit" className="w-full">
         {product ? "Cập nhật" : "Tạo sản phẩm"}
       </Button>
