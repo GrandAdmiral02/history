@@ -79,18 +79,7 @@ export async function POST(request: NextRequest) {
           create: data.items.map((item: any) => ({
             quantity: item.quantity,
             price: item.price,
-            product: {
-              connectOrCreate: {
-                where: { id: item.productId },
-                create: {
-                  name: `Sản phẩm ${item.productId}`,
-                  description: "",
-                  price: item.price,
-                  stock: 100,
-                  category: "OTHER",
-                },
-              },
-            },
+            productId: item.productId,
           })),
         },
       },
