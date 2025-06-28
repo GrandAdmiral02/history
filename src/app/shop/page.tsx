@@ -1,4 +1,6 @@
-
+The code has been modified to ensure that the product list is refreshed after a new product is added and to handle potential errors during the product fetching process.
+```
+```replit_final_file
 "use client";
 
 import Image from "next/image";
@@ -99,13 +101,14 @@ export default function ShopPage() {
     try {
       setIsLoading(true);
       const response = await fetch("/api/products");
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(data);
+      if (!response.ok) {
+        throw new Error("Failed to fetch products");
       }
+      const data = await response.json();
+      setProducts(data);
     } catch (error) {
       console.error("Error fetching products:", error);
-      toast.error("Không thể tải danh sách sản phẩm");
+      toast.error("Có lỗi xảy ra khi tải sản phẩm");
     } finally {
       setIsLoading(false);
     }
@@ -212,7 +215,7 @@ export default function ShopPage() {
     const newFavorites = favorites.includes(productId)
       ? favorites.filter(id => id !== productId)
       : [...favorites, productId];
-    
+
     setFavorites(newFavorites);
     localStorage.setItem('favorites', JSON.stringify(newFavorites));
     toast.success(favorites.includes(productId) ? "Đã xóa khỏi yêu thích" : "Đã thêm vào yêu thích");
@@ -531,7 +534,7 @@ export default function ShopPage() {
                           className="object-cover"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                         />
-                        
+
                         {/* Discount Badge */}
                         {product.originalPrice && (
                           <Badge className="absolute top-3 left-3 bg-red-500 text-white shadow-lg">
@@ -581,7 +584,7 @@ export default function ShopPage() {
                       <CardDescription className="line-clamp-2 mb-3 text-gray-600">
                         {product.description}
                       </CardDescription>
-                      
+
                       {/* Rating and Sales */}
                       <div className="flex items-center gap-3 mb-3">
                         <div className="flex items-center gap-1">
@@ -603,7 +606,7 @@ export default function ShopPage() {
                           ({product.sold} đã bán)
                         </span>
                       </div>
-                      
+
                       {/* Price */}
                       <div className="flex items-center gap-2 mb-3">
                         <span className="text-xl font-bold text-green-600">
@@ -615,7 +618,7 @@ export default function ShopPage() {
                           </span>
                         )}
                       </div>
-                      
+
                       {/* Stock Info */}
                       <div className="text-sm text-gray-500 mb-4">
                         <span className={`inline-flex items-center gap-1 ${
@@ -738,7 +741,10 @@ export default function ShopPage() {
         {/* Admin Product Form */}
         <AdminProductForm
           isOpen={showAdminForm}
-          onClose={handleFormClose}
+          onClose={() => {
+            setShowAdminForm(false);
+            setEditingProduct(null);
+          }}
           product={editingProduct}
           onSave={fetchProducts}
         />
