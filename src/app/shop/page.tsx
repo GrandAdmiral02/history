@@ -1,6 +1,4 @@
-The code has been modified to ensure that the product list is refreshed after a new product is added and to handle potential errors during the product fetching process.
-```
-```replit_final_file
+
 "use client";
 
 import Image from "next/image";
@@ -245,11 +243,6 @@ export default function ShopPage() {
     } catch (error) {
       toast.error("Có lỗi xảy ra khi xóa sản phẩm");
     }
-  };
-
-  const handleFormClose = () => {
-    setShowAdminForm(false);
-    setEditingProduct(null);
   };
 
   const formatPrice = (price: number) => {
@@ -746,7 +739,11 @@ export default function ShopPage() {
             setEditingProduct(null);
           }}
           product={editingProduct}
-          onSave={fetchProducts}
+          onSave={() => {
+            fetchProducts();
+            setShowAdminForm(false);
+            setEditingProduct(null);
+          }}
         />
       </div>
     </div>
