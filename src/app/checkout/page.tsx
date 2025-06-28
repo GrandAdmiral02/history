@@ -144,7 +144,7 @@ export default function CheckoutPage() {
           orderId: order.id,
           amount: total,
           paymentMethod: getPaymentMethodCode(formData.paymentMethod),
-          status: formData.paymentMethod === "cod" ? "PENDING" : "PAID",
+          paymentStatus: formData.paymentMethod === "cod" ? "PENDING" : "PAID",
           transactionId: `order_${Date.now()}`,
         }),
       });
@@ -216,72 +216,87 @@ export default function CheckoutPage() {
         description: `Mã đơn hàng: ${order.id.slice(-8).toUpperCase()}`
       });
 
-      // Tạo vé mua hàng
-      const ticketCode = `NA${Date.now().toString().slice(-8)}`;
-      
-      const ticketHTML = `
-        <div style="max-width: 400px; margin: 0 auto; border: 2px dashed #16a34a; border-radius: 12px; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 20px; font-family: Arial, sans-serif;">
-          <div style="text-align: center; border-bottom: 1px dashed #16a34a; padding-bottom: 15px; margin-bottom: 15px;">
-            <h2 style="color: #15803d; margin: 0; font-size: 18px;">🎫 VÉ MUA HÀNG NGHỆ AN</h2>
-            <p style="color: #166534; margin: 5px 0; font-size: 12px;">Cửa hàng lưu niệm xứ Nghệ</p>
-          </div>
-          
-          <div style="margin-bottom: 15px;">
-            <div style="background: #16a34a; color: white; padding: 8px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 14px;">
-              MÃ ĐƠN: ${order.id.slice(-8).toUpperCase()}
+      // Tạo và hiển thị hóa đơn
+      const showInvoice = () => {
+        const ticketHTML = `
+          <div style="max-width: 400px; margin: 0 auto; border: 2px dashed #16a34a; border-radius: 12px; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 20px; font-family: Arial, sans-serif;">
+            <div style="text-align: center; border-bottom: 1px dashed #16a34a; padding-bottom: 15px; margin-bottom: 15px;">
+              <h2 style="color: #15803d; margin: 0; font-size: 18px;">🎫 HÓA ĐƠN MUA HÀNG</h2>
+              <p style="color: #166534; margin: 5px 0; font-size: 12px;">Cửa hàng lưu niệm xứ Nghệ</p>
             </div>
-          </div>
-          
-          <div style="margin-bottom: 15px;">
-            <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Khách hàng:</strong> ${formData.fullName}</p>
-            <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Điện thoại:</strong> ${formData.phone}</p>
-            <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Địa chỉ:</strong> ${formData.address}</p>
-            <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Thanh toán:</strong> ${getPaymentMethodName(formData.paymentMethod)}</p>
-          </div>
-          
-          <div style="border-top: 1px dashed #16a34a; padding-top: 15px;">
-            ${cartItems.map(item => `
-              <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px;">
-                <span>${item.name} x${item.quantity}</span>
-                <span>${(item.price * item.quantity).toLocaleString()}đ</span>
-              </div>
-            `).join('')}
-            <div style="border-top: 1px solid #16a34a; margin-top: 10px; padding-top: 10px;">
-              <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px;">
-                <span>Phí vận chuyển:</span>
-                <span>${shippingFee.toLocaleString()}đ</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; font-weight: bold; color: #15803d;">
-                <span>TỔNG CỘNG:</span>
-                <span>${total.toLocaleString()}đ</span>
+            
+            <div style="margin-bottom: 15px;">
+              <div style="background: #16a34a; color: white; padding: 8px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 14px;">
+                MÃ ĐƠN: ${order.id.slice(-8).toUpperCase()}
               </div>
             </div>
-          </div>
-          
-          <div style="text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #16a34a;">
-            <p style="margin: 0; font-size: 10px; color: #166534;">Cảm ơn bạn đã mua hàng!</p>
-            <p style="margin: 0; font-size: 10px; color: #166534;">Thời gian: ${new Date().toLocaleString('vi-VN')}</p>
-            <p style="margin: 0; font-size: 10px; color: #166534;">Trạng thái: ${payment.status === 'PENDING' ? 'Chờ thanh toán' : 'Đã thanh toán'}</p>
-          </div>
-        </div>
-      `;
-      
-      const newWindow = window.open('', '_blank');
-      if (newWindow) {
-        newWindow.document.write(`
-          <html>
-            <head><title>Hóa đơn mua hàng - ${order.id.slice(-8).toUpperCase()}</title></head>
-            <body style="margin: 20px; background: #f3f4f6;">
-              ${ticketHTML}
-              <div style="text-align: center; margin-top: 20px;">
-                <button onclick="window.print()" style="background: #16a34a; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin-right: 10px;">In hóa đơn</button>
-                <button onclick="window.close()" style="background: #6b7280; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Đóng</button>
+            
+            <div style="margin-bottom: 15px;">
+              <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Khách hàng:</strong> ${formData.fullName}</p>
+              <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Điện thoại:</strong> ${formData.phone}</p>
+              <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Địa chỉ:</strong> ${formData.address}</p>
+              <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Thanh toán:</strong> ${getPaymentMethodName(formData.paymentMethod)}</p>
+            </div>
+            
+            <div style="border-top: 1px dashed #16a34a; padding-top: 15px;">
+              ${cartItems.map(item => `
+                <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px;">
+                  <span>${item.name} x${item.quantity}</span>
+                  <span>${(item.price * item.quantity).toLocaleString()}đ</span>
+                </div>
+              `).join('')}
+              <div style="border-top: 1px solid #16a34a; margin-top: 10px; padding-top: 10px;">
+                <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px;">
+                  <span>Phí vận chuyển:</span>
+                  <span>${shippingFee.toLocaleString()}đ</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-weight: bold; color: #15803d;">
+                  <span>TỔNG CỘNG:</span>
+                  <span>${total.toLocaleString()}đ</span>
+                </div>
               </div>
-            </body>
-          </html>
-        `);
-        newWindow.document.close();
-      }
+            </div>
+            
+            <div style="text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #16a34a;">
+              <p style="margin: 0; font-size: 10px; color: #166534;">Cảm ơn bạn đã mua hàng!</p>
+              <p style="margin: 0; font-size: 10px; color: #166534;">Thời gian: ${new Date().toLocaleString('vi-VN')}</p>
+              <p style="margin: 0; font-size: 10px; color: #166534;">Trạng thái: ${payment.paymentStatus === 'PENDING' ? 'Chờ thanh toán' : 'Đã thanh toán'}</p>
+            </div>
+          </div>
+        `;
+        
+        try {
+          const newWindow = window.open('', '_blank', 'width=500,height=700');
+          if (newWindow) {
+            newWindow.document.write(`
+              <!DOCTYPE html>
+              <html>
+                <head>
+                  <title>Hóa đơn mua hàng - ${order.id.slice(-8).toUpperCase()}</title>
+                  <meta charset="utf-8">
+                </head>
+                <body style="margin: 20px; background: #f3f4f6;">
+                  ${ticketHTML}
+                  <div style="text-align: center; margin-top: 20px;">
+                    <button onclick="window.print()" style="background: #16a34a; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin-right: 10px;">In hóa đơn</button>
+                    <button onclick="window.close()" style="background: #6b7280; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Đóng</button>
+                  </div>
+                </body>
+              </html>
+            `);
+            newWindow.document.close();
+          } else {
+            // Fallback: hiển thị trong modal hoặc alert
+            alert(`Hóa đơn đã được tạo!\nMã đơn hàng: ${order.id.slice(-8).toUpperCase()}\nTổng tiền: ${total.toLocaleString()}đ`);
+          }
+        } catch (error) {
+          console.error('Error opening invoice window:', error);
+          alert(`Hóa đơn đã được tạo!\nMã đơn hàng: ${order.id.slice(-8).toUpperCase()}\nTổng tiền: ${total.toLocaleString()}đ`);
+        }
+      };
+
+      // Hiển thị hóa đơn sau khi tạo thành công
+      setTimeout(showInvoice, 500);
 
       // Clear cart after successful order
       localStorage.removeItem('cart');
