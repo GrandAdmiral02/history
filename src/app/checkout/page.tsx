@@ -20,20 +20,34 @@ const getCartItems = () => {
     const savedCart = localStorage.getItem('cart');
     const savedProducts = localStorage.getItem('products');
     
+    console.log('Saved cart:', savedCart);
+    console.log('Saved products:', savedProducts);
+    
     if (savedCart && savedProducts) {
-      const cart = JSON.parse(savedCart);
-      const products = JSON.parse(savedProducts);
-      
-      return Object.entries(cart).map(([productId, quantity]) => {
-        const product = products.find((p: any) => p.id === productId);
-        return product ? {
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          quantity: quantity as number,
-          image: product.image
-        } : null;
-      }).filter(Boolean);
+      try {
+        const cart = JSON.parse(savedCart);
+        const products = JSON.parse(savedProducts);
+        
+        const items = Object.entries(cart).map(([productId, quantity]) => {
+          const product = products.find((p: any) => p.id === productId);
+          if (product) {
+            return {
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              quantity: quantity as number,
+              image: product.image || '/placeholder.jpg'
+            };
+          }
+          return null;
+        }).filter(Boolean);
+        
+        console.log('Cart items:', items);
+        return items;
+      } catch (error) {
+        console.error('Error parsing cart data:', error);
+        return [];
+      }
     }
   }
   return [];

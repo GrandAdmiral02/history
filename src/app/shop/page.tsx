@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -32,6 +31,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { AdminProductForm } from "@/components/shop/admin-product-form";
+import { Loader2, ShoppingBag } from 'lucide-react';
 
 interface Product {
   id: string;
@@ -91,16 +91,23 @@ export default function ShopPage() {
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch("/api/products");
+      const response = await fetch("/api/products", {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch products");
       }
       const data = await response.json();
-      console.log("Products loaded:", data.length);
-      setProducts(data.filter((p: Product) => p.isActive));
+      console.log("Products loaded:", data);
+      setProducts(data);
+      // Save to localStorage
+      localStorage.setItem('products', JSON.stringify(data));
     } catch (error) {
       console.error("Error fetching products:", error);
-      toast.error("Có lỗi xảy ra khi tải sản phẩm");
+      toast.error("Không thể tải sản phẩm");
     } finally {
       setIsLoading(false);
     }
@@ -267,10 +274,34 @@ export default function ShopPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
         <div className="container mx-auto px-4 py-8">
-          <div className="flex justify-center items-center min-h-[400px]">
+          <div className="flex items-center justify-center min-h-[60vh]">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
+              <Loader2 className="h-12 w-12 animate-spin text-green-700 mx-auto mb-4" />
               <div className="text-lg font-medium text-gray-700">Đang tải sản phẩm...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isLoading && products.length === 0) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center mb-12">
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4">
+              Cửa hàng lưu niệm Nghệ An
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Khám phá những sản phẩm đặc biệt mang đậm văn hóa và lịch sử xứ Nghệ
+            </p>
+          </div>
+          <div className="flex items-center justify-center min-h-[40vh]">
+            <div className="text-center">
+              <ShoppingBag className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <div className="text-lg font-medium text-gray-700 mb-2">Chưa có sản phẩm nào</div>
+              <p className="text-gray-500">Vui lòng quay lại sau để xem các sản phẩm mới</p>
             </div>
           </div>
         </div>

@@ -4,9 +4,30 @@ import { auth } from "@/lib/auth/auth";
 
 const prisma = new PrismaClient();
 
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const product = await prisma.product.findUnique({
+      where: { id },
+    });
+
+    if (!product) {
+      return NextResponse.json({ error: "Sản phẩm không tồn tại" }, { status: 404 });
+    }
+
+    return NextResponse.json(product);
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return NextResponse.json({ error: "Lỗi server" }, { status: 500 });
+  }
+}
+
 export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth();
@@ -17,12 +38,12 @@ export async function PUT(
         { status: 403 }
       );
     }
-
+    const { id } = await params;
     const body = await request.json();
-    console.log("Updating product:", params.id, "with data:", body);
+    console.log("Updating product:", id, "with data:", body);
 
     const product = await prisma.product.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name: body.name,
         description: body.description || null,
@@ -47,8 +68,8 @@ export async function PUT(
 }
 
 export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth();
@@ -59,9 +80,10 @@ export async function DELETE(
         { status: 403 }
       );
     }
+    const { id } = await params;
 
     await prisma.product.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ message: "Xóa sản phẩm thành công" });
