@@ -77,13 +77,22 @@ export default function ShopPage() {
   const [adminMode, setAdminMode] = useState(false);
 
   // Check if user is admin
-  const isAdmin = session?.user && (session.user.role === "ADMIN_SHOP" || session.user.role === "SUPER_ADMIN");
+  const isAdmin = Boolean(session?.user?.role && 
+    (session.user.role === "ADMIN_SHOP" || session.user.role === "SUPER_ADMIN"));
 
   useEffect(() => {
     fetchProducts();
     loadCartFromStorage();
     loadFavoritesFromStorage();
-  }, []);
+    
+    // Debug admin state
+    console.log("Session debug:", {
+      session: session,
+      user: session?.user,
+      role: session?.user?.role,
+      isAdmin: isAdmin
+    });
+  }, [session, isAdmin]);
 
   useEffect(() => {
     filterAndSortProducts();
@@ -344,7 +353,7 @@ export default function ShopPage() {
         </div>
 
         {/* Admin Controls */}
-        {isAdmin && (
+        {(isAdmin || (session?.user?.role === "ADMIN_SHOP" || session?.user?.role === "SUPER_ADMIN")) && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -516,7 +525,7 @@ export default function ShopPage() {
               >
                 <Card className={`h-full flex ${viewMode === "list" ? "flex-row" : "flex-col"} hover:shadow-xl transition-all duration-300 group relative overflow-hidden bg-white`}>
                   {/* Admin Controls Overlay */}
-                  {isAdmin && adminMode && (
+                  {(isAdmin || (session?.user?.role === "ADMIN_SHOP" || session?.user?.role === "SUPER_ADMIN")) && adminMode && (
                     <div className="absolute top-3 right-3 z-10 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Button
                         size="sm"
