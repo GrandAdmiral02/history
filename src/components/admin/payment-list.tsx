@@ -51,13 +51,14 @@ interface Payment {
   paymentStatus: string;
   transactionId?: string;
   createdAt: string;
+  updatedAt: string;
   type: "BOOKING" | "ORDER";
   booking?: {
     id: string;
     tour: {
       name: string;
     };
-    user: {
+    user?: {
       name: string;
       email: string;
     };
@@ -66,6 +67,11 @@ interface Payment {
     id: string;
     customerName: string;
     customerEmail: string;
+    orderItems?: {
+      product: {
+        name: string;
+      };
+    }[];
   };
 }
 
@@ -79,100 +85,32 @@ export function PaymentList() {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        // Mock data cho demo - trong thực tế sẽ gọi API
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        const response = await fetch('/api/payments');
+        if (!response.ok) {
+          throw new Error('Failed to fetch payments');
+        }
+        const data = await response.json();
         
-        setPayments([
-          {
-            id: "payment-1",
-            bookingId: "booking-1",
-            amount: 2000000,
-            paymentMethod: "CREDIT_CARD",
-            paymentStatus: "PAID",
-            transactionId: "TXN001234567",
-            createdAt: new Date().toISOString(),
-            type: "BOOKING",
-            booking: {
-              id: "booking-1",
-              tour: {
-                name: "Tour Khu di tích Kim Liên",
-              },
-              user: {
-                name: "Nguyễn Văn A",
-                email: "nguyenvana@email.com",
-              },
-            },
-          },
-          {
-            id: "payment-2",
-            orderId: "order-1",
-            amount: 550000,
-            paymentMethod: "E_WALLET",
-            paymentStatus: "PAID",
-            transactionId: "MOMO987654321",
-            createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-            type: "ORDER",
-            order: {
-              id: "order-1",
-              customerName: "Trần Thị B",
-              customerEmail: "tranthib@email.com",
-            },
-          },
-          {
-            id: "payment-3",
-            bookingId: "booking-2",
-            amount: 4000000,
-            paymentMethod: "CASH",
-            paymentStatus: "PENDING",
-            createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
-            type: "BOOKING",
-            booking: {
-              id: "booking-2",
-              tour: {
-                name: "Tour Đền Cuông",
-              },
-              user: {
-                name: "Lê Văn C",
-                email: "levanc@email.com",
-              },
-            },
-          },
-          {
-            id: "payment-4",
-            orderId: "order-2",
-            amount: 180000,
-            paymentMethod: "BANK_TRANSFER",
-            paymentStatus: "FAILED",
-            transactionId: "BANK12345678",
-            createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-            type: "ORDER",
-            order: {
-              id: "order-2",
-              customerName: "Phạm Văn D",
-              customerEmail: "phamvand@email.com",
-            },
-          },
-          {
-            id: "payment-5",
-            bookingId: "booking-3",
-            amount: 3000000,
-            paymentMethod: "CREDIT_CARD",
-            paymentStatus: "REFUNDED",
-            transactionId: "REF987654321",
-            createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-            type: "BOOKING",
-            booking: {
-              id: "booking-3",
-              tour: {
-                name: "Tour Hành trình về nguồn",
-              },
-              user: {
-                name: "Hoàng Thị E",
-                email: "hoangthie@email.com",
-              },
-            },
-          },
-        ]);
+        // Transform data to match expected format
+        const transformedPayments = data.map((payment: any) => ({
+          ...payment,
+          type: payment.bookingId ? "BOOKING" : "ORDER",
+          booking: payment.booking ? {
+            id: payment.booking.id,
+            tour: payment.booking.tour,
+            user: {
+              name: "Khách hàng", // Default name since user info might not be available
+              email: "customer@example.com"
+            }
+          } : undefined,
+          order: payment.order ? {
+            id: payment.order.id,
+            customerName: "Khách hàng cửa hàng",
+            customerEmail: "shop@example.com"
+          } : undefined
+        }));
+        
+        setPayments(transformedPayments);
       } catch (err) {
         console.error("Error fetching payments:", err);
         setError("Không thể tải dữ liệu thanh toán");

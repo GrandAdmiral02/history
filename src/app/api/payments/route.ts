@@ -25,11 +25,19 @@ export async function GET() {
                 name: true,
               },
             },
+            user: {
+              select: {
+                name: true,
+                email: true,
+              },
+            },
           },
         },
         order: {
           select: {
             id: true,
+            customerName: true,
+            customerEmail: true,
             orderItems: {
               include: {
                 product: {
