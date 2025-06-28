@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -104,35 +103,35 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.name.trim()) {
       newErrors.name = "Tên sản phẩm là bắt buộc";
     } else if (formData.name.length < 3) {
       newErrors.name = "Tên sản phẩm phải có ít nhất 3 ký tự";
     }
-    
+
     if (!formData.description.trim()) {
       newErrors.description = "Mô tả sản phẩm là bắt buộc";
     } else if (formData.description.length < 10) {
       newErrors.description = "Mô tả phải có ít nhất 10 ký tự";
     }
-    
+
     const price = formData.price ? parseFloat(formData.price) : 0;
     if (!formData.price || isNaN(price) || price <= 0) {
       newErrors.price = "Giá bán phải là số dương";
     } else if (price < 1000) {
       newErrors.price = "Giá bán phải ít nhất 1,000 VNĐ";
     }
-    
+
     if (!formData.category) {
       newErrors.category = "Vui lòng chọn danh mục";
     }
-    
+
     const stock = formData.stock ? parseInt(formData.stock) : 0;
     if (!formData.stock || isNaN(stock) || stock < 0) {
       newErrors.stock = "Số lượng tồn kho phải là số không âm";
     }
-    
+
     const originalPrice = formData.originalPrice ? parseFloat(formData.originalPrice) : null;
     if (formData.originalPrice && (isNaN(originalPrice!) || originalPrice! <= 0)) {
       newErrors.originalPrice = "Giá gốc phải là số dương";
@@ -179,7 +178,7 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       toast.error("Vui lòng kiểm tra lại thông tin đã nhập");
       return;
@@ -231,7 +230,7 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
       await onSave();
       toast.success(`${isEditing ? 'Cập nhật' : 'Thêm'} sản phẩm thành công!`);
       onClose();
-      
+
     } catch (error) {
       console.error("Error saving product:", error);
       toast.error(error instanceof Error ? error.message : `Đã có lỗi xảy ra khi ${product?.id ? 'cập nhật' : 'thêm'} sản phẩm`);
@@ -356,7 +355,7 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
                     id="price"
                     type="number"
                     min="0"
-                    step="1000"
+                    step="1"
                     value={formData.price}
                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                     placeholder="0"
