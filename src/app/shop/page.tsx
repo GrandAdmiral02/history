@@ -76,7 +76,8 @@ export default function ShopPage() {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [adminMode, setAdminMode] = useState(false);
 
-  const isAdmin = session?.user?.role === "ADMIN_SHOP" || session?.user?.role === "SUPER_ADMIN";
+  // Check if user is admin
+  const isAdmin = session?.user && (session.user.role === "ADMIN_SHOP" || session.user.role === "SUPER_ADMIN");
 
   useEffect(() => {
     fetchProducts();
