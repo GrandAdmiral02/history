@@ -121,6 +121,8 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
       newErrors.price = "Giá bán phải là số dương";
     } else if (price < 1000) {
       newErrors.price = "Giá bán phải ít nhất 1,000 VNĐ";
+    } else if (price > 999999999999) {
+      newErrors.price = "Giá bán không được vượt quá 999 tỷ VNĐ";
     }
 
     if (!formData.category) {
@@ -135,6 +137,8 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
     const originalPrice = formData.originalPrice ? parseFloat(formData.originalPrice) : null;
     if (formData.originalPrice && (isNaN(originalPrice!) || originalPrice! <= 0)) {
       newErrors.originalPrice = "Giá gốc phải là số dương";
+    } else if (originalPrice && originalPrice > 999999999999) {
+      newErrors.originalPrice = "Giá gốc không được vượt quá 999 tỷ VNĐ";
     }
 
     if (originalPrice && originalPrice <= price) {
@@ -355,13 +359,20 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
                     id="price"
                     type="number"
                     min="0"
-                    step="1"
+                    step="1000"
+                    max="999999999999"
                     value={formData.price}
                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                     placeholder="0"
                     className={errors.price ? "border-red-500" : ""}
                   />
                   {errors.price && <p className="text-sm text-red-500 mt-1">{errors.price}</p>}
+                  <p className="text-xs text-gray-500 mt-1">
+                    Giá hiện tại: {formData.price ? new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(parseFloat(formData.price)) : "0 VNĐ"}
+                  </p>
                 </div>
 
                 <div>
@@ -373,12 +384,21 @@ export function AdminProductForm({ isOpen, onClose, product, onSave }: AdminProd
                     type="number"
                     min="0"
                     step="1000"
+                    max="999999999999"
                     value={formData.originalPrice}
                     onChange={(e) => setFormData({ ...formData, originalPrice: e.target.value })}
                     placeholder="0"
                     className={errors.originalPrice ? "border-red-500" : ""}
                   />
                   {errors.originalPrice && <p className="text-sm text-red-500 mt-1">{errors.originalPrice}</p>}
+                  {formData.originalPrice && (
+                    <p className="text-xs text-gray-500 mt-1">
+                      Giá gốc: {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(parseFloat(formData.originalPrice))}
+                    </p>
+                  )}
                 </div>
               </div>
 

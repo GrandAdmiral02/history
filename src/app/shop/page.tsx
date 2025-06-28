@@ -62,7 +62,7 @@ export default function ShopPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("Tất cả");
-  const [priceRange, setPriceRange] = useState([0, 100000000]);
+  const [priceRange, setPriceRange] = useState([0, 999999999999]);
   const [showFilters, setShowFilters] = useState(false);
   const [cart, setCart] = useState<Record<string, number>>({});
   const [isLoading, setIsLoading] = useState(true);
@@ -370,6 +370,12 @@ export default function ShopPage() {
                 </div>
               </div>
               <div className="flex gap-3 flex-wrap">
+                <Link href="/admin">
+                  <Button variant="default" className="bg-blue-600 hover:bg-blue-700 shadow-lg">
+                    <Package className="h-4 w-4 mr-2" />
+                    Trang Admin
+                  </Button>
+                </Link>
                 <Button
                   onClick={() => {
                     setEditingProduct(null);
@@ -485,9 +491,9 @@ export default function ShopPage() {
                       <Slider
                         value={priceRange}
                         onValueChange={setPriceRange}
-                        max={100000000}
+                        max={999999999999}
                         min={0}
-                        step={100000}
+                        step={1000000}
                         className="w-full"
                       />
                     </div>
@@ -722,7 +728,7 @@ export default function ShopPage() {
                   onClick={() => {
                     setSelectedCategory("Tất cả");
                     setSearchQuery("");
-                    setPriceRange([0, 100000000]);
+                    setPriceRange([0, 999999999999]);
                   }}
                   variant="outline"
                 >
