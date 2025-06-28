@@ -5,14 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
@@ -27,7 +20,6 @@ import {
   Edit, 
   Trash2, 
   Package, 
-  CreditCard,
   Search,
   Grid3X3,
   List,
@@ -53,6 +45,7 @@ interface Product {
   category: string;
   discount?: string;
   stock: number;
+  isActive: boolean;
 }
 
 const categories = ["Tất cả", "Đặc sản", "Lưu niệm", "Thời trang", "Khác"];
@@ -69,7 +62,7 @@ export default function ShopPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("Tất cả");
-  const [priceRange, setPriceRange] = useState([0, 1000000]);
+  const [priceRange, setPriceRange] = useState([0, 100000000]);
   const [showFilters, setShowFilters] = useState(false);
   const [cart, setCart] = useState<Record<string, number>>({});
   const [isLoading, setIsLoading] = useState(true);
@@ -103,7 +96,8 @@ export default function ShopPage() {
         throw new Error("Failed to fetch products");
       }
       const data = await response.json();
-      setProducts(data);
+      console.log("Products loaded:", data.length);
+      setProducts(data.filter((p: Product) => p.isActive));
     } catch (error) {
       console.error("Error fetching products:", error);
       toast.error("Có lỗi xảy ra khi tải sản phẩm");
@@ -230,7 +224,7 @@ export default function ShopPage() {
     }
 
     try {
-      const response = await fetch(`/api/products?id=${productId}`, {
+      const response = await fetch(`/api/products/${productId}`, {
         method: "DELETE",
       });
 
@@ -238,7 +232,8 @@ export default function ShopPage() {
         toast.success("Xóa sản phẩm thành công!");
         fetchProducts();
       } else {
-        throw new Error("Không thể xóa sản phẩm");
+        const error = await response.json();
+        toast.error(error.error || "Không thể xóa sản phẩm");
       }
     } catch (error) {
       toast.error("Có lỗi xảy ra khi xóa sản phẩm");
@@ -323,7 +318,7 @@ export default function ShopPage() {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white border border-blue-200 rounded-xl p-6 mb-8 shadow-lg"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-blue-100 rounded-lg">
                   <Package className="h-6 w-6 text-blue-600" />
@@ -351,16 +346,10 @@ export default function ShopPage() {
                 >
                   {adminMode ? "Ẩn chỉnh sửa" : "Hiện chỉnh sửa"}
                 </Button>
-                <Link href="/admin/orders">
+                <Link href="/admin/products">
                   <Button variant="outline" className="shadow-lg">
-                    <ShoppingCart className="h-4 w-4 mr-2" />
-                    Đơn hàng
-                  </Button>
-                </Link>
-                <Link href="/admin/payments">
-                  <Button variant="outline" className="shadow-lg">
-                    <CreditCard className="h-4 w-4 mr-2" />
-                    Thanh toán
+                    <Package className="h-4 w-4 mr-2" />
+                    Quản lý chi tiết
                   </Button>
                 </Link>
               </div>
@@ -455,9 +444,9 @@ export default function ShopPage() {
                       <Slider
                         value={priceRange}
                         onValueChange={setPriceRange}
-                        max={1000000}
+                        max={100000000}
                         min={0}
-                        step={10000}
+                        step={100000}
                         className="w-full"
                       />
                     </div>
@@ -575,7 +564,7 @@ export default function ShopPage() {
 
                     <CardContent className="flex-1 pt-0">
                       <CardDescription className="line-clamp-2 mb-3 text-gray-600">
-                        {product.description}
+                        {product.description || "Không có mô tả"}
                       </CardDescription>
 
                       {/* Rating and Sales */}
@@ -679,21 +668,26 @@ export default function ShopPage() {
             <div className="max-w-md mx-auto">
               <Package className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-gray-700 mb-2">
-                Không tìm thấy sản phẩm
+                {products.length === 0 ? "Chưa có sản phẩm nào" : "Không tìm thấy sản phẩm"}
               </h3>
               <p className="text-gray-500 mb-4">
-                Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm khác
+                {products.length === 0 
+                  ? "Hãy thêm sản phẩm đầu tiên vào cửa hàng" 
+                  : "Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm khác"
+                }
               </p>
-              <Button
-                onClick={() => {
-                  setSelectedCategory("Tất cả");
-                  setSearchQuery("");
-                  setPriceRange([0, 1000000]);
-                }}
-                variant="outline"
-              >
-                Xóa bộ lọc
-              </Button>
+              {products.length > 0 && (
+                <Button
+                  onClick={() => {
+                    setSelectedCategory("Tất cả");
+                    setSearchQuery("");
+                    setPriceRange([0, 100000000]);
+                  }}
+                  variant="outline"
+                >
+                  Xóa bộ lọc
+                </Button>
+              )}
             </div>
           </motion.div>
         )}
