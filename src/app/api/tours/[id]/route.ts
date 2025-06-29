@@ -1,3 +1,4 @@
+
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { auth } from "@/lib/auth/auth";
@@ -25,7 +26,7 @@ export async function GET(
   } catch (error) {
     console.error("Error fetching tour:", error);
     return NextResponse.json(
-      { error: "Lỗi khi tải thông tin tour" },
+      { error: "Lỗi khi tải tour" },
       { status: 500 }
     );
   }
@@ -51,35 +52,27 @@ export async function PUT(
     const {
       name,
       description,
-      price,
-      duration,
       location,
+      duration,
+      price,
       maxPeople,
       imageUrl,
       difficulty,
       includes,
       schedule,
-      category
+      category,
     } = body;
-
-    // Validation
-    if (!name || !location || !duration || !price || !maxPeople) {
-      return NextResponse.json(
-        { error: "Thiếu thông tin bắt buộc" },
-        { status: 400 }
-      );
-    }
 
     const tour = await prisma.tour.update({
       where: { id },
       data: {
         name,
         description,
-        price: parseFloat(price),
-        duration,
         location,
+        duration,
+        price: parseFloat(price),
         maxPeople: parseInt(maxPeople),
-        imageUrl: imageUrl || null,
+        imageUrl,
         difficulty,
         includes,
         schedule,
