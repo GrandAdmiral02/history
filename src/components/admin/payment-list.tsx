@@ -82,43 +82,67 @@ export function PaymentList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
 
-  useEffect(() => {
-    const fetchPayments = async () => {
-      try {
-        const response = await fetch('/api/payments');
-        if (!response.ok) {
-          throw new Error('Failed to fetch payments');
-        }
-        const data = await response.json();
-        
-        // Transform data to match expected format
-        const transformedPayments = data.map((payment: any) => ({
-          ...payment,
-          type: payment.bookingId ? "BOOKING" : "ORDER",
-          booking: payment.booking ? {
-            id: payment.booking.id,
-            tour: payment.booking.tour,
-            user: {
-              name: "Khách hàng", // Default name since user info might not be available
-              email: "customer@example.com"
-            }
-          } : undefined,
-          order: payment.order ? {
-            id: payment.order.id,
-            customerName: "Khách hàng cửa hàng",
-            customerEmail: "shop@example.com"
-          } : undefined
-        }));
-        
-        setPayments(transformedPayments);
-      } catch (err) {
-        console.error("Error fetching payments:", err);
-        setError("Không thể tải dữ liệu thanh toán");
-      } finally {
-        setIsLoading(false);
+  const fetchPayments = async () => {
+    try {
+      const response = await fetch('/api/payments');
+      if (!response.ok) {
+        throw new Error('Failed to fetch payments');
       }
-    };
+      const data = await response.json();
+      
+      // Transform data to match expected format
+      const transformedPayments = data.map((payment: any) => ({
+        ...payment,
+        type: payment.bookingId ? "BOOKING" : "ORDER",
+        booking: payment.booking ? {
+          id: payment.booking.id,
+          tour: payment.booking.tour,
+          user: {
+            name: "Khách hàng", // Default name since user info might not be available
+            email: "customer@example.com"
+          }
+        } : undefined,
+        order: payment.order ? {
+          id: payment.order.id,
+          customerName: "Khách hàng cửa hàng",
+          customerEmail: "shop@example.com"
+        } : undefined
+      }));
+      
+      setPayments(transformedPayments);
+    } catch (err) {
+      console.error("Error fetching payments:", err);
+      setError("Không thể tải dữ liệu thanh toán");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  const handleCompletePayment = async (paymentId: string) => {
+    try {
+      const response = await fetch(`/api/payments/${paymentId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paymentStatus: 'PAID'
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update payment status');
+      }
+
+      // Refresh payments list
+      await fetchPayments();
+    } catch (err) {
+      console.error("Error completing payment:", err);
+      setError("Không thể cập nhật trạng thái thanh toán");
+    }
+  };
+
+  useEffect(() => {
     fetchPayments();
   }, []);
 
@@ -408,6 +432,15 @@ export function PaymentList() {
                                 <Eye className="h-4 w-4 mr-2" />
                                 Xem chi tiết
                               </DropdownMenuItem>
+                              {payment.paymentStatus === "PENDING" && (
+                                <DropdownMenuItem 
+                                  onClick={() => handleCompletePayment(payment.id)}
+                                  className="text-green-600"
+                                >
+                                  <CheckCircle className="h-4 w-4 mr-2" />
+                                  Hoàn tất thanh toán
+                                </DropdownMenuItem>
+                              )}
                               {payment.paymentStatus === "PAID" && (
                                 <DropdownMenuItem>
                                   <Download className="h-4 w-4 mr-2" />
