@@ -31,29 +31,39 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const formData = await request.formData();
+    const body = await request.json();
 
-    const name = formData.get("name") as string;
-    const description = formData.get("description") as string;
-    const price = parseFloat(formData.get("price") as string);
-    const duration = formData.get("duration") as string;
-    const location = formData.get("location") as string;
-    const maxPeople = parseInt(formData.get("maxPeople") as string);
-    const image = formData.get("image") as string;
-    const difficulty = formData.get("difficulty") as string;
-    const includes = formData.get("includes") as string;
-    const schedule = formData.get("schedule") as string;
-    const category = formData.get("category") as string;
+    const {
+      name,
+      description,
+      price,
+      duration,
+      location,
+      maxPeople,
+      imageUrl,
+      difficulty,
+      includes,
+      schedule,
+      category
+    } = body;
+
+    // Validation
+    if (!name || !location || !duration || !price || !maxPeople) {
+      return NextResponse.json(
+        { error: "Thiếu thông tin bắt buộc" },
+        { status: 400 }
+      );
+    }
 
     const tour = await prisma.tour.create({
       data: {
         name,
         description,
-        price,
+        price: parseFloat(price),
         duration,
         location,
-        maxPeople,
-        image: image || null,
+        maxPeople: parseInt(maxPeople),
+        imageUrl: imageUrl || null,
         difficulty,
         includes,
         schedule,

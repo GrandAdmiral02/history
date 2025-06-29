@@ -5,8 +5,12 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { BookingForm } from "@/components/booking/booking-form";
+import { TourSelection } from "@/components/booking/tour-selection";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 interface Tour {
   id: string;
@@ -16,42 +20,6 @@ interface Tour {
   image: string;
   description: string;
 }
-
-// Dữ liệu mẫu cho các tour
-const tours: Record<string, Tour> = {
-  "ve-nguon": {
-    id: "ve-nguon",
-    name: "Hành trình về nguồn",
-    duration: "3 ngày 2 đêm",
-    price: 2990000,
-    image: "https://ext.same-assets.com/4052699563/777305328.jpeg",
-    description: "Khám phá quê hương và cuộc đời của Chủ tịch Hồ Chí Minh tại Nghệ An"
-  },
-  "con-duong-huyen-thoai": {
-    id: "con-duong-huyen-thoai",
-    name: "Con đường huyền thoại",
-    duration: "2 ngày 1 đêm",
-    price: 1890000,
-    image: "https://ext.same-assets.com/3334769225/3220782747.jpeg",
-    description: "Hành trình theo dấu chân những người anh hùng"
-  },
-  "di-san-tam-linh": {
-    id: "di-san-tam-linh",
-    name: "Di sản văn hóa tâm linh",
-    duration: "4 ngày 3 đêm",
-    price: 3490000,
-    image: "https://ext.same-assets.com/3334769225/3110326546.jpeg",
-    description: "Hành trình khám phá các đền, chùa nổi tiếng xứ Nghệ"
-  },
-  "dau-an-danh-nhan": {
-    id: "dau-an-danh-nhan",
-    name: "Dấu ấn danh nhân",
-    duration: "3 ngày 2 đêm",
-    price: 2590000,
-    image: "https://ext.same-assets.com/3334769225/3359488301.jpeg",
-    description: "Hành trình theo chân những danh nhân lịch sử xứ Nghệ"
-  }
-};
 
 export default function BookingPage() {
   const searchParams = useSearchParams();
