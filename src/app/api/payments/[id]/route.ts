@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth();
@@ -20,7 +20,8 @@ export async function PATCH(
     }
 
     const data = await request.json();
-    const paymentId = params.id;
+    const resolvedParams = await params;
+    const paymentId = resolvedParams.id;
 
     const payment = await prisma.payment.update({
       where: { id: paymentId },

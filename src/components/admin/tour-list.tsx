@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -52,7 +51,7 @@ export function TourList() {
         method: "POST",
         body: formData,
       });
-      
+
       if (response.ok) {
         await fetchTours();
         setIsCreateOpen(false);
@@ -64,13 +63,13 @@ export function TourList() {
 
   const handleUpdate = async (formData: FormData) => {
     if (!selectedTour) return;
-    
+
     try {
       const response = await fetch(`/api/tours/${selectedTour.id}`, {
         method: "PUT",
         body: formData,
       });
-      
+
       if (response.ok) {
         await fetchTours();
         setIsEditOpen(false);
@@ -83,12 +82,12 @@ export function TourList() {
 
   const handleDelete = async (id: string) => {
     if (!confirm("Bạn có chắc chắn muốn xóa tour này?")) return;
-    
+
     try {
       const response = await fetch(`/api/tours/${id}`, {
         method: "DELETE",
       });
-      
+
       if (response.ok) {
         await fetchTours();
       }
@@ -214,7 +213,7 @@ function TourForm({ tour, onSubmit }: { tour?: Tour; onSubmit: (data: FormData) 
           required
         />
       </div>
-      
+
       <div>
         <Label htmlFor="description">Mô tả</Label>
         <Textarea
@@ -224,7 +223,7 @@ function TourForm({ tour, onSubmit }: { tour?: Tour; onSubmit: (data: FormData) 
           rows={3}
         />
       </div>
-      
+
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="price">Giá (VNĐ)</Label>
@@ -232,11 +231,14 @@ function TourForm({ tour, onSubmit }: { tour?: Tour; onSubmit: (data: FormData) 
             id="price"
             name="price"
             type="number"
+            min="0"
+            step="1000"
             defaultValue={tour?.price}
+            placeholder="Ví dụ: 2990000"
             required
           />
         </div>
-        
+
         <div>
           <Label htmlFor="duration">Thời gian</Label>
           <Input
@@ -248,7 +250,7 @@ function TourForm({ tour, onSubmit }: { tour?: Tour; onSubmit: (data: FormData) 
           />
         </div>
       </div>
-      
+
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="location">Địa điểm</Label>
@@ -259,7 +261,7 @@ function TourForm({ tour, onSubmit }: { tour?: Tour; onSubmit: (data: FormData) 
             required
           />
         </div>
-        
+
         <div>
           <Label htmlFor="maxPeople">Số người tối đa</Label>
           <Input
@@ -271,7 +273,7 @@ function TourForm({ tour, onSubmit }: { tour?: Tour; onSubmit: (data: FormData) 
           />
         </div>
       </div>
-      
+
       <div>
         <Label htmlFor="image">URL Hình ảnh</Label>
         <Input
@@ -282,7 +284,7 @@ function TourForm({ tour, onSubmit }: { tour?: Tour; onSubmit: (data: FormData) 
           placeholder="https://example.com/image.jpg"
         />
       </div>
-      
+
       <Button type="submit" className="w-full">
         {tour ? "Cập nhật" : "Tạo Tour"}
       </Button>
