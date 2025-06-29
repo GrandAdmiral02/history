@@ -1,127 +1,147 @@
-import { Metadata } from "next";
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Clock, Users, Star } from "lucide-react";
-import { PrismaClient } from "@prisma/client";
+import { MapPin, Clock, Users } from "lucide-react";
 
-const prisma = new PrismaClient();
-
-export const metadata: Metadata = {
-  title: "Điểm đến du lịch | Du lịch Nghệ An",
-  description: "Khám phá các điểm đến du lịch hấp dẫn tại Nghệ An",
-};
-
-function formatPrice(price: number) {
-  return new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND'
-  }).format(price);
+interface Tour {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  duration: string;
+  location: string;
+  imageUrl: string;
+  category: string;
+  difficulty?: string;
+  maxPeople: number;
 }
 
-function getDifficultyText(difficulty: string | null) {
-  switch (difficulty) {
-    case 'EASY': return 'Dễ';
-    case 'MEDIUM': return 'Trung bình';
-    case 'HARD': return 'Khó';
-    default: return 'Chưa xác định';
-  }
-}
+export default function DestinationsPage() {
+  // Dữ liệu tour mặc định
+  const tours: Tour[] = [
+    {
+      id: "1",
+      name: "Tour Kim Liên - Quê hương Bác Hồ",
+      description: "Khám phá làng Sen quê hương Chủ tịch Hồ Chí Minh với những di tích lịch sử ý nghĩa.",
+      price: 500000,
+      duration: "1 ngày",
+      location: "Nam Đàn, Nghệ An",
+      imageUrl: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800",
+      category: "HISTORICAL",
+      maxPeople: 30
+    },
+    {
+      id: "2",
+      name: "Tour Đền Cường - Linh thiêng xứ Nghệ",
+      description: "Hành trình tâm linh tại ngôi đền cổ linh thiêng bậc nhất xứ Nghệ.",
+      price: 400000,
+      duration: "6 tiếng",
+      location: "Quỳ Châu, Nghệ An",
+      imageUrl: "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=800",
+      category: "SPIRITUAL",
+      maxPeople: 25
+    },
+    {
+      id: "3",
+      name: "Tour Thác Pù Cường - Thiên nhiên hùng vĩ",
+      description: "Chinh phục thác nước hùng vĩ và khám phá vẻ đẹp núi rừng Tây Bắc.",
+      price: 800000,
+      duration: "2 ngày 1 đêm",
+      location: "Kỳ Sơn, Nghệ An",
+      imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
+      category: "NATURE",
+      difficulty: "HARD",
+      maxPeople: 20
+    },
+    {
+      id: "4",
+      name: "Tour Hành trình về nguồn",
+      description: "Khám phá các di tích lịch sử và văn hóa trong hành trình tìm về cội nguồn dân tộc.",
+      price: 650000,
+      duration: "1 ngày",
+      location: "Nghệ An",
+      imageUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
+      category: "CULTURAL",
+      maxPeople: 35
+    }
+  ];
 
-function getCategoryText(category: string | null) {
-  switch (category) {
-    case 'CULTURAL': return 'Di sản văn hóa';
-    case 'HISTORICAL': return 'Lịch sử';
-    case 'SPIRITUAL': return 'Tâm linh';
-    case 'NATURE': return 'Thiên nhiên';
-    case 'ADVENTURE': return 'Phiêu lưu';
-    default: return 'Khác';
-  }
-}
+const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND'
+    }).format(price);
+  };
 
-export default async function DestinationsPage() {
-  const tours = await prisma.tour.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  const getCategoryText = (category: string) => {
+    const categoryMap = {
+      HISTORICAL: "Lịch sử",
+      SPIRITUAL: "Tâm linh", 
+      NATURE: "Thiên nhiên",
+      CULTURAL: "Văn hóa"
+    };
+    return categoryMap[category as keyof typeof categoryMap] || category;
+  };
+
+  const getDifficultyText = (difficulty: string) => {
+    const difficultyMap = {
+      EASY: "Dễ",
+      MEDIUM: "Trung bình",
+      HARD: "Khó"
+    };
+    return difficultyMap[difficulty as keyof typeof difficultyMap] || difficulty;
+  };
 
   return (
-    <div className="container py-12">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">Điểm đến du lịch</h1>
-          <p className="text-xl text-muted-foreground">
-            Khám phá vẻ đẹp và lịch sử của xứ Nghệ qua những hành trình đầy ý nghĩa
-          </p>
-        </div>
-
-        {tours.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-lg text-muted-foreground">
-              Hiện tại chưa có tour nào được thêm vào hệ thống.
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {tours.map((tour) => (
-              <Card key={tour.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="relative h-48">
-                  <Image
-                    src={tour.imageUrl || "/placeholder-image.jpg"}
-                    alt={tour.name}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute top-2 left-2">
-                    <Badge variant="secondary">
-                      {getCategoryText(tour.category)}
-                    </Badge>
-                  </div>
-                  {tour.difficulty && (
-                    <div className="absolute top-2 right-2">
-                      <Badge variant="outline">
-                        {getDifficultyText(tour.difficulty)}
-                      </Badge>
-                    </div>
-                  )}
+    <div className="container mx-auto px-4 py-8">
+      <div className="text-center">
+        <h1 className="text-3xl font-bold mb-4">Điểm đến du lịch</h1>
+        <p className="text-gray-600 mb-8">Khám phá những điểm đến hấp dẫn nhất tại Nghệ An</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {tours.map((tour) => (
+          <Card key={tour.id}>
+            <div className="relative h-48">
+              <Image
+                src={tour.imageUrl}
+                alt={tour.name}
+                fill
+                className="object-cover"
+              />
+            </div>
+            <CardContent className="p-4">
+              <h3 className="text-xl font-semibold mb-2">{tour.name}</h3>
+              <p className="text-gray-500 mb-4">{tour.description}</p>
+              <div className="flex items-center mb-2">
+                <MapPin className="h-4 w-4 mr-2 text-gray-400" />
+                {tour.location}
+              </div>
+              <div className="flex items-center mb-2">
+                <Clock className="h-4 w-4 mr-2 text-gray-400" />
+                {tour.duration}
+              </div>
+              <div className="flex items-center mb-2">
+                <Users className="h-4 w-4 mr-2 text-gray-400" />
+                Tối đa {tour.maxPeople} người
+              </div>
+              <div className="flex justify-between items-center">
+                <div className="text-green-600 font-bold text-lg">
+                  {formatPrice(tour.price)}
                 </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{tour.name}</h3>
-                  <p className="text-muted-foreground mb-4 line-clamp-2">
-                    {tour.description}
-                  </p>
-
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <MapPin className="mr-2 h-4 w-4" />
-                      {tour.location}
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Clock className="mr-2 h-4 w-4" />
-                      {tour.duration}
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Users className="mr-2 h-4 w-4" />
-                      Tối đa {tour.maxPeople} người
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="font-bold text-green-700 text-lg">
-                      {formatPrice(tour.price)}
-                    </div>
-                    <Button asChild>
-                      <Link href={`/booking?tourId=${tour.id}`}>
-                        Đặt tour
-                      </Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
+                <Button asChild>
+                  <Link href={`/booking?tourId=${tour.id}`}>
+                    Đặt tour
+                  </Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   );

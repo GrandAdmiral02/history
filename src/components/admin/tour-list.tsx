@@ -77,11 +77,7 @@ export function TourList() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Danh sách Tour</h2>
-        <Button onClick={() => router.push("/admin/tours/add")}>
-          <Plus className="h-4 w-4 mr-2" />
-          Thêm Tour
-        </Button>
+        <h2 className="text-2xl font-bold">Danh sách Tour (Dữ liệu mặc định)</h2>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -110,21 +106,8 @@ export function TourList() {
                 <Badge variant="secondary">
                   {tour.price.toLocaleString('vi-VN')}đ
                 </Badge>
-                <div className="flex gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => router.push(`/admin/tours/edit/${tour.id}`)}
-                  >
-                    <Edit2 className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={() => handleDelete(tour.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                <div className="text-sm text-muted-foreground">
+                  Dữ liệu mặc định
                 </div>
               </div>
             </CardContent>
