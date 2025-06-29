@@ -1,145 +1,106 @@
-"use client";
-
-import { useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin, Clock, Users } from "lucide-react";
 
-interface Tour {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  duration: string;
-  location: string;
-  imageUrl: string;
-  category: string;
-  difficulty?: string;
-  maxPeople: number;
-}
+const tours = [
+  {
+    id: "ve-nguon",
+    name: "Hành trình về nguồn",
+    description: "Khám phá quê hương và cuộc đời của Chủ tịch Hồ Chí Minh tại Nghệ An",
+    location: "Kim Liên, Nghệ An",
+    duration: "3 ngày 2 đêm",
+    maxPeople: 30,
+    price: 2990000,
+    image: "https://ext.same-assets.com/4052699563/777305328.jpeg",
+    slug: "ve-nguon"
+  },
+  {
+    id: "con-duong-huyen-thoai",
+    name: "Con đường huyền thoại",
+    description: "Hành trình theo dấu chân những người anh hùng",
+    location: "Quỳ Châu, Nghệ An",
+    duration: "2 ngày 1 đêm",
+    maxPeople: 25,
+    price: 1890000,
+    image: "https://ext.same-assets.com/3334769225/3220782747.jpeg",
+    slug: "con-duong-huyen-thoai"
+  },
+  {
+    id: "di-san-tam-linh",
+    name: "Di sản văn hóa tâm linh",
+    description: "Hành trình khám phá các đền, chùa nổi tiếng xứ Nghệ",
+    location: "Kỳ Sơn, Nghệ An",
+    duration: "4 ngày 3 đêm",
+    maxPeople: 20,
+    price: 3490000,
+    image: "https://ext.same-assets.com/3334769225/3110326546.jpeg",
+    slug: "di-san-tam-linh"
+  },
+  {
+    id: "dau-an-danh-nhan",
+    name: "Dấu ấn danh nhân",
+    description: "Hành trình theo chân những danh nhân lịch sử xứ Nghệ",
+    location: "Vinh, Nghệ An",
+    duration: "3 ngày 2 đêm",
+    maxPeople: 35,
+    price: 2590000,
+    image: "https://ext.same-assets.com/3334769225/3359488301.jpeg",
+    slug: "dau-an-danh-nhan"
+  }
+];
 
 export default function DestinationsPage() {
-  // Dữ liệu tour mặc định
-  const tours: Tour[] = [
-    {
-      id: "1",
-      name: "Tour Kim Liên - Quê hương Bác Hồ",
-      description: "Khám phá làng Sen quê hương Chủ tịch Hồ Chí Minh với những di tích lịch sử ý nghĩa.",
-      price: 500000,
-      duration: "1 ngày",
-      location: "Nam Đàn, Nghệ An",
-      imageUrl: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800",
-      category: "HISTORICAL",
-      maxPeople: 30
-    },
-    {
-      id: "2",
-      name: "Tour Đền Cường - Linh thiêng xứ Nghệ",
-      description: "Hành trình tâm linh tại ngôi đền cổ linh thiêng bậc nhất xứ Nghệ.",
-      price: 400000,
-      duration: "6 tiếng",
-      location: "Quỳ Châu, Nghệ An",
-      imageUrl: "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=800",
-      category: "SPIRITUAL",
-      maxPeople: 25
-    },
-    {
-      id: "3",
-      name: "Tour Thác Pù Cường - Thiên nhiên hùng vĩ",
-      description: "Chinh phục thác nước hùng vĩ và khám phá vẻ đẹp núi rừng Tây Bắc.",
-      price: 800000,
-      duration: "2 ngày 1 đêm",
-      location: "Kỳ Sơn, Nghệ An",
-      imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
-      category: "NATURE",
-      difficulty: "HARD",
-      maxPeople: 20
-    },
-    {
-      id: "4",
-      name: "Tour Hành trình về nguồn",
-      description: "Khám phá các di tích lịch sử và văn hóa trong hành trình tìm về cội nguồn dân tộc.",
-      price: 650000,
-      duration: "1 ngày",
-      location: "Nghệ An",
-      imageUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
-      category: "CULTURAL",
-      maxPeople: 35
-    }
-  ];
-
-const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('vi-VN', {
-      style: 'currency',
-      currency: 'VND'
-    }).format(price);
-  };
-
-  const getCategoryText = (category: string) => {
-    const categoryMap = {
-      HISTORICAL: "Lịch sử",
-      SPIRITUAL: "Tâm linh", 
-      NATURE: "Thiên nhiên",
-      CULTURAL: "Văn hóa"
-    };
-    return categoryMap[category as keyof typeof categoryMap] || category;
-  };
-
-  const getDifficultyText = (difficulty: string) => {
-    const difficultyMap = {
-      EASY: "Dễ",
-      MEDIUM: "Trung bình",
-      HARD: "Khó"
-    };
-    return difficultyMap[difficulty as keyof typeof difficultyMap] || difficulty;
-  };
-
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold mb-4">Điểm đến du lịch</h1>
-        <p className="text-gray-600 mb-8">Khám phá những điểm đến hấp dẫn nhất tại Nghệ An</p>
+    <div className="container py-12">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold mb-4">Điểm đến du lịch</h1>
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          Khám phá những điểm đến hấp dẫn nhất tại Nghệ An
+        </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {tours.map((tour) => (
-          <Card key={tour.id}>
+          <Card key={tour.id} className="overflow-hidden hover:shadow-lg transition-shadow">
             <div className="relative h-48">
               <Image
-                src={tour.imageUrl}
+                src={tour.image}
                 alt={tour.name}
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
-            <CardContent className="p-4">
-              <h3 className="text-xl font-semibold mb-2">{tour.name}</h3>
-              <p className="text-gray-500 mb-4">{tour.description}</p>
-              <div className="flex items-center mb-2">
-                <MapPin className="h-4 w-4 mr-2 text-gray-400" />
+            <CardHeader>
+              <CardTitle className="text-xl">{tour.name}</CardTitle>
+              <CardDescription>{tour.description}</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex items-center text-sm text-muted-foreground">
+                <MapPin className="h-4 w-4 mr-2" />
                 {tour.location}
               </div>
-              <div className="flex items-center mb-2">
-                <Clock className="h-4 w-4 mr-2 text-gray-400" />
+              <div className="flex items-center text-sm text-muted-foreground">
+                <Clock className="h-4 w-4 mr-2" />
                 {tour.duration}
               </div>
-              <div className="flex items-center mb-2">
-                <Users className="h-4 w-4 mr-2 text-gray-400" />
+              <div className="flex items-center text-sm text-muted-foreground">
+                <Users className="h-4 w-4 mr-2" />
                 Tối đa {tour.maxPeople} người
               </div>
-              <div className="flex justify-between items-center">
-                <div className="text-green-600 font-bold text-lg">
-                  {formatPrice(tour.price)}
-                </div>
-                <Button asChild>
-                  <Link href={`/booking?tourId=${tour.id}`}>
-                    Đặt tour
-                  </Link>
-                </Button>
+              <div className="text-lg font-bold text-green-700">
+                {tour.price.toLocaleString("vi-VN")} đ
               </div>
             </CardContent>
+            <CardFooter className="pt-0">
+              <Button asChild className="w-full bg-green-700 hover:bg-green-800">
+                <Link href={`/destinations/${tour.slug}`}>
+                  Đặt tour
+                </Link>
+              </Button>
+            </CardFooter>
           </Card>
         ))}
       </div>
