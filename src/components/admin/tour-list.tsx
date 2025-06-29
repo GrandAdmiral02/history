@@ -21,49 +21,8 @@ interface Tour {
 
 export function TourList() {
   const router = useRouter();
-  const [tours, setTours] = useState<Tour[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchTours();
-  }, []);
-
-  const fetchTours = async () => {
-    try {
-      const response = await fetch("/api/tours");
-      const data = await response.json();
-      setTours(data);
-    } catch (error) {
-      console.error("Error fetching tours:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-
-  const handleDelete = async (id: string) => {
-    if (!confirm("Bạn có chắc chắn muốn xóa tour này?")) return;
-
-    try {
-      const response = await fetch(`/api/tours/${id}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
-        await fetchTours();
-      }
-    } catch (error) {
-      console.error("Error deleting tour:", error);
-    }
-  };
-
-  if (loading) {
-    return <div>Đang tải...</div>;
-  }
-
   // Danh sách tour mặc định được set cứng
-  const [toursData] = useState<Tour[]>([
+  const tours: Tour[] = [
     {
       id: "1",
       name: "Tour Kim Liên - Quê hương Bác Hồ",
@@ -108,7 +67,12 @@ export function TourList() {
       maxPeople: 35,
       createdAt: "2024-01-04"
     }
-  ]);
+  ];
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Bạn có chắc chắn muốn xóa tour này?")) return;
+    alert("Chức năng xóa đã bị vô hiệu hóa cho dữ liệu mặc định");
+  };
 
   return (
     <div className="space-y-6">
