@@ -5,6 +5,32 @@ import { auth } from "@/lib/auth/auth";
 
 const prisma = new PrismaClient();
 
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const tour = await prisma.tour.findUnique({
+      where: { id: params.id },
+    });
+
+    if (!tour) {
+      return NextResponse.json(
+        { error: "Không tìm thấy tour" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(tour);
+  } catch (error) {
+    console.error("Error fetching tour:", error);
+    return NextResponse.json(
+      { error: "Lỗi khi tải thông tin tour" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -70,7 +96,7 @@ export async function DELETE(
       where: { id: params.id },
     });
 
-    return NextResponse.json({ message: "Đã xóa tour thành công" });
+    return NextResponse.json({ message: "Xóa tour thành công" });
   } catch (error) {
     console.error("Error deleting tour:", error);
     return NextResponse.json(
