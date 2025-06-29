@@ -40,7 +40,7 @@ export function TourList() {
     }
   };
 
-  
+
 
   const handleDelete = async (id: string) => {
     if (!confirm("Bạn có chắc chắn muốn xóa tour này?")) return;
@@ -61,6 +61,54 @@ export function TourList() {
   if (loading) {
     return <div>Đang tải...</div>;
   }
+
+  // Danh sách tour mặc định được set cứng
+  const [toursData] = useState<Tour[]>([
+    {
+      id: "1",
+      name: "Tour Kim Liên - Quê hương Bác Hồ",
+      description: "Khám phá làng Sen quê hương Chủ tịch Hồ Chí Minh với những di tích lịch sử ý nghĩa.",
+      price: 500000,
+      duration: "1 ngày",
+      location: "Nam Đàn, Nghệ An",
+      image: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800",
+      maxPeople: 30,
+      createdAt: "2024-01-01"
+    },
+    {
+      id: "2",
+      name: "Tour Đền Cường - Linh thiêng xứ Nghệ",
+      description: "Hành trình tâm linh tại ngôi đền cổ linh thiêng bậc nhất xứ Nghệ.",
+      price: 400000,
+      duration: "6 tiếng",
+      location: "Quỳ Châu, Nghệ An",
+      image: "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=800",
+      maxPeople: 25,
+      createdAt: "2024-01-02"
+    },
+    {
+      id: "3",
+      name: "Tour Thác Pù Cường - Thiên nhiên hùng vĩ",
+      description: "Chinh phục thác nước hùng vĩ và khám phá vẻ đẹp núi rừng Tây Bắc.",
+      price: 800000,
+      duration: "2 ngày 1 đêm",
+      location: "Kỳ Sơn, Nghệ An",
+      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
+      maxPeople: 20,
+      createdAt: "2024-01-03"
+    },
+    {
+      id: "4",
+      name: "Tour Hành trình về nguồn",
+      description: "Khám phá các di tích lịch sử và văn hóa trong hành trình tìm về cội nguồn dân tộc.",
+      price: 650000,
+      duration: "1 ngày",
+      location: "Nghệ An",
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
+      maxPeople: 35,
+      createdAt: "2024-01-04"
+    }
+  ]);
 
   return (
     <div className="space-y-6">
