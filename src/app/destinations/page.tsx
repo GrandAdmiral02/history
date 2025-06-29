@@ -48,6 +48,17 @@ const tours = [
     price: 2590000,
     image: "https://ext.same-assets.com/3334769225/3359488301.jpeg",
     slug: "dau-an-danh-nhan"
+  },
+  {
+    id: "thiet-ke-theo-yeu-cau",
+    name: "Thiết kế hành trình theo yêu cầu",
+    description: "Tạo ra hành trình du lịch riêng theo ý tưởng và mong muốn của bạn",
+    location: "Nghệ An",
+    duration: "Tùy chọn",
+    maxPeople: 50,
+    price: 0,
+    image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800",
+    slug: "thiet-ke-theo-yeu-cau"
   }
 ];
 
