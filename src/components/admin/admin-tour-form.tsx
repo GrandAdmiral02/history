@@ -7,258 +7,250 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Save, Loader2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-interface TourFormData {
-  name: string;
-  description: string;
-  price: string;
-  duration: string;
-  location: string;
-  maxPeople: string;
-  image: string;
-}
-
-interface AdminTourFormProps {
+interface TourFormProps {
   tour?: {
     id: string;
     name: string;
     description: string | null;
-    price: number;
-    duration: string;
     location: string;
+    duration: string;
+    price: number;
     maxPeople: number;
-    image: string | null;
+    imageUrl: string | null;
+    difficulty: string | null;
+    includes: string | null;
+    schedule: string | null;
+    category: string | null;
   };
   isEdit?: boolean;
 }
 
-export function AdminTourForm({ tour, isEdit = false }: AdminTourFormProps) {
+export function AdminTourForm({ tour, isEdit = false }: TourFormProps) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<TourFormData>({
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
     name: tour?.name || "",
     description: tour?.description || "",
-    price: tour?.price?.toString() || "",
-    duration: tour?.duration || "",
     location: tour?.location || "",
-    maxPeople: tour?.maxPeople?.toString() || "",
-    image: tour?.image || "",
+    duration: tour?.duration || "",
+    price: tour?.price || 0,
+    maxPeople: tour?.maxPeople || 20,
+    imageUrl: tour?.imageUrl || "",
+    difficulty: tour?.difficulty || "EASY",
+    includes: tour?.includes || "",
+    schedule: tour?.schedule || "",
+    category: tour?.category || "CULTURAL"
   });
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    setIsLoading(true);
 
     try {
-      const submitData = new FormData();
-      submitData.append("name", formData.name);
-      submitData.append("description", formData.description);
-      submitData.append("price", formData.price);
-      submitData.append("duration", formData.duration);
-      submitData.append("location", formData.location);
-      submitData.append("maxPeople", formData.maxPeople);
-      submitData.append("image", formData.image);
-
       const url = isEdit ? `/api/tours/${tour?.id}` : "/api/tours";
       const method = isEdit ? "PUT" : "POST";
 
       const response = await fetch(url, {
         method,
-        body: submitData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         router.push("/admin/tours");
         router.refresh();
       } else {
-        alert("Có lỗi xảy ra khi lưu tour");
+        const errorData = await response.json();
+        alert(errorData.error || "Có lỗi xảy ra");
       }
     } catch (error) {
-      console.error("Error saving tour:", error);
+      console.error("Error:", error);
       alert("Có lỗi xảy ra khi lưu tour");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
+  const handleInputChange = (field: string, value: string | number) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
   return (
-    <div className="container max-w-4xl mx-auto py-8 px-4">
-      <div className="flex items-center gap-4 mb-6">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => router.back()}
-          className="flex items-center gap-2"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Quay lại
-        </Button>
-        <div>
-          <h1 className="text-2xl font-bold">
-            {isEdit ? "Chỉnh sửa Tour" : "Thêm Tour Mới"}
-          </h1>
-          <p className="text-muted-foreground">
-            {isEdit ? "Cập nhật thông tin tour du lịch" : "Tạo tour du lịch mới"}
-          </p>
-        </div>
-      </div>
+    <Card className="max-w-4xl mx-auto">
+      <CardHeader>
+        <CardTitle>{isEdit ? "Chỉnh sửa tour" : "Thêm tour mới"}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="name">Tên tour *</Label>
+              <Input
+                id="name"
+                value={formData.name}
+                onChange={(e) => handleInputChange("name", e.target.value)}
+                placeholder="VD: Hành trình về nguồn"
+                required
+              />
+            </div>
 
-      <form onSubmit={handleSubmit}>
-        <div className="grid gap-6">
-          {/* Thông tin cơ bản */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Thông tin cơ bản</CardTitle>
-              <CardDescription>
-                Nhập thông tin chi tiết về tour du lịch
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="name">Tên Tour *</Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="Nhập tên tour"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="location">Địa điểm *</Label>
-                  <Input
-                    id="location"
-                    name="location"
-                    value={formData.location}
-                    onChange={handleInputChange}
-                    placeholder="Nhập địa điểm tour"
-                    required
-                  />
-                </div>
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="location">Địa điểm *</Label>
+              <Input
+                id="location"
+                value={formData.location}
+                onChange={(e) => handleInputChange("location", e.target.value)}
+                placeholder="VD: Khu di tích Kim Liên, Nam Đàn"
+                required
+              />
+            </div>
 
-              <div>
-                <Label htmlFor="description">Mô tả</Label>
-                <Textarea
-                  id="description"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  placeholder="Nhập mô tả chi tiết về tour"
-                  rows={4}
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="duration">Thời gian *</Label>
+              <Input
+                id="duration"
+                value={formData.duration}
+                onChange={(e) => handleInputChange("duration", e.target.value)}
+                placeholder="VD: 3 ngày 2 đêm"
+                required
+              />
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <Label htmlFor="price">Giá tour (VNĐ) *</Label>
-                  <Input
-                    id="price"
-                    name="price"
-                    type="number"
-                    min="0"
-                    step="1000"
-                    value={formData.price}
-                    onChange={handleInputChange}
-                    placeholder="Ví dụ: 2990000"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="duration">Thời gian *</Label>
-                  <Input
-                    id="duration"
-                    name="duration"
-                    value={formData.duration}
-                    onChange={handleInputChange}
-                    placeholder="VD: 2 ngày 1 đêm"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="maxPeople">Số người tối đa *</Label>
-                  <Input
-                    id="maxPeople"
-                    name="maxPeople"
-                    type="number"
-                    min="1"
-                    value={formData.maxPeople}
-                    onChange={handleInputChange}
-                    placeholder="VD: 20"
-                    required
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+            <div className="space-y-2">
+              <Label htmlFor="price">Giá tour (VNĐ) *</Label>
+              <Input
+                id="price"
+                type="number"
+                value={formData.price}
+                onChange={(e) => handleInputChange("price", Number(e.target.value))}
+                placeholder="VD: 2990000"
+                min="0"
+                max="999999999999"
+                required
+              />
+            </div>
 
-          {/* Hình ảnh */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Hình ảnh</CardTitle>
-              <CardDescription>
-                Thêm hình ảnh để tour trông hấp dẫn hơn
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div>
-                <Label htmlFor="image">URL Hình ảnh</Label>
-                <Input
-                  id="image"
-                  name="image"
-                  type="url"
-                  value={formData.image}
-                  onChange={handleInputChange}
-                  placeholder="https://example.com/image.jpg"
-                />
-                {formData.image && (
-                  <div className="mt-4">
-                    <p className="text-sm text-muted-foreground mb-2">Xem trước:</p>
-                    <img
-                      src={formData.image}
-                      alt="Tour preview"
-                      className="w-full max-w-md h-48 object-cover rounded-lg"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+            <div className="space-y-2">
+              <Label htmlFor="maxPeople">Số người tối đa *</Label>
+              <Input
+                id="maxPeople"
+                type="number"
+                value={formData.maxPeople}
+                onChange={(e) => handleInputChange("maxPeople", Number(e.target.value))}
+                placeholder="VD: 30"
+                min="1"
+                max="100"
+                required
+              />
+            </div>
 
-          {/* Nút lưu */}
-          <div className="flex justify-end gap-4">
-            <Button
-              type="button"
-              variant="outline"
+            <div className="space-y-2">
+              <Label htmlFor="difficulty">Độ khó</Label>
+              <Select 
+                value={formData.difficulty} 
+                onValueChange={(value) => handleInputChange("difficulty", value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Chọn độ khó" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="EASY">Dễ</SelectItem>
+                  <SelectItem value="MEDIUM">Trung bình</SelectItem>
+                  <SelectItem value="HARD">Khó</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="category">Loại tour</Label>
+              <Select 
+                value={formData.category} 
+                onValueChange={(value) => handleInputChange("category", value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Chọn loại tour" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="CULTURAL">Di sản văn hóa</SelectItem>
+                  <SelectItem value="HISTORICAL">Lịch sử</SelectItem>
+                  <SelectItem value="SPIRITUAL">Tâm linh</SelectItem>
+                  <SelectItem value="NATURE">Thiên nhiên</SelectItem>
+                  <SelectItem value="ADVENTURE">Phiêu lưu</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="imageUrl">URL hình ảnh</Label>
+              <Input
+                id="imageUrl"
+                value={formData.imageUrl}
+                onChange={(e) => handleInputChange("imageUrl", e.target.value)}
+                placeholder="VD: https://example.com/image.jpg"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="description">Mô tả tour *</Label>
+            <Textarea
+              id="description"
+              value={formData.description}
+              onChange={(e) => handleInputChange("description", e.target.value)}
+              placeholder="Mô tả chi tiết về tour du lịch..."
+              rows={4}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="includes">Tour bao gồm</Label>
+            <Textarea
+              id="includes"
+              value={formData.includes}
+              onChange={(e) => handleInputChange("includes", e.target.value)}
+              placeholder="VD: Xe du lịch đời mới, Khách sạn 3-4 sao, Các bữa ăn theo chương trình, Vé tham quan, Hướng dẫn viên, Bảo hiểm du lịch"
+              rows={3}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="schedule">Lịch trình tour</Label>
+            <Textarea
+              id="schedule"
+              value={formData.schedule}
+              onChange={(e) => handleInputChange("schedule", e.target.value)}
+              placeholder="Mô tả chi tiết lịch trình theo ngày..."
+              rows={6}
+            />
+          </div>
+
+          <div className="flex gap-4">
+            <Button 
+              type="submit" 
+              disabled={isLoading}
+              className="bg-green-700 hover:bg-green-800"
+            >
+              {isLoading ? "Đang lưu..." : isEdit ? "Cập nhật" : "Thêm tour"}
+            </Button>
+            <Button 
+              type="button" 
+              variant="outline" 
               onClick={() => router.back()}
             >
               Hủy
             </Button>
-            <Button type="submit" disabled={loading}>
-              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              <Save className="mr-2 h-4 w-4" />
-              {isEdit ? "Cập nhật Tour" : "Tạo Tour"}
-            </Button>
           </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

@@ -112,11 +112,15 @@ model Tour {
   id          String    @id @default(cuid())
   name        String
   description String?   @db.Text
-  price       Float
-  duration    String
   location    String
-  image       String?
-  maxPeople   Int       @default(10)
+  duration    String
+  price       Float
+  maxPeople   Int
+  imageUrl    String?
+  difficulty  String?  // EASY, MEDIUM, HARD
+  includes    String?  // Tour bao gồm những gì
+  schedule    String?  // Lịch trình chi tiết
+  category    String?  // CULTURAL, HISTORICAL, SPIRITUAL, NATURE, ADVENTURE
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 

@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { auth } from "@/lib/auth/auth";
@@ -37,7 +36,7 @@ export async function PUT(
 ) {
   try {
     const session = await auth();
-    
+
     if (!session?.user || !["ADMIN_TOUR", "SUPER_ADMIN"].includes(session.user.role || "")) {
       return NextResponse.json(
         { error: "Không có quyền truy cập" },
@@ -45,26 +44,34 @@ export async function PUT(
       );
     }
 
-    const formData = await request.formData();
-    
-    const name = formData.get("name") as string;
-    const description = formData.get("description") as string;
-    const price = parseFloat(formData.get("price") as string);
-    const duration = formData.get("duration") as string;
-    const location = formData.get("location") as string;
-    const maxPeople = parseInt(formData.get("maxPeople") as string);
-    const image = formData.get("image") as string;
+    const { 
+      name, 
+      description, 
+      location, 
+      duration, 
+      price, 
+      maxPeople, 
+      imageUrl,
+      difficulty,
+      includes,
+      schedule,
+      category
+    } = await request.json();
 
     const tour = await prisma.tour.update({
       where: { id: params.id },
       data: {
         name,
         description,
-        price,
-        duration,
         location,
-        maxPeople,
-        image: image || null,
+        duration,
+        price: parseFloat(price),
+        maxPeople: parseInt(maxPeople),
+        imageUrl,
+        difficulty,
+        includes,
+        schedule,
+        category,
       },
     });
 
@@ -84,7 +91,7 @@ export async function DELETE(
 ) {
   try {
     const session = await auth();
-    
+
     if (!session?.user || !["ADMIN_TOUR", "SUPER_ADMIN"].includes(session.user.role || "")) {
       return NextResponse.json(
         { error: "Không có quyền truy cập" },

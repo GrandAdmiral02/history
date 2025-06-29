@@ -2,8 +2,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Clock, MapPin, Star, Users } from "lucide-react";
+import { PrismaClient } from "@prisma/client";
 
-export default function DestinationsPage() {
+const prisma = new PrismaClient();
+
+async function getTours() {
+  try {
+    const tours = await prisma.tour.findMany({
+      orderBy: { createdAt: 'desc' }
+    });
+    return tours;
+  } catch (error) {
+    console.error('Error fetching tours:', error);
+    return [];
+  }
+}
+
+export default async function DestinationsPage() {
+  const tours = await getTours();
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero section */}
@@ -45,224 +63,243 @@ export default function DestinationsPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Hành trình 1 */}
-          <Card className="flex flex-col h-full">
-            <div className="relative h-60">
-              <Image
-                src="https://ext.same-assets.com/4052699563/777305328.jpeg"
-                alt="Hành trình về nguồn"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute top-3 right-3 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                3 ngày 2 đêm
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {/* Static tours - keep existing static tours */}
+            <Card className="overflow-hidden">
+              <div className="relative h-48">
+                <Image
+                  src="https://ext.same-assets.com/4052699563/777305328.jpeg"
+                  alt="Hành trình về nguồn"
+                  fill
+                  className="object-cover"
+                />
               </div>
-            </div>
-            <CardHeader>
-              <CardTitle>Hành trình về nguồn</CardTitle>
-              <CardDescription>
-                Khám phá quê hương và cuộc đời của Chủ tịch Hồ Chí Minh
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1">
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-semibold text-green-800">Ngày 1: Vinh - Nam Đàn</h3>
-                  <ul className="text-sm text-muted-foreground list-disc list-inside mt-2 space-y-1">
-                    <li>Tham quan thành phố Vinh, Quảng trường Hồ Chí Minh</li>
-                    <li>Di chuyển đến Khu di tích Kim Liên</li>
-                    <li>Tham quan làng Sen, nơi Bác Hồ sinh ra và lớn lên</li>
-                    <li>Tham quan làng Hoàng Trù, quê ngoại của Bác</li>
-                    <li>Nghỉ đêm tại Nam Đàn hoặc Vinh</li>
-                  </ul>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <Badge variant="secondary">Hành trình du lịch</Badge>
+                  <div className="flex items-center">
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <span className="ml-1 text-sm">4.8</span>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-green-800">Ngày 2: Nam Đàn - Đô Lương</h3>
-                  <ul className="text-sm text-muted-foreground list-disc list-inside mt-2 space-y-1">
-                    <li>Viếng mộ bà Hoàng Thị Loan tại núi Động Tranh</li>
-                    <li>Tham quan đền Chung Sơn</li>
-                    <li>Di chuyển đến huyện Đô Lương</li>
-                    <li>Tham quan đền Quả Sơn</li>
-                    <li>Tham quan Khu di tích Truông Bồn</li>
-                    <li>Nghỉ đêm tại Đô Lương hoặc Vinh</li>
-                  </ul>
+                <CardTitle className="text-xl">Hành trình về nguồn</CardTitle>
+                <CardDescription>
+                  Khám phá quê hương và cuộc đời của Chủ tịch Hồ Chí Minh tại Nghệ An
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <MapPin className="h-4 w-4 mr-2" />
+                    Khu di tích Kim Liên, Nam Đàn
+                  </div>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Clock className="h-4 w-4 mr-2" />
+                    3 ngày 2 đêm
+                  </div>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Users className="h-4 w-4 mr-2" />
+                    Tối đa 30 người
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-green-800">Ngày 3: Vinh - Di tích lịch sử</h3>
-                  <ul className="text-sm text-muted-foreground list-disc list-inside mt-2 space-y-1">
-                    <li>Tham quan Bảo tàng Xô Viết Nghệ Tĩnh</li>
-                    <li>Tham quan Thành cổ Vinh</li>
-                    <li>Ghé thăm đền Vạn Lộc</li>
-                    <li>Kết thúc hành trình</li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button asChild className="w-full bg-green-700 hover:bg-green-800">
-                <Link href="/destinations/ve-nguon">Chi Tiết Hành Trình</Link>
-              </Button>
-            </CardFooter>
-          </Card>
+              </CardContent>
+              <CardFooter className="flex items-center justify-between">
+                <div className="text-2xl font-bold text-green-700">2.990.000đ</div>
+                <Button asChild className="bg-green-700 hover:bg-green-800">
+                  <Link href="/destinations/ve-nguon">Xem chi tiết</Link>
+                </Button>
+              </CardFooter>
+            </Card>
 
-          {/* Hành trình 2 */}
-          <Card className="flex flex-col h-full">
-            <div className="relative h-60">
-              <Image
-                src="https://ext.same-assets.com/3334769225/3220782747.jpeg"
-                alt="Con đường huyền thoại"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute top-3 right-3 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                2 ngày 1 đêm
+            <Card className="overflow-hidden">
+              <div className="relative h-48">
+                <Image
+                  src="https://ext.same-assets.com/3334769225/3220782747.jpeg"
+                  alt="Con đường huyền thoại"
+                  fill
+                  className="object-cover"
+                />
               </div>
-            </div>
-            <CardHeader>
-              <CardTitle>Con đường huyền thoại</CardTitle>
-              <CardDescription>
-                Hành trình theo dấu chân những người anh hùng
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1">
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-semibold text-green-800">Ngày 1: Vinh - Cột mốc số 0</h3>
-                  <ul className="text-sm text-muted-foreground list-disc list-inside mt-2 space-y-1">
-                    <li>Tham quan Bảo tàng Xô Viết Nghệ Tĩnh</li>
-                    <li>Di chuyển đến xã Tân Kỳ</li>
-                    <li>Tham quan Cột mốc số 0 - Đường Hồ Chí Minh</li>
-                    <li>Tìm hiểu về đường mòn Hồ Chí Minh huyền thoại</li>
-                    <li>Nghỉ đêm tại Tân Kỳ hoặc Vinh</li>
-                  </ul>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <Badge variant="secondary">Hành trình du lịch</Badge>
+                  <div className="flex items-center">
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <span className="ml-1 text-sm">4.6</span>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-green-800">Ngày 2: Truông Bồn - Vinh</h3>
-                  <ul className="text-sm text-muted-foreground list-disc list-inside mt-2 space-y-1">
-                    <li>Di chuyển đến huyện Đô Lương</li>
-                    <li>Tham quan Khu di tích Truông Bồn</li>
-                    <li>Tìm hiểu về sự hy sinh anh dũng của các chiến sĩ TNXP</li>
-                    <li>Quay về Vinh, tham quan đền thờ Hoàng đế Quang Trung</li>
-                    <li>Kết thúc hành trình</li>
-                  </ul>
+                <CardTitle className="text-xl">Con đường huyền thoại</CardTitle>
+                <CardDescription>
+                  Hành trình theo dấu chân những người anh hùng dân tộc Việt Nam
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <MapPin className="h-4 w-4 mr-2" />
+                    Truông Bồn, Đô Lương
+                  </div>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Clock className="h-4 w-4 mr-2" />
+                    2 ngày 1 đêm
+                  </div>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Users className="h-4 w-4 mr-2" />
+                    Tối đa 25 người
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button asChild className="w-full bg-green-700 hover:bg-green-800">
-                <Link href="/destinations/con-duong-huyen-thoai">Chi Tiết Hành Trình</Link>
-              </Button>
-            </CardFooter>
-          </Card>
+              </CardContent>
+              <CardFooter className="flex items-center justify-between">
+                <div className="text-2xl font-bold text-green-700">1.890.000đ</div>
+                <Button asChild className="bg-green-700 hover:bg-green-800">
+                  <Link href="/destinations/con-duong-huyen-thoai">Xem chi tiết</Link>
+                </Button>
+              </CardFooter>
+            </Card>
 
-          {/* Hành trình 3 */}
-          <Card className="flex flex-col h-full">
-            <div className="relative h-60">
-              <Image
-                src="https://ext.same-assets.com/3334769225/3110326546.jpeg"
-                alt="Di sản văn hóa tâm linh"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute top-3 right-3 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                4 ngày 3 đêm
+            <Card className="overflow-hidden">
+              <div className="relative h-48">
+                <Image
+                  src="https://ext.same-assets.com/3334769225/3110326546.jpeg"
+                  alt="Di sản văn hóa tâm linh"
+                  fill
+                  className="object-cover"
+                />
               </div>
-            </div>
-            <CardHeader>
-              <CardTitle>Di sản văn hóa tâm linh</CardTitle>
-              <CardDescription>
-                Hành trình khám phá các đền, chùa nổi tiếng xứ Nghệ
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1">
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-semibold text-green-800">Ngày 1: Vinh - Đền Cuông</h3>
-                  <ul className="text-sm text-muted-foreground list-disc list-inside mt-2 space-y-1">
-                    <li>Tham quan thành phố Vinh</li>
-                    <li>Di chuyển đến huyện Diễn Châu</li>
-                    <li>Tham quan Đền Cuông</li>
-                    <li>Tìm hiểu về tín ngưỡng thờ phụng An Dương Vương</li>
-                    <li>Nghỉ đêm tại Diễn Châu hoặc Vinh</li>
-                  </ul>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <Badge variant="secondary">Hành trình du lịch</Badge>
+                  <div className="flex items-center">
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <span className="ml-1 text-sm">4.7</span>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-green-800">Ngày 2-3: Quanh Nghệ An</h3>
-                  <ul className="text-sm text-muted-foreground list-disc list-inside mt-2 space-y-1">
-                    <li>Tham quan Đền Quả Sơn tại Đô Lương</li>
-                    <li>Tham quan Đền Vạn Lộc tại Hưng Lộc</li>
-                    <li>Tham quan đền thờ Hoàng đế Quang Trung</li>
-                    <li>Viếng chùa Đại Tuệ</li>
-                    <li>Khám phá các di tích tâm linh khác trong khu vực</li>
-                  </ul>
+                <CardTitle className="text-xl">Di sản văn hóa tâm linh</CardTitle>
+                <CardDescription>
+                  Hành trình khám phá các đền, chùa nổi tiếng xứ Nghệ
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <MapPin className="h-4 w-4 mr-2" />
+                    Đền Cuông, Diễn Châu
+                  </div>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Clock className="h-4 w-4 mr-2" />
+                    4 ngày 3 đêm
+                  </div>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Users className="h-4 w-4 mr-2" />
+                    Tối đa 35 người
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-green-800">Ngày 4: Con Cuông</h3>
-                  <ul className="text-sm text-muted-foreground list-disc list-inside mt-2 space-y-1">
-                    <li>Di chuyển đến huyện Con Cuông</li>
-                    <li>Tham quan đền Cửa Rào</li>
-                    <li>Khám phá Vườn quốc gia Pù Mát</li>
-                    <li>Kết thúc hành trình</li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button asChild className="w-full bg-green-700 hover:bg-green-800">
-                <Link href="/destinations/di-san-tam-linh">Chi Tiết Hành Trình</Link>
-              </Button>
-            </CardFooter>
-          </Card>
+              </CardContent>
+              <CardFooter className="flex items-center justify-between">
+                <div className="text-2xl font-bold text-green-700">3.490.000đ</div>
+                <Button asChild className="bg-green-700 hover:bg-green-800">
+                  <Link href="/destinations/di-san-tam-linh">Xem chi tiết</Link>
+                </Button>
+              </CardFooter>
+            </Card>
 
-          {/* Hành trình 4 */}
-          <Card className="flex flex-col h-full">
-            <div className="relative h-60">
-              <Image
-                src="https://ext.same-assets.com/3334769225/3359488301.jpeg"
-                alt="Dấu ấn danh nhân"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute top-3 right-3 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                2 ngày 1 đêm
+            <Card className="overflow-hidden">
+              <div className="relative h-48">
+                <Image
+                  src="https://ext.same-assets.com/3334769225/3359488301.jpeg"
+                  alt="Dấu ấn danh nhân"
+                  fill
+                  className="object-cover"
+                />
               </div>
-            </div>
-            <CardHeader>
-              <CardTitle>Dấu ấn danh nhân</CardTitle>
-              <CardDescription>
-                Hành trình theo chân những danh nhân lịch sử xứ Nghệ
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1">
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-semibold text-green-800">Ngày 1: Vinh - Nam Đàn</h3>
-                  <ul className="text-sm text-muted-foreground list-disc list-inside mt-2 space-y-1">
-                    <li>Tham quan Khu di tích Kim Liên</li>
-                    <li>Viếng mộ bà Hoàng Thị Loan</li>
-                    <li>Tham quan Di tích lưu niệm cụ Phan Bội Châu</li>
-                    <li>Nghỉ đêm tại Nam Đàn hoặc Vinh</li>
-                  </ul>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <Badge variant="secondary">Hành trình du lịch</Badge>
+                  <div className="flex items-center">
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <span className="ml-1 text-sm">4.5</span>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-green-800">Ngày 2: Vinh và vùng phụ cận</h3>
-                  <ul className="text-sm text-muted-foreground list-disc list-inside mt-2 space-y-1">
-                    <li>Tham quan đền thờ Hoàng đế Quang Trung</li>
-                    <li>Tham quan di tích liên quan đến Mai Hắc Đế</li>
-                    <li>Tham quan Bảo tàng Nghệ An</li>
-                    <li>Kết thúc hành trình</li>
-                  </ul>
+                <CardTitle className="text-xl">Dấu ấn danh nhân</CardTitle>
+                <CardDescription>
+                  Hành trình theo chân những danh nhân lịch sử xứ Nghệ
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <MapPin className="h-4 w-4 mr-2" />
+                    Di tích Phan Bội Châu, Con Cuông
+                  </div>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Clock className="h-4 w-4 mr-2" />
+                    3 ngày 2 đêm
+                  </div>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Users className="h-4 w-4 mr-2" />
+                    Tối đa 28 người
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button asChild className="w-full bg-green-700 hover:bg-green-800">
-                <Link href="/destinations/dau-an-danh-nhan">Chi Tiết Hành Trình</Link>
-              </Button>
-            </CardFooter>
-          </Card>
-        </div>
+              </CardContent>
+              <CardFooter className="flex items-center justify-between">
+                <div className="text-2xl font-bold text-green-700">2.590.000đ</div>
+                <Button asChild className="bg-green-700 hover:bg-green-800">
+                  <Link href="/destinations/dau-an-danh-nhan">Xem chi tiết</Link>
+                </Button>
+              </CardFooter>
+            </Card>
+
+            {/* Dynamic tours from database */}
+            {tours.map((tour) => (
+              <Card key={tour.id} className="overflow-hidden">
+                <div className="relative h-48">
+                  <Image
+                    src={tour.imageUrl || "https://ext.same-assets.com/4052699563/777305328.jpeg"}
+                    alt={tour.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <Badge variant="secondary">Hành trình du lịch</Badge>
+                    <div className="flex items-center">
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <span className="ml-1 text-sm">4.5</span>
+                    </div>
+                  </div>
+                  <CardTitle className="text-xl">{tour.name}</CardTitle>
+                  <CardDescription>
+                    {tour.description || "Hành trình khám phá di sản văn hóa Nghệ An"}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <MapPin className="h-4 w-4 mr-2" />
+                      {tour.location}
+                    </div>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <Clock className="h-4 w-4 mr-2" />
+                      {tour.duration}
+                    </div>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <Users className="h-4 w-4 mr-2" />
+                      Tối đa {tour.maxPeople} người
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter className="flex items-center justify-between">
+                  <div className="text-2xl font-bold text-green-700">
+                    {tour.price.toLocaleString('vi-VN')}đ
+                  </div>
+                  <Button className="bg-green-700 hover:bg-green-800">
+                    Xem chi tiết
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
 
         {/* Travel tips */}
         <div className="mt-16 bg-green-50 rounded-lg p-8">

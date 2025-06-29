@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { auth } from "@/lib/auth/auth";
@@ -24,7 +23,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const session = await auth();
-    
+
     if (!session?.user || !["ADMIN_TOUR", "SUPER_ADMIN"].includes(session.user.role || "")) {
       return NextResponse.json(
         { error: "Không có quyền truy cập" },
@@ -33,7 +32,7 @@ export async function POST(request: NextRequest) {
     }
 
     const formData = await request.formData();
-    
+
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
     const price = parseFloat(formData.get("price") as string);
@@ -41,6 +40,10 @@ export async function POST(request: NextRequest) {
     const location = formData.get("location") as string;
     const maxPeople = parseInt(formData.get("maxPeople") as string);
     const image = formData.get("image") as string;
+    const difficulty = formData.get("difficulty") as string;
+    const includes = formData.get("includes") as string;
+    const schedule = formData.get("schedule") as string;
+    const category = formData.get("category") as string;
 
     const tour = await prisma.tour.create({
       data: {
@@ -51,6 +54,10 @@ export async function POST(request: NextRequest) {
         location,
         maxPeople,
         image: image || null,
+        difficulty,
+        includes,
+        schedule,
+        category,
       },
     });
 
