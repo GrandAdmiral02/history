@@ -97,7 +97,7 @@ export default function DestinationsPage() {
             <CardFooter className="pt-0">
               <Button asChild className="w-full bg-green-700 hover:bg-green-800">
                 <Link href={`/destinations/${tour.slug}`}>
-                  Đặt tour
+                  Chi tiết hành trình
                 </Link>
               </Button>
             </CardFooter>
