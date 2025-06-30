@@ -27,13 +27,13 @@ import {
   MapPin,
   Award,
   TrendingUp,
-  Lightning,
+  Zap,
   Truck,
   Shield,
   Clock,
   Percent,
   Gift,
-  Fire
+  Flame
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -318,7 +318,7 @@ export default function ShopPage() {
                   <span>Đảm bảo chất lượng</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/20 rounded-full px-4 py-2">
-                  <Lightning className="h-4 w-4" />
+                  <Zap className="h-4 w-4" />
                   <span>Giao hàng nhanh</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/20 rounded-full px-4 py-2">
@@ -554,7 +554,7 @@ export default function ShopPage() {
 
                           {product.sold > 100 && (
                             <Badge className="bg-orange-500 text-white shadow-lg flex items-center gap-1">
-                              <Fire className="h-3 w-3" />
+                              <Flame className="h-3 w-3" />
                               Bán chạy
                             </Badge>
                           )}
