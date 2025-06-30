@@ -11,7 +11,7 @@ export default function ConDuongHuyenThoaiPage() {
       <section className="relative h-[400px] md:h-[500px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
         <Image
-          src="https://ext.same-assets.com/3334769225/3220782747.jpeg"
+          src="https://statics.vinpearl.com/du-lich-quy-chau-anh-thumb_1633531971.jpg"
           alt="Con đường huyền thoại"
           fill
           className="object-cover"

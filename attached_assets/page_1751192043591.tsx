@@ -10,7 +10,7 @@ export default function DestinationsPage() {
       <section className="relative h-[300px] md:h-[400px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
         <Image
-          src="https://ext.same-assets.com/3334769225/3380477770.jpeg"
+          src="https://images.unsplash.com/photo-1566402441483-e37c4ed48b34?w=1200"
           alt="Hành trình du lịch Nghệ An"
           fill
           className="object-cover"

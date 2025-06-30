@@ -27,7 +27,7 @@ export default function Home() {
       <section className="relative h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
         <Image
-          src="https://ext.same-assets.com/4052699563/4264775910.jpeg"
+          src="https://images.unsplash.com/photo-1599582909646-3d30b6e52cd7?w=1200"
           alt="Khu di tích lịch sử Kim Liên"
           fill
           className="object-cover"
@@ -72,7 +72,7 @@ export default function Home() {
             </div>
             <div className="relative h-[400px] rounded-lg overflow-hidden">
               <Image
-                src="https://ext.same-assets.com/3334769225/3380477770.jpeg"
+                src="https://images.unsplash.com/photo-1566402441483-e37c4ed48b34?w=800"
                 alt="Nghệ An"
                 fill
                 className="object-cover"
@@ -124,7 +124,7 @@ export default function Home() {
             <Card className="overflow-hidden">
               <div className="relative h-60">
                 <Image
-                  src="https://ext.same-assets.com/3334769225/3110326546.jpeg"
+                  src="https://static.vinwonders.com/production/den-cuong-dien-chau-nghe-an-1.jpg"
                   alt="Đền Cuông"
                   fill
                   className="object-cover"
@@ -150,7 +150,7 @@ export default function Home() {
             <Card className="overflow-hidden">
               <div className="relative h-60">
                 <Image
-                  src="https://ext.same-assets.com/3334769225/3220782747.jpeg"
+                  src="https://lh6.googleusercontent.com/proxy/2st8LkMIX_pmp19TXDRZDs79yYQ3X3fQfzOMkyBT9ifK_eW1XTh41HNaqXomqocnmPYbFiT9NqwE2qxuSntU5kUov9mDkr449u7Gvf1KXJy_ofBEz80g"
                   alt="Truông Bồn"
                   fill
                   className="object-cover"

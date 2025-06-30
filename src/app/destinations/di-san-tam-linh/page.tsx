@@ -12,7 +12,7 @@ export default function DiSanTamLinhPage() {
       <section className="relative h-[400px] md:h-[500px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
         <Image
-          src="https://ext.same-assets.com/3334769225/3110326546.jpeg"
+          src="https://dulichhonmat.com/uploads/b3dbfd80-d8a0-4003-bbe7-ba41902e1d27.jpg"
           alt="Di sản văn hóa tâm linh"
           fill
           className="object-cover"
@@ -123,7 +123,7 @@ export default function DiSanTamLinhPage() {
                     <Card className="overflow-hidden">
                       <div className="relative h-52">
                         <Image
-                          src="https://ext.same-assets.com/3334769225/3110326546.jpeg"
+                          src="https://static.vinwonders.com/production/den-cuong-dien-chau-nghe-an-1.jpg"
                           alt="Đền Cuông"
                           fill
                           className="object-cover"

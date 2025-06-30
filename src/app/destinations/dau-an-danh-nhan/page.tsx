@@ -12,7 +12,7 @@ export default function DauAnDanhNhanPage() {
       <section className="relative h-[400px] md:h-[500px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
         <Image
-          src="https://ext.same-assets.com/3334769225/3359488301.jpeg"
+          src="https://media.baovanhoa.vn/zoom/1000/uploaded/nghiemthanh/2025_02_21/a2_WUTP.jpg"
           alt="Dấu ấn danh nhân"
           fill
           className="object-cover"
@@ -146,7 +146,7 @@ export default function DauAnDanhNhanPage() {
                     <Card className="overflow-hidden">
                       <div className="relative h-52">
                         <Image
-                          src="https://ext.same-assets.com/3334769225/3359488301.jpeg"
+                          src="https://media.baovanhoa.vn/zoom/1000/uploaded/nghiemthanh/2025_02_21/a2_WUTP.jpg"
                           alt="Di tích cụ Phan Bội Châu"
                           fill
                           className="object-cover"
