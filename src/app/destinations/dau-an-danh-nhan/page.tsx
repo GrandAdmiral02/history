@@ -180,16 +180,24 @@ export default function DauAnDanhNhanPage() {
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3359488301.jpeg"
-                        alt="Di tích cụ Phan Bội Châu"
+                        src="https://lh3.googleusercontent.com/proxy/e9FNZPpKHWeSGq92mMuqckorFDMxiCVjlp_Jr9tunONwnwZtGQZKocanaWGf1W9vYuEzoKe0ZKlAlmPzEZdgCDQwst0weV0dpscsze4JfgUdI34OYZGSebEUX4SO1rflm0asR0ia259GYP5wEO5xb7Cb9uCA-urKDKtOOqIKuWeOFAbZdfuctvVl_ND8hQ"
+                        alt="Di tích Phan Bội Châu"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3264552788.jpeg"
-                        alt="Đền thờ Hoàng đế Quang Trung"
+                        src="https://media.baovanhoa.vn/zoom/1000/uploaded/nghiemthanh/2025_02_21/a2_WUTP.jpg"
+                        alt="Thành cổ Vinh"
+                        fill
+                        className="object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
+                      <Image
+                        src="https://ticotravel.com.vn/wp-content/uploads/2023/01/canh-dep-nghe-an-7.jpg"
+                        alt="Cảnh đẹp Nghệ An"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
                       />

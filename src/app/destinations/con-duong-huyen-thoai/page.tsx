@@ -156,7 +156,7 @@ export default function ConDuongHuyenThoaiPage() {
                     <Card className="overflow-hidden">
                       <div className="relative h-52">
                         <Image
-                          src="https://ext.same-assets.com/3334769225/3290883099.jpeg"
+                          src="https://btxvnt.org.vn/storage/CrNxyiKSja3NzmWDRgO5zwyrj1CCHs7EFMURJLT0.jpg"
                           alt="Bảo tàng Xô Viết Nghệ Tĩnh"
                           fill
                           className="object-cover"

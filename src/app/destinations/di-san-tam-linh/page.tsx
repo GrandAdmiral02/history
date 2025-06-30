@@ -143,7 +143,7 @@ export default function DiSanTamLinhPage() {
                     <Card className="overflow-hidden">
                       <div className="relative h-52">
                         <Image
-                          src="https://ext.same-assets.com/3334769225/3264552788.jpeg"
+                          src="https://lh6.googleusercontent.com/proxy/0J4M0FNuEa-beTy7RgD9IoV9x7Xob7iUGi6JFtgkD5CzviBbvvXgEF2DbX0kffWDCntKzU-Ii28NaAC2I09uo22UiIPbRGe5g4l2M20Dlgc-zGaLwBhB3ek0ydyMUw"
                           alt="Đền Quả Sơn"
                           fill
                           className="object-cover"
@@ -169,7 +169,7 @@ export default function DiSanTamLinhPage() {
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 my-8">
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3110326546.jpeg"
+                        src="https://static.vinwonders.com/production/den-cuong-dien-chau-nghe-an-1.jpg"
                         alt="Đền Cuông"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
@@ -177,7 +177,7 @@ export default function DiSanTamLinhPage() {
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3264552788.jpeg"
+                        src="https://lh6.googleusercontent.com/proxy/0J4M0FNuEa-beTy7RgD9IoV9x7Xob7iUGi6JFtgkD5CzviBbvvXgEF2DbX0kffWDCntKzU-Ii28NaAC2I09uo22UiIPbRGe5g4l2M20Dlgc-zGaLwBhB3ek0ydyMUw"
                         alt="Đền Quả Sơn"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
@@ -185,8 +185,8 @@ export default function DiSanTamLinhPage() {
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/4032542331.jpeg"
-                        alt="Cảnh đẹp Nghệ An"
+                        src="https://titangroup.vn/wp-content/uploads/diem-du-lich-tam-linh-nghe-an-5.jpeg"
+                        alt="Di sản tâm linh Nghệ An"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
                       />

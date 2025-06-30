@@ -169,7 +169,7 @@ const tours: Record<string, Tour> = {
     duration: "4 ngày 3 đêm",
     maxPeople: 20,
     price: 3490000,
-    image: "https://ext.same-assets.com/3334769225/3110326546.jpeg",
+    image: "https://titangroup.vn/wp-content/uploads/diem-du-lich-tam-linh-nghe-an-5.jpeg",
     itinerary: [
       {
         day: 1,
