@@ -83,6 +83,7 @@ export default function XovietNgheTinhPage() {
                         src="https://dulichthuduc.com.vn/vnt_upload/news/BAC-TRUNG-BO/nghe-an/bao_tang_xo_viet_nghe_tinh_thu_duc_travel2.jpg"
                         alt="Toàn cảnh Bảo tàng Xô Viết Nghệ Tĩnh"
                         fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover"
                       />
                     </div>
@@ -91,6 +92,7 @@ export default function XovietNgheTinhPage() {
                         src="https://media.gody.vn//images/nghe-an/bao-tang-xo-viet-nghe-tinh/11-2016/20161109084411-bao-tang-xo-viet-nghe-tinh-gody(4).jpg"
                         alt="Không gian trưng bày Bảo tàng"
                         fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover"
                       />
                     </div>
@@ -125,6 +127,7 @@ export default function XovietNgheTinhPage() {
                       src="https://vietnamtourism.vn//imguploads/tourist/Diemden/NgheAn/BTXVNTinh/BTXVNTinh14JPG.jpg"
                       alt="Khu vực trưng bày chính"
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 60vw"
                       className="object-cover"
                     />
                   </div>
