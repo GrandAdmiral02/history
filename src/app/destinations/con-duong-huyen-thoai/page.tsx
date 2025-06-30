@@ -67,7 +67,7 @@ export default function ConDuongHuyenThoaiPage() {
                   <div className="my-8 grid grid-cols-2 gap-4">
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
-                        src="https://statics.vinpearl.com/du-lich-quy-chau-anh-thumb_1633531971.jpg"
+                        src="https://icdn.dantri.com.vn/thumb_w/960/2019/05/14/km-02-1557809996576.jpg"
                         alt="Cột mốc số 0"
                         fill
                         className="object-cover"
@@ -75,7 +75,7 @@ export default function ConDuongHuyenThoaiPage() {
                     </div>
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3290883099.jpeg"
+                        src="https://btxvnt.org.vn/storage/CrNxyiKSja3NzmWDRgO5zwyrj1CCHs7EFMURJLT0.jpg"
                         alt="Bảo tàng Xô Viết Nghệ Tĩnh"
                         fill
                         className="object-cover"
@@ -136,7 +136,7 @@ export default function ConDuongHuyenThoaiPage() {
                     <Card className="overflow-hidden">
                       <div className="relative h-52">
                         <Image
-                          src="https://statics.vinpearl.com/du-lich-quy-chau-anh-thumb_1633531971.jpg"
+                          src="https://icdn.dantri.com.vn/thumb_w/960/2019/05/14/km-02-1557809996576.jpg"
                           alt="Cột mốc số 0"
                           fill
                           className="object-cover"
@@ -168,7 +168,7 @@ export default function ConDuongHuyenThoaiPage() {
                       </CardHeader>
                       <CardContent className="text-sm">
                         <p>
-                          Nơi lưu giữ các hiện vật về phong trào Xô Viết Nghệ Tĩnh 1930-1931, một cao trào cách mạng quan trọng trong lịch sử dân tộc Việt Nam.
+                          Bảo tàng Xô Viết Nghệ Tĩnh là nơi lưu giữ các hiện vật về phong trào Xô Viết Nghệ Tĩnh 1930-1931, một cao trào cách mạng quan trọng trong lịch sử dân tộc Việt Nam.
                         </p>
                       </CardContent>
                     </Card>
@@ -182,7 +182,7 @@ export default function ConDuongHuyenThoaiPage() {
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 my-8">
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3220782747.jpeg"
+                        src="https://icdn.dantri.com.vn/thumb_w/960/2019/05/14/km-02-1557809996576.jpg"
                         alt="Cột mốc số 0"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
@@ -190,7 +190,7 @@ export default function ConDuongHuyenThoaiPage() {
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3290883099.jpeg"
+                        src="https://btxvnt.org.vn/storage/CrNxyiKSja3NzmWDRgO5zwyrj1CCHs7EFMURJLT0.jpg"
                         alt="Bảo tàng Xô Viết Nghệ Tĩnh"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
@@ -198,7 +198,7 @@ export default function ConDuongHuyenThoaiPage() {
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3264552788.jpeg"
+                        src="https://dothothonghong.com/media/data/tin-tuc/2017/denthoquangtrung2.jpg"
                         alt="Đền thờ Hoàng đế Quang Trung"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"

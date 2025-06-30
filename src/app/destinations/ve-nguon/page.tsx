@@ -193,11 +193,7 @@ export default function VeNguonPage() {
                           Khu di tích Kim Liên là quê hương của Chủ tịch Hồ Chí Minh, bao gồm làng Sen (quê nội) và làng Hoàng Trù (quê ngoại). Đây là nơi Bác Hồ sinh ra và lớn lên, với những ngôi nhà tranh, ao sen, giếng nước được bảo tồn nguyên vẹn.
                         </p>
                       </CardContent>
-                      <CardFooter>
-                        <Button asChild className="w-full bg-green-700 hover:bg-green-800">
-                          <Link href="/historical-sites/kim-lien">Chi tiết</Link>
-                        </Button>
-                      </CardFooter>
+                      
                     </Card>
 
                     <Card className="overflow-hidden">
@@ -219,11 +215,7 @@ export default function VeNguonPage() {
                           Mộ bà Hoàng Thị Loan - thân mẫu Chủ tịch Hồ Chí Minh nằm tại núi Động Tranh, xã Nam Giang, huyện Nam Đàn. Đây là công trình kiến trúc trang nghiêm, thể hiện lòng tôn kính đối với mẹ của vị lãnh tụ kính yêu.
                         </p>
                       </CardContent>
-                      <CardFooter>
-                        <Button asChild className="w-full bg-green-700 hover:bg-green-800">
-                          <Link href="/historical-sites/mo-ba-hoang-thi-loan">Chi tiết</Link>
-                        </Button>
-                      </CardFooter>
+                      
                     </Card>
                   </div>
 
@@ -247,11 +239,7 @@ export default function VeNguonPage() {
                           Truông Bồn là nơi tưởng nhớ sự hy sinh anh dũng của 13 chiến sĩ thanh niên xung phong và 49 cán bộ, chiến sĩ trong chiến tranh chống Mỹ. Đài tưởng niệm và bảo tàng tại đây lưu giữ nhiều tài liệu, hiện vật quý giá.
                         </p>
                       </CardContent>
-                      <CardFooter>
-                        <Button asChild className="w-full bg-green-700 hover:bg-green-800">
-                          <Link href="/historical-sites/truong-bon">Chi tiết</Link>
-                        </Button>
-                      </CardFooter>
+                      
                     </Card>
 
                     <Card className="overflow-hidden">
@@ -273,11 +261,7 @@ export default function VeNguonPage() {
                           Đền Cuông tại huyện Diễn Châu là di tích lịch sử văn hóa cấp quốc gia, thờ An Dương Vương và các vị công thần. Đền có kiến trúc độc đáo với nhiều hiện vật quý giá và lễ hội truyền thống đặc sắc.
                         </p>
                       </CardContent>
-                      <CardFooter>
-                        <Button asChild className="w-full bg-green-700 hover:bg-green-800">
-                          <Link href="/historical-sites/den-cuong">Chi tiết</Link>
-                        </Button>
-                      </CardFooter>
+                      
                     </Card>
                   </div>
 
@@ -301,11 +285,7 @@ export default function VeNguonPage() {
                           Bảo tàng Xô Viết Nghệ Tĩnh tại thành phố Vinh là nơi lưu giữ và trưng bày các hiện vật, tài liệu về phong trào Xô Viết Nghệ Tĩnh 1930-1931 - một cao trào cách mạng quan trọng trong lịch sử dân tộc.
                         </p>
                       </CardContent>
-                      <CardFooter>
-                        <Button asChild className="w-full bg-green-700 hover:bg-green-800">
-                          <Link href="/historical-sites/bao-tang-xo-viet-nghe-tinh">Chi tiết</Link>
-                        </Button>
-                      </CardFooter>
+                      
                     </Card>
 
                     <Card className="overflow-hidden">
@@ -327,11 +307,7 @@ export default function VeNguonPage() {
                           Thành cổ Vinh nằm trên địa bàn của ba phường Cửa Nam, Đội Cung, Quang Trung, là chứng tích lịch sử ghi lại dấu ấn nhiều biến động của xứ Nghệ qua các thời kỳ lịch sử.
                         </p>
                       </CardContent>
-                      <CardFooter>
-                        <Button asChild className="w-full bg-green-700 hover:bg-green-800">
-                          <Link href="/historical-sites/thanh-co-vinh">Chi tiết</Link>
-                        </Button>
-                      </CardFooter>
+                      
                     </Card>
                   </div>
                 </div>
@@ -355,8 +331,8 @@ export default function VeNguonPage() {
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/4052699563/2493542445.jpeg"
-                        alt="Nhà thờ họ Nguyễn Sinh"
+                        src="https://dulichfun.com/wp-content/uploads/2018/04/Dia-diem-tham-quan-chup-anh-dep-nhat-Nghe-An.jpg"
+                        alt="Cảnh đẹp Nghệ An"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
                         sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"

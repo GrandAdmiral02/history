@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useSearchParams } from "next/navigation";
@@ -117,7 +116,7 @@ const tours: Record<string, Tour> = {
     duration: "2 ngày 1 đêm",
     maxPeople: 25,
     price: 1890000,
-    image: "https://ext.same-assets.com/3334769225/3220782747.jpeg",
+    image: "https://icdn.dantri.com.vn/thumb_w/960/2019/05/14/km-02-1557809996576.jpg",
     itinerary: [
       {
         day: 1,
@@ -398,7 +397,7 @@ function BookingContent() {
               </div>
               <CardTitle className="text-2xl">{selectedTour.name}</CardTitle>
               <CardDescription>{selectedTour.description}</CardDescription>
-              
+
               <div className="flex flex-wrap gap-4 mt-4">
                 <div className="flex items-center text-sm">
                   <MapPin className="h-4 w-4 mr-2 text-green-600" />
@@ -413,7 +412,7 @@ function BookingContent() {
                   Tối đa {selectedTour.maxPeople} người
                 </div>
               </div>
-              
+
               <div className="text-2xl font-bold text-green-700 mt-4">
                 {selectedTour.price.toLocaleString("vi-VN")} VNĐ/người
               </div>
@@ -428,7 +427,7 @@ function BookingContent() {
               <TabsTrigger value="excluded">Không bao gồm</TabsTrigger>
               <TabsTrigger value="notes">Lưu ý</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="itinerary" className="space-y-4">
               <h3 className="text-xl font-semibold mb-4">Chi tiết hành trình</h3>
               {selectedTour.itinerary.map((day) => (
@@ -449,7 +448,7 @@ function BookingContent() {
                         ))}
                       </ul>
                     </div>
-                    
+
                     <div className="flex flex-wrap gap-4">
                       <div>
                         <h4 className="font-medium mb-2">Bữa ăn:</h4>
@@ -461,7 +460,7 @@ function BookingContent() {
                           ))}
                         </div>
                       </div>
-                      
+
                       {day.accommodation && (
                         <div>
                           <h4 className="font-medium mb-2">Nghỉ ngơi:</h4>
@@ -473,7 +472,7 @@ function BookingContent() {
                 </Card>
               ))}
             </TabsContent>
-            
+
             <TabsContent value="included">
               <Card>
                 <CardHeader>
@@ -491,7 +490,7 @@ function BookingContent() {
                 </CardContent>
               </Card>
             </TabsContent>
-            
+
             <TabsContent value="excluded">
               <Card>
                 <CardHeader>
@@ -509,7 +508,7 @@ function BookingContent() {
                 </CardContent>
               </Card>
             </TabsContent>
-            
+
             <TabsContent value="notes">
               <Card>
                 <CardHeader>
@@ -625,7 +624,7 @@ function BookingContent() {
                       {(selectedTour.price * formData.numberOfPeople).toLocaleString("vi-VN")} VNĐ
                     </span>
                   </div>
-                  
+
                   <Button type="submit" className="w-full bg-green-700 hover:bg-green-800">
                     Đặt tour ngay
                   </Button>
