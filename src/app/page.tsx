@@ -27,9 +27,10 @@ export default function Home() {
       <section className="relative h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
         <Image
-          src="https://images.unsplash.com/photo-1599582909646-3d30b6e52cd7?w=1200"
+          src="https://cdn-media.sforum.vn/storage/app/media/ctvseo_MH/%E1%BA%A3nh%20%C4%91%E1%BA%B9p%20ngh%E1%BB%87%20an/anh-dep-nghe-an-thumbnail.jpg"
           alt="Khu di tích lịch sử Kim Liên"
           fill
+          sizes="100vw"
           className="object-cover"
           priority
         />
@@ -72,9 +73,10 @@ export default function Home() {
             </div>
             <div className="relative h-[400px] rounded-lg overflow-hidden">
               <Image
-                src="https://images.unsplash.com/photo-1566402441483-e37c4ed48b34?w=800"
+                src="https://bvhttdl.mediacdn.vn/291773308735864832/2021/8/9/410031342f74c62a9f65812342218102019-1628471347287-162847134745855120193.jpg"
                 alt="Nghệ An"
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>
@@ -484,6 +486,7 @@ export default function Home() {
                   src="https://cdn-media.sforum.vn/storage/app/media/ctvseo_MH/%E1%BA%A3nh%20%C4%91%E1%BA%B9p%20ngh%E1%BB%87%20an/anh-dep-nghe-an-thumbnail.jpg"
                   alt="Thiên nhiên Nghệ An"
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -503,6 +506,7 @@ export default function Home() {
                   src="https://cdn-media.sforum.vn/storage/app/media/ctvseo_MH/%E1%BA%A3nh%20%C4%91%E1%BA%B9p%20ngh%E1%BB%87%20an/anh-dep-nghe-an-51.jpg"
                   alt="Cảnh đẹp Nghệ An"
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                   priority
                 />
@@ -521,6 +525,7 @@ export default function Home() {
                   src="https://bvhttdl.mediacdn.vn/291773308735864832/2021/8/9/410031342f74c62a9f65812342218102019-1628471347287-162847134745855120193.jpg"
                   alt="Di tích lịch sử Nghệ An"
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -538,6 +543,7 @@ export default function Home() {
                   src="https://cly.1cdn.vn/2020/01/07/congly-vn_lang-que-xu-thanh-dep-ngo-ngang-qua-ong-kinh-nhiep-anh-hinh-anh11442817826.jpg"
                   alt="Làng quê Nghệ An"
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -555,6 +561,7 @@ export default function Home() {
                   src="https://cualo.vn/wp-content/uploads/2022/03/nghe-an-mo-cua-don-khach-trong-nuoc-va-quoc-te.jpg"
                   alt="Du lịch Nghệ An"
                   fill
+                  sizes="(max-width: 768px) 100vw, 66vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
