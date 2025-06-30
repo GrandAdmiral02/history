@@ -11,16 +11,16 @@ export default function MoBaHoangThiLoanPage() {
       <section className="relative h-[400px] md:h-[500px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
         <Image
-          src="https://ext.same-assets.com/3334769225/3377099892.jpeg"
+          src="https://ext.same-assets.com/3334769225/3935718425.jpeg"
           alt="Mộ bà Hoàng Thị Loan"
           fill
           className="object-cover"
           priority
         />
         <div className="container relative z-20 flex flex-col items-center justify-center h-full text-center text-white">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Mộ Bà Hoàng Thị Loan</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Mộ bà Hoàng Thị Loan</h1>
           <p className="text-lg md:text-xl max-w-2xl">
-            Di tích lịch sử quốc gia - Nơi an nghỉ của thân mẫu Chủ tịch Hồ Chí Minh
+            Nơi an nghỉ của mẹ Chủ tịch Hồ Chí Minh
           </p>
         </div>
       </section>
@@ -49,27 +49,27 @@ export default function MoBaHoangThiLoanPage() {
             <Tabs defaultValue="overview" className="w-full">
               <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="overview">Tổng quan</TabsTrigger>
-                <TabsTrigger value="attractions">Khu mộ</TabsTrigger>
-                <TabsTrigger value="history">Lịch sử</TabsTrigger>
+                <TabsTrigger value="attractions">Không gian</TabsTrigger>
+                <TabsTrigger value="history">Tiểu sử</TabsTrigger>
                 <TabsTrigger value="activities">Tham quan</TabsTrigger>
               </TabsList>
               <TabsContent value="overview" className="space-y-6 mt-6">
                 <div className="prose prose-green max-w-none">
                   <h2>Giới thiệu Mộ bà Hoàng Thị Loan</h2>
                   <p>
-                    <strong>Mộ bà Hoàng Thị Loan</strong> là di tích lịch sử quốc gia nằm tại núi Động Tranh, xã Nam Giang, huyện Nam Đàn, tỉnh Nghệ An. Đây là nơi an nghỉ của bà Hoàng Thị Loan - thân mẫu kính yêu của Chủ tịch Hồ Chí Minh.
+                    <strong>Mộ bà Hoàng Thị Loan</strong> là di tích lưu niệm danh nhân quan trọng, nơi an nghỉ của mẹ Chủ tịch Hồ Chí Minh. Bà Hoàng Thị Loan (1868-1901) là người mẹ hiền từ, có ảnh hưởng sâu sắc đến việc hình thành nhân cách và tư tưởng của Nguyễn Tất Thành - sau này là Chủ tịch Hồ Chí Minh.
                   </p>
                   <p>
-                    Khu mộ được xây dựng trang nghiêm, tôn kính trên một ngọn đồi cao với cảnh quan thiên nhiên hùng vĩ. Nơi đây không chỉ là điểm đến thiêng liêng mà còn thể hiện lòng hiếu thảo sâu sắc của Chủ tịch Hồ Chí Minh đối với mẹ và là biểu tượng của tình mẫu tử thiêng liêng trong văn hóa Việt Nam.
+                    Mộ bà nằm tại xã Kim Liên, huyện Nam Đàn, tỉnh Nghệ An, trong khu di tích quê hương Chủ tịch Hồ Chí Minh. Đây là nơi được nhân dân cả nước và quốc tế đặc biệt tôn kính, thường xuyên đến viếng và tưởng nhớ.
                   </p>
                   <p>
-                    Mỗi năm, đặc biệt trong các dịp lễ lớn như ngày sinh nhật Bác (19/5), ngày Quốc khánh (2/9), hàng vạn người dân và du khách đến viếng mộ bà Hoàng Thị Loan để bày tỏ lòng thành kính và tìm hiểu về cuộc đời của người mẹ vĩ đại đã sinh ra vị lãnh tụ kính yêu của dân tộc.
+                    Khu mộ được bảo tồn và tu bổ trang nghiêm, thể hiện lòng kính trọng của dân tộc đối với người mẹ đã sinh ra và nuôi dưỡng vị lãnh tụ vĩ đại của dân tộc Việt Nam.
                   </p>
 
                   <div className="my-8 grid grid-cols-2 gap-4">
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3377099892.jpeg"
+                        src="https://ext.same-assets.com/3334769225/3935718425.jpeg"
                         alt="Khu mộ bà Hoàng Thị Loan"
                         fill
                         className="object-cover"
@@ -78,7 +78,7 @@ export default function MoBaHoangThiLoanPage() {
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
                         src="https://ext.same-assets.com/4052699563/777305328.jpeg"
-                        alt="Cảnh quan xung quanh khu mộ"
+                        alt="Không gian trang nghiêm"
                         fill
                         className="object-cover"
                       />
@@ -87,154 +87,156 @@ export default function MoBaHoangThiLoanPage() {
 
                   <h3>Thông tin cơ bản</h3>
                   <ul>
-                    <li><strong>Địa chỉ:</strong> Núi Động Tranh, xã Nam Giang, huyện Nam Đàn, tỉnh Nghệ An</li>
-                    <li><strong>Cách thành phố Vinh:</strong> Khoảng 20km về phía tây</li>
+                    <li><strong>Địa chỉ:</strong> Xã Kim Liên, huyện Nam Đàn, tỉnh Nghệ An</li>
+                    <li><strong>Cách thành phố Vinh:</strong> Khoảng 14km về phía tây nam</li>
                     <li><strong>Giờ mở cửa:</strong> Hàng ngày từ 7h00 đến 17h00</li>
-                    <li><strong>Thời gian tham quan phù hợp:</strong> 1-1.5 giờ</li>
+                    <li><strong>Thời gian tham quan phù hợp:</strong> 30 phút - 1 giờ</li>
                   </ul>
                 </div>
               </TabsContent>
               <TabsContent value="attractions" className="space-y-6 mt-6">
                 <div className="prose prose-green max-w-none">
-                  <h2>Khu mộ bà Hoàng Thị Loan</h2>
+                  <h2>Không gian mộ bà Hoàng Thị Loan</h2>
 
-                  <h3>1. Lăng mộ</h3>
+                  <h3>1. Khu mộ chính</h3>
                   <div className="relative h-80 rounded-lg overflow-hidden my-6">
                     <Image
-                      src="https://ext.same-assets.com/3334769225/3377099892.jpeg"
-                      alt="Lăng mộ bà Hoàng Thị Loan"
+                      src="https://ext.same-assets.com/3334769225/3935718425.jpeg"
+                      alt="Khu mộ chính bà Hoàng Thị Loan"
                       fill
                       className="object-cover"
                     />
                   </div>
                   <p>
-                    Lăng mộ bà Hoàng Thị Loan được xây dựng bằng đá granite đen, có hình dạng đơn giản nhưng trang nghiêm. Trên bia mộ khắc dòng chữ "Mộ bà Hoàng Thị Loan - Thân mẫu Chủ tịch Hồ Chí Minh" cùng năm sinh và năm mất của bà.
+                    Khu mộ chính được xây dựng theo kiến trúc truyền thống Việt Nam, với mộ phần được làm bằng đá xanh chắc chắn. Trên mộ có bia đá ghi rõ tên tuổi và năm mất của bà Hoàng Thị Loan.
                   </p>
-
-                  <h3>2. Khu vực thờ tự</h3>
                   <p>
-                    Trước mộ có khu vực thờ tự được thiết kế trang nghiêm với bàn thờ đá và các đồ thờ cúng. Đây là nơi du khách có thể thắp hương, dâng hoa và bày tỏ lòng kính trọng đối với thân mẫ của Chủ tịch Hồ Chí Minh.
+                    Xung quanh khu mộ được trồng nhiều cây xanh, tạo nên không gian yên tĩnh, trang nghiêm. Lối đi được lát đá, thuận tiện cho việc đi lại và viếng thăm.
                   </p>
 
-                  <h3>3. Con đường dẫn lên mộ</h3>
+                  <h3>2. Không gian tưởng niệm</h3>
                   <p>
-                    Con đường từ chân núi lên khu mộ được làm bằng đá, có độ dài khoảng 500m với nhiều bậc thang. Dọc theo đường đi có trồng nhiều cây xanh tạo bóng mát và không gian yên tĩnh.
+                    Khu vực xung quanh mộ bà được bố trí thành không gian tưởng niệm trang trọng với:
                   </p>
-
-                  <h3>4. Không gian cảnh quan</h3>
-                  <p>
-                    Khu mộ nằm trên đỉnh núi Động Tranh, từ đây có thể ngắm nhìn toàn cảnh vùng đất Nam Đàn với những cánh đồng lúa xanh tươi, những ngôi làng yên bình và dòng sông uốn lượn. Cảnh quan hùng vĩ này tạo nên không gian thiêng liêng, phù hợp cho việc tưởng nhớ.
-                  </p>
-
-                  <h3>5. Các tiện ích phụ trợ</h3>
                   <ul>
-                    <li><strong>Nhà nghỉ du khách:</strong> Nơi du khách có thể nghỉ ngơi trước khi leo lên mộ.</li>
-                    <li><strong>Khu vệ sinh:</strong> Được xây dựng sạch sẽ, tiện nghi.</li>
-                    <li><strong>Bãi đỗ xe:</strong> Chỗ đỗ xe ô tô và xe máy rộng rãi ở chân núi.</li>
+                    <li><strong>Bàn thờ ngoài trời:</strong> Nơi du khách có thể dâng hương tưởng nhớ</li>
+                    <li><strong>Khu vườn hoa:</strong> Được trồng những loài hoa đẹp, thơm mát</li>
+                    <li><strong>Hệ thống ghế đá:</strong> Để du khách ngồi nghỉ và tưởng niệm</li>
+                  </ul>
+
+                  <h3>3. Bia tưởng niệm</h3>
+                  <p>
+                    Tại khu mộ có đặt bia tưởng niệm ghi lại những thông tin quan trọng về cuộc đời và đức hạnh của bà Hoàng Thị Loan. Bia được khắc bằng chữ Việt và chữ Hán, thể hiện sự tôn kính của nhân dân.
+                  </p>
+
+                  <h3>4. Cảnh quan xung quanh</h3>
+                  <p>
+                    Khu mộ nằm trong khung cảnh thiên nhiên đẹp của quê hương Kim Liên:
+                  </p>
+                  <ul>
+                    <li>Cây cổ thụ xanh mát bao quanh khu mộ</li>
+                    <li>Đường đi được thiết kế hài hòa với cảnh quan</li>
+                    <li>Hệ thống thoát nước đảm bảo khu vực luôn khô ráo</li>
+                    <li>Ánh sáng tự nhiên tạo không gian linh thiêng</li>
+                    <li>Không gian yên tĩnh, phù hợp cho việc tưởng niệm</li>
                   </ul>
                 </div>
               </TabsContent>
               <TabsContent value="history" className="space-y-6 mt-6">
                 <div className="prose prose-green max-w-none">
-                  <h2>Lịch sử về bà Hoàng Thị Loan</h2>
+                  <h2>Tiểu sử bà Hoàng Thị Loan</h2>
 
                   <p>
-                    Bà Hoàng Thị Loan (1868-1901) là thân mẫu của Chủ tịch Hồ Chí Minh, một người phụ nữ Việt Nam điển hình với những phẩm chất cao đẹp.
+                    Bà Hoàng Thị Loan sinh năm 1868 tại làng Kim Liên, huyện Nam Đàn, tỉnh Nghệ An, trong một gia đình nông dân nghèo nhưng có truyền thống hiếu học và yêu nước.
                   </p>
 
-                  <h3>Cuộc đời bà Hoàng Thị Loan</h3>
+                  <h3>Cuộc đời và tính cách</h3>
                   <ul>
-                    <li><strong>1868:</strong> Bà Hoàng Thị Loan sinh ra tại làng Hoàng Trù, xã Kim Liên, huyện Nam Đàn.</li>
-                    <li><strong>1885:</strong> Bà kết hôn với ông Nguyễn Sinh Sắc (cha của Chủ tịch Hồ Chí Minh).</li>
-                    <li><strong>1890:</strong> Sinh Nguyễn Sinh Cung (tên khai sinh của Chủ tịch Hồ Chí Minh).</li>
-                    <li><strong>1891:</strong> Sinh con trai thứ hai là Nguyễn Sinh Khiêm (Nguyễn Tất Đạt).</li>
-                    <li><strong>1896:</strong> Sinh con gái là Nguyễn Thị Thanh (Bạch Liên).</li>
-                    <li><strong>1901:</strong> Bà qua đời khi mới 33 tuổi, lúc này Nguyễn Sinh Cung mới 11 tuổi.</li>
+                    <li><strong>Xuất thân:</strong> Sinh ra trong gia đình nông dân nghèo, từ nhỏ đã phải lao động vất vả</li>
+                    <li><strong>Tính cách:</strong> Người phụ nữ hiền từ, nhân hậu, có lòng thương yêu con người</li>
+                    <li><strong>Tư tưởng:</strong> Có ý thức yêu nước, ghét cái ác, ủng hộ cái thiện</li>
+                    <li><strong>Giáo dục con cái:</strong> Luôn dạy con làm người tốt, học hành chăm chỉ, yêu nước yêu dân</li>
                   </ul>
 
-                  <h3>Ảnh hưởng đến Chủ tịch Hồ Chí Minh</h3>
+                  <h3>Ảnh hưởng đến Nguyễn Tất Thành</h3>
                   <p>
-                    Mặc dù bà Hoàng Thị Loan qua đời sớm, nhưng những năm tháng đầu đời sống bên mẹ đã để lại ảnh hưởng sâu sắc đến nhân cách và tư tưởng của Chủ tịch Hồ Chí Minh. Bà là người mẹ hiền từ, thông minh, có tinh thần yêu nước mạnh mẽ.
+                    Bà Hoàng Thị Loan có ảnh hưởng sâu sắc đến việc hình thành nhân cách của Nguyễn Tất Thành:
                   </p>
-                  <p>
-                    Trong những bức thư gửi về quê hương, Chủ tịch Hồ Chí Minh luôn bày tỏ nỗi nhớ mẹ da diết và lòng thương tiếc vô hạn vì không thể về thăm mộ mẹ trong suốt 30 năm xa Tổ quốc.
-                  </p>
-
-                  <h3>Lịch sử khu mộ</h3>
                   <ul>
-                    <li><strong>1901:</strong> Bà Hoàng Thị Loan được chôn cất tại núi Động Tranh.</li>
-                    <li><strong>1951:</strong> Lần đầu tiên có công tác trùng tu, tôn tạo mộ.</li>
-                    <li><strong>1970:</strong> Xây dựng khu mộ với quy mô trang nghiêm hơn.</li>
-                    <li><strong>1990:</strong> Được công nhận là Di tích lịch sử cấp quốc gia.</li>
-                    <li><strong>2000-2005:</strong> Trùng tu, tôn tạo lớn với kiến trúc hiện tại.</li>
+                    <li><strong>Tình yêu thương:</strong> Bà truyền cho con tình yêu thương con người, đặc biệt là người nghèo khổ</li>
+                    <li><strong>Lòng yêu nước:</strong> Từ nhỏ bà đã gieo vào lòng con ý thức yêu nước, ghét giặc</li>
+                    <li><strong>Đạo đức:</strong> Dạy con làm người chính trực, thành thật, có lòng từ bi</li>
+                    <li><strong>Ý chí kiên cường:</strong> Bằng tấm gương của mình, bà đã hun đúc trong con ý chí vươn lên</li>
                   </ul>
 
-                  <h3>Ý nghĩa lịch sử và văn hóa</h3>
+                  <h3>Di sản tinh thần</h3>
                   <p>
-                    Mộ bà Hoàng Thị Loan không chỉ có ý nghĩa riêng đối với gia đình Chủ tịch Hồ Chí Minh mà còn là biểu tượng của tình mẫu tử thiêng liêng, của người mẹ Việt Nam anh hùng - những người đã sinh ra và nuôi dưỡng những anh hùng dân tộc.
+                    Mặc dù bà mất sớm (năm 1901) khi Nguyễn Tất Thành mới 11 tuổi, nhưng những giá trị đạo đức và tình yêu thương mà bà truyền lại đã theo suốt cuộc đời của Chủ tịch Hồ Chí Minh.
+                  </p>
+                  <p>
+                    Chủ tịch Hồ Chí Minh luôn nhớ ơn mẹ và thường nói: "Tôi chỉ muốn cả nước hòa thuận như một gia đình to, trong đó mọi người Việt Nam đều là anh em chị em của nhau".
+                  </p>
+
+                  <h3>Ý nghĩa lịch sử</h3>
+                  <p>
+                    Bà Hoàng Thị Loan được coi là biểu tượng của người mẹ Việt Nam - những người phụ nữ đã âm thầm hy sinh, cống hiến để nuôi dưỡng những thế hệ con em trở thành những con người có ích cho đất nước.
+                  </p>
+                  <p>
+                    Mộ bà không chỉ là nơi tưởng nhớ một người mẹ mà còn là biểu tượng của tình mẫu tử thiêng liêng và truyền thống gia đình Việt Nam.
                   </p>
                 </div>
               </TabsContent>
               <TabsContent value="activities" className="space-y-6 mt-6">
                 <div className="prose prose-green max-w-none">
-                  <h2>Hoạt động tham quan Mộ bà Hoàng Thị Loan</h2>
+                  <h2>Hoạt động tham quan</h2>
 
-                  <h3>Các hoạt động chính</h3>
-                  <ol>
-                    <li>
-                      <strong>Viếng mộ, dâng hương:</strong> Thắp hương, dâng hoa tại mộ bà Hoàng Thị Loan để bày tỏ lòng kính trọng.
-                    </li>
-                    <li>
-                      <strong>Tham quan, tìm hiểu:</strong> Tìm hiểu về cuộc đời và những ảnh hưởng của bà đối với Chủ tịch Hồ Chí Minh.
-                    </li>
-                    <li>
-                      <strong>Ngắm cảnh:</strong> Thưởng ngoạn cảnh quan thiên nhiên hùng vĩ từ đỉnh núi Động Tranh.
-                    </li>
-                    <li>
-                      <strong>Giáo dục truyền thống:</strong> Tham gia các hoạt động giáo dục về tình mẫu tử và lòng hiếu thảo.
-                    </li>
-                  </ol>
-
-                  <h3>Các dịp lễ quan trọng</h3>
-                  <p>
-                    Những dịp đặc biệt thu hút đông đảo du khách đến viếng mộ bà Hoàng Thị Loan:
-                  </p>
-                  <ul>
-                    <li><strong>Ngày 19/5:</strong> Sinh nhật Chủ tịch Hồ Chí Minh</li>
-                    <li><strong>Ngày 2/9:</strong> Quốc khánh nước Cộng hòa xã hội chủ nghĩa Việt Nam</li>
-                    <li><strong>Tết Nguyên đán:</strong> Dịp đầu năm mới</li>
-                    <li><strong>Ngày Tết Thanh minh:</strong> Ngày truyền thống thăm mộ tổ tiên</li>
-                  </ul>
-
-                  <h3>Lịch trình tham quan</h3>
+                  <h3>Nghi thức viếng mộ</h3>
                   <div className="bg-muted/50 p-6 rounded-lg">
-                    <h4>Lịch trình gợi ý (1-1.5 giờ)</h4>
+                    <h4>Quy trình viếng mộ (20-30 phút)</h4>
                     <ol>
-                      <li><strong>08:00 - 08:15:</strong> Chuẩn bị và bắt đầu leo lên núi Động Tranh</li>
-                      <li><strong>08:15 - 08:45:</strong> Đi bộ trên con đường dẫn lên mộ (khoảng 30 phút)</li>
-                      <li><strong>08:45 - 09:15:</strong> Viếng mộ, dâng hương, tưởng nhớ</li>
-                      <li><strong>09:15 - 09:30:</strong> Ngắm cảnh và chụp ảnh lưu niệm</li>
-                      <li><strong>09:30 - 10:00:</strong> Trở về chân núi</li>
+                      <li><strong>Chuẩn bị:</strong> Mang theo hoa tươi, hương nến và tâm thành kính</li>
+                      <li><strong>Dâng hoa:</strong> Đặt hoa tươi trước mộ bà một cách trang trọng</li>
+                      <li><strong>Thắp hương:</strong> Thắp hương tưởng niệm và cầu nguyện</li>
+                      <li><strong>Tưởng niệm:</strong> Im lặng tưởng nhớ công ơn và đức hạnh của bà</li>
+                      <li><strong>Cúi chào:</strong> Cúi chào ba lần thể hiện lòng kính trọng</li>
                     </ol>
                   </div>
 
+                  <h3>Hoạt động giáo dục</h3>
+                  <p>
+                    Mộ bà Hoàng Thị Loan thường được tổ chức các hoạt động giáo dục:
+                  </p>
+                  <ul>
+                    <li><strong>Dành cho học sinh:</strong> Các buổi học ngoại khóa về lịch sử và đạo đức</li>
+                    <li><strong>Dành cho thanh niên:</strong> Các hoạt động giáo dục truyền thống gia đình Việt Nam</li>
+                    <li><strong>Dành cho du khách:</strong> Hướng dẫn tìm hiểu về cuộc đời bà và ảnh hưởng đến Bác Hồ</li>
+                  </ul>
+
+                  <h3>Các dịp đặc biệt</h3>
+                  <ul>
+                    <li><strong>Ngày sinh Chủ tịch Hồ Chí Minh (19/5):</strong> Nhiều đoàn khách đến viếng mộ bà</li>
+                    <li><strong>Ngày mất Chủ tịch Hồ Chí Minh (2/9):</strong> Tổ chức các hoạt động tưởng niệm đặc biệt</li>
+                    <li><strong>Tết Nguyên đán:</strong> Nhân dân địa phương và du khách đến viếng mộ đầu năm</li>
+                    <li><strong>Tết Thanh minh:</strong> Ngày truyền thống viếng mộ của dân tộc</li>
+                  </ul>
+
                   <h3>Kinh nghiệm tham quan</h3>
                   <ul>
-                    <li><strong>Thời điểm lý tưởng:</strong> Buổi sáng sớm (7h-9h) khi thời tiết mát mẻ, dễ leo núi.</li>
-                    <li><strong>Trang phục:</strong> Mặc trang phục lịch sự, giày thể thao để dễ leo núi.</li>
-                    <li><strong>Chuẩn bị:</strong> Mang theo nước uống và mũ che nắng.</li>
-                    <li><strong>Thái độ:</strong> Giữ thái độ trang nghiêm, tôn kính trong suốt quá trình viếng mộ.</li>
-                    <li><strong>Hương hoa:</strong> Có thể mua hương, hoa tại chân núi trước khi lên mộ.</li>
+                    <li><strong>Thời điểm tốt nhất:</strong> Sáng sớm (7h-9h) hoặc chiều mát (15h-17h)</li>
+                    <li><strong>Trang phục:</strong> Ăn mặc lịch sự, trang trọng, màu sắc không quá sặc sỡ</li>
+                    <li><strong>Thái độ:</strong> Giữ thái độ nghiêm trang, tôn kính, không nói chuyện to</li>
+                    <li><strong>Chuẩn bị:</strong> Mang theo hoa tươi (hoa cúc trắng, hoa lay ơn...)</li>
                   </ul>
 
                   <h3>Kết hợp tham quan</h3>
                   <p>
-                    Du khách có thể kết hợp tham quan Mộ bà Hoàng Thị Loan với các điểm du lịch khác gần đó:
+                    Nên kết hợp viếng mộ bà Hoàng Thị Loan với tham quan các điểm khác trong khu di tích Kim Liên:
                   </p>
                   <ul>
-                    <li>Khu di tích Kim Liên (cách khoảng 10km)</li>
-                    <li>Đền Chung Sơn (cách khoảng 8km)</li>
-                    <li>Làng Sen - quê hương Chủ tịch Hồ Chí Minh</li>
+                    <li>Nhà sinh của Chủ tịch Hồ Chí Minh tại làng Sen</li>
+                    <li>Đình Kim Liên</li>
+                    <li>Bảo tàng Hồ Chí Minh</li>
+                    <li>Các di tích khác trong khu di tích quê hương Bác Hồ</li>
                   </ul>
                 </div>
               </TabsContent>
@@ -250,7 +252,7 @@ export default function MoBaHoangThiLoanPage() {
               <div className="p-6 space-y-4">
                 <div>
                   <h4 className="font-medium">Địa chỉ</h4>
-                  <p className="text-sm text-muted-foreground">Núi Động Tranh, xã Nam Giang, huyện Nam Đàn, tỉnh Nghệ An</p>
+                  <p className="text-sm text-muted-foreground">Xã Kim Liên, huyện Nam Đàn, tỉnh Nghệ An</p>
                 </div>
                 <div>
                   <h4 className="font-medium">Giờ mở cửa</h4>
@@ -261,8 +263,8 @@ export default function MoBaHoangThiLoanPage() {
                   <p className="text-sm text-muted-foreground">Miễn phí</p>
                 </div>
                 <div>
-                  <h4 className="font-medium">Lưu ý</h4>
-                  <p className="text-sm text-muted-foreground">Cần leo bộ khoảng 30 phút để lên đến mộ</p>
+                  <h4 className="font-medium">Liên hệ</h4>
+                  <p className="text-sm text-muted-foreground">Điện thoại: 0238 3800 XXX</p>
                 </div>
               </div>
             </div>
@@ -276,15 +278,16 @@ export default function MoBaHoangThiLoanPage() {
                 <div>
                   <h4 className="font-medium">Từ thành phố Vinh</h4>
                   <p className="text-sm text-muted-foreground">
-                    Từ trung tâm thành phố Vinh, đi theo Quốc lộ 46 về hướng tây khoảng 20km đến huyện Nam Đàn, sau đó theo biển chỉ dẫn đến núi Động Tranh.
+                    Từ trung tâm thành phố Vinh, đi theo Quốc lộ 46 về hướng Nam Đàn khoảng 14km, rẽ vào đường dẫn đến khu di tích Kim Liên.
                   </p>
                 </div>
                 <div>
                   <h4 className="font-medium">Phương tiện di chuyển</h4>
                   <ul className="text-sm text-muted-foreground list-disc list-inside">
-                    <li>Xe máy: Thuận tiện cho việc di chuyển và đỗ xe</li>
-                    <li>Ô tô: Có bãi đỗ xe ở chân núi</li>
-                    <li>Tour du lịch: Nhiều công ty tổ chức tour kết hợp với Kim Liên</li>
+                    <li>Xe máy: Phương tiện thuận tiện và linh hoạt nhất</li>
+                    <li>Taxi: Giá khoảng 200.000 - 250.000 VNĐ từ Vinh</li>
+                    <li>Xe buýt: Có tuyến xe buýt từ Vinh đến Nam Đàn</li>
+                    <li>Tour du lịch: Các công ty lữ hành tổ chức tour thăm quê Bác</li>
                   </ul>
                 </div>
               </div>
@@ -298,16 +301,16 @@ export default function MoBaHoangThiLoanPage() {
               <div className="p-6 space-y-4">
                 <ul className="text-sm text-muted-foreground space-y-3">
                   <li>
-                    <span className="font-medium block">Khu di tích Kim Liên</span>
-                    Quê hương Chủ tịch Hồ Chí Minh (cách khoảng 10km)
+                    <span className="font-medium block">Nhà sinh Chủ tịch Hồ Chí Minh</span>
+                    Tại làng Sen, cách khoảng 500m
                   </li>
                   <li>
-                    <span className="font-medium block">Đền Chung Sơn</span>
-                    Di tích thờ các anh hùng dân tộc (cách khoảng 8km)
+                    <span className="font-medium block">Đình Kim Liên</span>
+                    Đình làng cổ có giá trị lịch sử (cách 300m)
                   </li>
                   <li>
-                    <span className="font-medium block">Núi Chung</span>
-                    Danh thắng tự nhiên với cảnh quan đẹp (cách khoảng 5km)
+                    <span className="font-medium block">Bảo tàng Hồ Chí Minh</span>
+                    Trưng bày hiện vật về cuộc đời Bác Hồ (cách 1km)
                   </li>
                 </ul>
               </div>
