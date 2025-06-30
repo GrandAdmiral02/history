@@ -48,15 +48,70 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const session = await auth();
-
-    if (!session?.user || !["ADMIN_TOUR", "SUPER_ADMIN"].includes(session.user.role || "")) {
-      return NextResponse.json(
-        { error: "Không có quyền truy cập" },
-        { status: 403 }
-      );
-    }
-
     const data = await request.json();
+
+    // Allow guest bookings or authenticated users
+    if (session?.user) {
+      // Authenticated user booking
+      const booking = await prisma.booking.create({
+        data: {
+          userId: session.user.id!,
+          tourId: data.tourId,
+          departureDate: new Date(data.departureDate),
+          participants: data.participants,
+          totalPrice: data.totalPrice,
+          notes: data.notes,
+        },
+        include: {
+          user: {
+            select: {
+              name: true,
+              email: true,
+            },
+          },
+          tour: {
+            select: {
+              name: true,
+              price: true,
+            },
+          },
+        },
+      });
+
+      return NextResponse.json(booking);
+    } else {
+      // Guest booking - create without userId
+      const booking = await prisma.booking.create({
+        data: {
+          userId: null, // Guest booking
+          tourId: data.tourId,
+          departureDate: new Date(data.departureDate),
+          participants: data.participants,
+          totalPrice: data.totalPrice,
+          notes: data.notes,
+          // Store guest info in notes for now
+          notes: `${data.notes || ''}\nGuest Info: ${data.customerName} - ${data.customerEmail} - ${data.customerPhone}`,
+        },
+        include: {
+          tour: {
+            select: {
+              name: true,
+              price: true,
+            },
+          },
+        },
+      });
+
+      return NextResponse.json(booking);
+    }
+  } catch (error) {
+    console.error("Error creating booking:", error);
+    return NextResponse.json(
+      { error: "Lỗi khi tạo đặt tour" },
+      { status: 500 }
+    );
+  }
+} = await request.json();
 
     const booking = await prisma.booking.create({
       data: {

@@ -1,21 +1,23 @@
 
-import { Metadata } from "next";
-import { auth } from "@/lib/auth/auth";
-import { redirect } from "next/navigation";
+"use client";
+
 import { AdminTourForm } from "@/components/admin/admin-tour-form";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export const metadata: Metadata = {
-  title: "Thêm Tour Mới | Admin",
-  description: "Thêm tour du lịch mới",
-};
-
-export default async function AddTourPage() {
-  const session = await auth();
-
-  if (!session || !session.user || 
-      !["ADMIN_TOUR", "SUPER_ADMIN"].includes(session.user.role || "")) {
-    redirect("/login");
-  }
-
-  return <AdminTourForm />;
+// Trang này đã bị loại bỏ theo yêu cầu
+export default function AddTourPage() {
+  return (
+    <div className="container mx-auto py-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-center text-red-600">
+            Chức năng thêm tour đã bị loại bỏ
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="text-center">
+          <p>Chức năng này không còn khả dụng theo yêu cầu quản lý.</p>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }

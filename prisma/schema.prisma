@@ -132,7 +132,7 @@ model Tour {
 // Model đặt tour
 model Booking {
   id            String        @id @default(cuid())
-  userId        String
+  userId        String?       // Nullable for guest bookings
   tourId        String
   departureDate DateTime
   participants  Int
@@ -142,7 +142,7 @@ model Booking {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
-  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
   tour          Tour          @relation(fields: [tourId], references: [id], onDelete: Cascade)
   payments      Payment[]
 

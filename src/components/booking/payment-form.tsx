@@ -65,31 +65,60 @@ export function PaymentForm({ bookingId }: PaymentFormProps) {
     }
   }, [bookingId, router]);
 
-  // Function to save booking to database when user is logged in
+  // Function to save booking and payment to database
   const saveBookingToDatabase = async (bookingData: BookingData, paymentMethod: string, status: string = "PENDING") => {
     try {
-      // In a real app, we would send this data to an API endpoint to save in database
-      // This is a mock function for demonstration
       console.log('Saving booking to database with payment method:', paymentMethod);
       console.log('Booking data:', bookingData);
       console.log('Status:', status);
 
-      // Here we would call an API endpoint
-      // const response = await fetch('/api/bookings', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     tourId: bookingData.tourId,
-      //     departureDate: bookingData.departureDate,
-      //     participants: parseInt(bookingData.participants),
-      //     totalPrice: bookingData.totalPrice,
-      //     notes: bookingData.notes,
-      //     paymentMethod: paymentMethod,
-      //     status: status,
-      //   }),
-      // });
+      // First create the booking
+      const bookingResponse = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          tourId: bookingData.tourId,
+          departureDate: bookingData.departureDate,
+          participants: parseInt(bookingData.participants),
+          totalPrice: bookingData.totalPrice,
+          notes: bookingData.notes,
+          customerName: bookingData.fullName,
+          customerEmail: bookingData.email,
+          customerPhone: bookingData.phone,
+        }),
+      });
+
+      if (!bookingResponse.ok) {
+        throw new Error('Failed to create booking');
+      }
+
+      const booking = await bookingResponse.json();
+
+      // Then create the payment record
+      const paymentMethodEnum = paymentMethod === "card" ? "CREDIT_CARD" : 
+                               paymentMethod === "e-wallet" ? "E_WALLET" : "CASH";
+      
+      const paymentStatus = paymentMethod === "cash" ? "PENDING" : "PAID";
+
+      const paymentResponse = await fetch('/api/payments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          bookingId: booking.id,
+          amount: bookingData.totalPrice,
+          paymentMethod: paymentMethodEnum,
+          paymentStatus: paymentStatus,
+          transactionId: `tour_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        }),
+      });
+
+      if (!paymentResponse.ok) {
+        throw new Error('Failed to create payment record');
+      }
 
       return true;
     } catch (error) {
