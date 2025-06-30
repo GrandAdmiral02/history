@@ -266,7 +266,7 @@ export default function ConDuongHuyenThoaiPage() {
                     <Card className="overflow-hidden">
                       <div className="relative h-52">
                         <Image
-                          src="https://ext.same-assets.com/3334769225/3457842884.jpeg"
+                          src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800"
                           alt="Di tích Xênh Xô"
                           fill
                           className="object-cover"

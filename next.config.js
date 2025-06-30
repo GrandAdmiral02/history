@@ -9,6 +9,9 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    allowedDevOrigins: ["*.replit.dev"],
+  },
 };
 
 module.exports = nextConfig;

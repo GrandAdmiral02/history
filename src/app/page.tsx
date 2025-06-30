@@ -296,7 +296,7 @@ export default function Home() {
                 📱 TikTok Videos
               </TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="youtube" className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
                 <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
@@ -349,7 +349,7 @@ export default function Home() {
                 </div>
               </div>
             </TabsContent>
-            
+
             <TabsContent value="tiktok" className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <TikTokEmbed 
@@ -504,6 +504,7 @@ export default function Home() {
                   alt="Cảnh đẹp Nghệ An"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="absolute bottom-4 left-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 opacity-0 group-hover:opacity-100">
