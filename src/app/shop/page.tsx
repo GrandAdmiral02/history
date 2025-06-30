@@ -33,13 +33,14 @@ import {
   Clock,
   Percent,
   Gift,
-  Flame
+  Flame,
+  Loader2, 
+  ShoppingBag
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { AdminProductForm } from "@/components/shop/admin-product-form";
-import { Loader2, ShoppingBag } from 'lucide-react';
 
 interface Product {
   id: string;
@@ -541,6 +542,9 @@ export default function ShopPage() {
                           fill
                           className="object-cover"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                          onError={(e) => {
+                            e.currentTarget.src = "/placeholder.jpg";
+                          }}
                         />
 
                         {/* Badges */}
