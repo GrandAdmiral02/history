@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -40,15 +39,15 @@ const getCartItems = () => {
   if (typeof window !== 'undefined') {
     const savedCart = localStorage.getItem('cart');
     const savedProducts = localStorage.getItem('products');
-    
+
     console.log('Saved cart:', savedCart);
     console.log('Saved products:', savedProducts);
-    
+
     if (savedCart && savedProducts) {
       try {
         const cart = JSON.parse(savedCart);
         const products = JSON.parse(savedProducts);
-        
+
         const items = Object.entries(cart).map(([productId, quantity]) => {
           const product = products.find((p: any) => p.id === productId);
           if (product) {
@@ -59,12 +58,13 @@ const getCartItems = () => {
               originalPrice: product.originalPrice,
               quantity: quantity as number,
               image: product.image || '/placeholder.jpg',
-              category: product.category
+              category: product.category,
+              description: product.description
             };
           }
           return null;
         }).filter(Boolean);
-        
+
         console.log('Cart items:', items);
         return items;
       } catch (error) {
@@ -95,7 +95,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     const items = getCartItems();
     setCartItems(items);
-    
+
     // Redirect to shop if cart is empty
     if (items.length === 0) {
       router.push('/shop');
@@ -254,7 +254,7 @@ export default function CheckoutPage() {
                 <strong style="font-size: 16px;">MÃ ĐƠN: ${order.id.slice(-8).toUpperCase()}</strong>
               </div>
             </div>
-            
+
             <div style="margin-bottom: 20px; background: white; padding: 16px; border-radius: 12px; border: 1px solid #fed7aa;">
               <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #ea580c; border-bottom: 1px solid #fed7aa; padding-bottom: 8px;">👤 Thông tin khách hàng</h3>
               <p style="margin: 4px 0; font-size: 13px; color: #9a3412;"><strong>Họ tên:</strong> ${formData.fullName}</p>
@@ -263,7 +263,7 @@ export default function CheckoutPage() {
               <p style="margin: 4px 0; font-size: 13px; color: #9a3412;"><strong>Địa chỉ:</strong> ${formData.address}</p>
               <p style="margin: 4px 0; font-size: 13px; color: #9a3412;"><strong>Thanh toán:</strong> ${getPaymentMethodName(formData.paymentMethod)}</p>
             </div>
-            
+
             <div style="background: white; padding: 16px; border-radius: 12px; border: 1px solid #fed7aa;">
               <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #ea580c; border-bottom: 1px solid #fed7aa; padding-bottom: 8px;">📦 Chi tiết đơn hàng</h3>
               ${cartItems.map(item => `
@@ -279,7 +279,7 @@ export default function CheckoutPage() {
                   </div>
                 </div>
               `).join('')}
-              
+
               <div style="border-top: 2px solid #fed7aa; margin-top: 16px; padding-top: 16px;">
                 <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; color: #9a3412;">
                   <span>Tạm tính (${cartItems.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm):</span>
@@ -301,7 +301,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>
-            
+
             <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 2px dashed #f97316;">
               <p style="margin: 0; font-size: 12px; color: #9a3412; font-weight: 500;">🙏 Cảm ơn bạn đã mua hàng!</p>
               <p style="margin: 4px 0; font-size: 11px; color: #c2410c;">📅 ${new Date().toLocaleString('vi-VN')}</p>
@@ -312,7 +312,7 @@ export default function CheckoutPage() {
             </div>
           </div>
         `;
-        
+
         try {
           const newWindow = window.open('', '_blank', 'width=500,height=800');
           if (newWindow) {
@@ -354,7 +354,7 @@ export default function CheckoutPage() {
 
       // Clear cart after successful order
       localStorage.removeItem('cart');
-      
+
       // Redirect về shop sau 2 giây
       setTimeout(() => {
         router.push("/shop");
@@ -464,7 +464,7 @@ export default function CheckoutPage() {
                           </p>
                         )}
                       </div>
-                      
+
                       <div className="space-y-2">
                         <Label htmlFor="phone" className="flex items-center gap-2 font-medium">
                           <Phone className="h-4 w-4 text-gray-500" />
@@ -581,7 +581,7 @@ export default function CheckoutPage() {
                           <Badge variant="secondary" className="bg-green-100 text-green-700">Phổ biến</Badge>
                         </Label>
                       </div>
-                      
+
                       <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-orange-300 transition-colors">
                         <RadioGroupItem value="bank" id="bank" className="text-orange-500" />
                         <Label htmlFor="bank" className="flex items-center gap-3 cursor-pointer flex-1">
@@ -594,7 +594,7 @@ export default function CheckoutPage() {
                           </div>
                         </Label>
                       </div>
-                      
+
                       <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-orange-300 transition-colors">
                         <RadioGroupItem value="mobile" id="mobile" className="text-orange-500" />
                         <Label htmlFor="mobile" className="flex items-center gap-3 cursor-pointer flex-1">
@@ -648,10 +648,18 @@ export default function CheckoutPage() {
                                 <h5 className="font-medium text-sm leading-tight group-hover:text-orange-600 transition-colors">
                                   {item.name}
                                 </h5>
+                                {item.description && (
+                                  <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed">
+                                    {item.description}
+                                  </p>
+                                )}
                                 <div className="flex items-center gap-2">
                                   <Badge variant="outline" className="text-xs px-2 py-0.5">
                                     {item.category}
                                   </Badge>
+                                  <span className="text-xs text-gray-500">
+                                    SL: {item.quantity}
+                                  </span>
                                 </div>
                                 <div className="flex items-center justify-between">
                                   <div className="flex items-center gap-2">
@@ -662,12 +670,11 @@ export default function CheckoutPage() {
                                       <span className="text-xs line-through text-gray-400">
                                         {item.originalPrice.toLocaleString()}đ
                                       </span>
-                                    )}
-                                  </div>
-                                  <span className="text-sm font-bold text-gray-900">
-                                    {(item.price * item.quantity).toLocaleString()}đ
-                                  </span>
+                                                                      )}
                                 </div>
+                                <span className="text-sm font-bold text-gray-900">
+                                  {(item.price * item.quantity).toLocaleString()}đ
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -685,7 +692,7 @@ export default function CheckoutPage() {
                             </span>
                             <span className="font-medium">{subtotal.toLocaleString()}đ</span>
                           </div>
-                          
+
                           {savings > 0 && (
                             <div className="flex justify-between text-sm text-green-600">
                               <span className="flex items-center gap-1">
@@ -695,7 +702,7 @@ export default function CheckoutPage() {
                               <span className="font-medium">-{savings.toLocaleString()}đ</span>
                             </div>
                           )}
-                          
+
                           <div className="flex justify-between text-sm">
                             <span className="text-gray-600 flex items-center gap-1">
                               <Truck className="h-4 w-4" />
@@ -705,7 +712,7 @@ export default function CheckoutPage() {
                               {shippingFee === 0 ? 'Miễn phí' : `${shippingFee.toLocaleString()}đ`}
                             </span>
                           </div>
-                          
+
                           {shippingFee > 0 && (
                             <div className="text-xs text-gray-500 bg-blue-50 p-3 rounded-lg">
                               💡 Mua thêm {(500000 - subtotal).toLocaleString()}đ để được <strong>miễn phí vận chuyển</strong>
@@ -746,7 +753,7 @@ export default function CheckoutPage() {
                             </>
                           )}
                         </Button>
-                        
+
                         <Button
                           variant="outline"
                           className="w-full h-10 border-orange-200 hover:border-orange-400 hover:bg-orange-50"
