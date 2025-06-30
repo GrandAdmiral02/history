@@ -24,7 +24,7 @@ const tours = [
     duration: "2 ngày 1 đêm",
     maxPeople: 25,
     price: 1890000,
-    image: "https://ext.same-assets.com/3334769225/3220782747.jpeg",
+    image: "https://statics.vinpearl.com/du-lich-quy-chau-anh-thumb_1633531971.jpg",
     slug: "con-duong-huyen-thoai"
   },
   {
@@ -35,7 +35,7 @@ const tours = [
     duration: "4 ngày 3 đêm",
     maxPeople: 20,
     price: 3490000,
-    image: "https://ext.same-assets.com/3334769225/3110326546.jpeg",
+    image: "https://dulichhonmat.com/uploads/b3dbfd80-d8a0-4003-bbe7-ba41902e1d27.jpg",
     slug: "di-san-tam-linh"
   },
   {
@@ -46,7 +46,7 @@ const tours = [
     duration: "3 ngày 2 đêm",
     maxPeople: 35,
     price: 2590000,
-    image: "https://ext.same-assets.com/3334769225/3359488301.jpeg",
+    image: "https://media.baovanhoa.vn/zoom/1000/uploaded/nghiemthanh/2025_02_21/a2_WUTP.jpg",
     slug: "dau-an-danh-nhan"
   },
   {

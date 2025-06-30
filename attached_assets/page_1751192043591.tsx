@@ -15,6 +15,7 @@ export default function DestinationsPage() {
           fill
           className="object-cover"
           priority
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1200px"
         />
         <div className="container relative z-20 flex flex-col items-center justify-center h-full text-center text-white">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Hành Trình Khám Phá</h1>
@@ -54,6 +55,7 @@ export default function DestinationsPage() {
                 alt="Hành trình về nguồn"
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               <div className="absolute top-3 right-3 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
                 3 ngày 2 đêm
@@ -114,6 +116,7 @@ export default function DestinationsPage() {
                 alt="Con đường huyền thoại"
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               <div className="absolute top-3 right-3 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
                 2 ngày 1 đêm
@@ -164,6 +167,7 @@ export default function DestinationsPage() {
                 alt="Di sản văn hóa tâm linh"
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               <div className="absolute top-3 right-3 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
                 4 ngày 3 đêm
@@ -223,6 +227,7 @@ export default function DestinationsPage() {
                 alt="Dấu ấn danh nhân"
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               <div className="absolute top-3 right-3 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
                 2 ngày 1 đêm
