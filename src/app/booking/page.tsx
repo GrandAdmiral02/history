@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -321,6 +321,7 @@ export default function BookingPage() {
 
 function BookingContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const tourId = searchParams.get("tourId");
   const [selectedTour, setSelectedTour] = useState<Tour | null>(null);
   const [formData, setFormData] = useState({
@@ -340,7 +341,38 @@ function BookingContent() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Đặt tour thành công! Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.");
+    
+    if (!formData.fullName || !formData.email || !formData.phone || !formData.tourDate) {
+      alert("Vui lòng điền đầy đủ thông tin bắt buộc");
+      return;
+    }
+
+    // Tạo booking ID
+    const bookingId = `booking-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    
+    // Tạo dữ liệu booking
+    const bookingData = {
+      tourId: selectedTour.id,
+      tourName: selectedTour.name,
+      departureDate: formData.tourDate || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Default 7 ngày sau
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      participants: formData.numberOfPeople.toString(),
+      notes: formData.specialRequests,
+      totalPrice: selectedTour.price * formData.numberOfPeople
+    };
+
+    // Lưu vào localStorage
+    try {
+      localStorage.setItem(bookingId, JSON.stringify(bookingData));
+      
+      // Chuyển hướng đến trang thanh toán
+      window.location.href = `/booking/payment?bookingId=${bookingId}`;
+    } catch (error) {
+      console.error("Error saving booking data:", error);
+      alert("Có lỗi xảy ra khi lưu thông tin đặt tour. Vui lòng thử lại.");
+    }
   };
 
   if (!tourId || !selectedTour) {
@@ -596,13 +628,14 @@ function BookingContent() {
                 </div>
 
                 <div>
-                  <Label htmlFor="tourDate">Ngày khởi hành mong muốn</Label>
+                  <Label htmlFor="tourDate">Ngày khởi hành mong muốn *</Label>
                   <Input
                     id="tourDate"
                     type="date"
                     value={formData.tourDate}
                     onChange={(e) => setFormData({...formData, tourDate: e.target.value})}
                     min={new Date().toISOString().split('T')[0]}
+                    required
                   />
                 </div>
 

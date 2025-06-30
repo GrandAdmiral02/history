@@ -53,13 +53,15 @@ export function PaymentForm({ bookingId }: PaymentFormProps) {
       // In a real app, we would fetch this data from an API
       const data = localStorage.getItem(bookingId);
       if (data) {
-        setBookingData(JSON.parse(data));
+        const parsedData = JSON.parse(data);
+        setBookingData(parsedData);
       } else {
-        router.push("/");
+        console.log("No booking data found for ID:", bookingId);
+        router.push("/booking");
       }
     } catch (error) {
       console.error("Error fetching booking data:", error);
-      router.push("/");
+      router.push("/booking");
     }
   }, [bookingId, router]);
 
