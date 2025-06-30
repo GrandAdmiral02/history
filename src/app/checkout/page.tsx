@@ -77,7 +77,6 @@ const getCartItems = (): CartItem[] => {
           })
           .filter((item): item is CartItem => item !== null);
 
-        წ;
         console.log("Cart items:", items);
         return items;
       } catch (error) {
