@@ -650,7 +650,7 @@ export default function ShopPage() {
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="mt-auto">
+                    <div className="mt-auto space-y-2">
                       {cart[product.id] ? (
                         <div className="flex items-center gap-2">
                           <Button
@@ -684,6 +684,21 @@ export default function ShopPage() {
                           {product.stock === 0 ? "Hết hàng" : "Thêm vào giỏ"}
                         </Button>
                       )}
+                      
+                      {/* Detail Button */}
+                      <Link href="/checkout">
+                        <Button
+                          variant="outline"
+                          className="w-full h-8 text-sm border-gray-300 hover:border-orange-400 hover:text-orange-600"
+                          onClick={() => {
+                            if (!cart[product.id]) {
+                              addToCart(product.id);
+                            }
+                          }}
+                        >
+                          Chi tiết & Mua ngay
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </Card>

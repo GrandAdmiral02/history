@@ -9,10 +9,31 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ShoppingCart, CreditCard, Banknote, Smartphone, Loader2 } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { 
+  ShoppingCart, 
+  CreditCard, 
+  Banknote, 
+  Smartphone, 
+  Loader2, 
+  MapPin, 
+  User, 
+  Phone, 
+  Mail, 
+  Package, 
+  Truck, 
+  Shield, 
+  CheckCircle,
+  ArrowLeft,
+  Gift,
+  Tag,
+  Percent
+} from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { toast } from "sonner";
+import Image from "next/image";
 
 // Lấy dữ liệu giỏ hàng từ localStorage hoặc context
 const getCartItems = () => {
@@ -35,8 +56,10 @@ const getCartItems = () => {
               id: product.id,
               name: product.name,
               price: product.price,
+              originalPrice: product.originalPrice,
               quantity: quantity as number,
-              image: product.image || '/placeholder.jpg'
+              image: product.image || '/placeholder.jpg',
+              category: product.category
             };
           }
           return null;
@@ -64,6 +87,7 @@ export default function CheckoutPage() {
     phone: "",
     email: "",
     paymentMethod: "cod",
+    notes: "",
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -81,7 +105,9 @@ export default function CheckoutPage() {
 
   // Tính tổng tiền
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const shippingFee = 30000; // Phí vận chuyển cố định
+  const originalTotal = cartItems.reduce((sum, item) => sum + (item.originalPrice || item.price) * item.quantity, 0);
+  const savings = originalTotal - subtotal;
+  const shippingFee = subtotal >= 500000 ? 0 : 30000; // Free shipping over 500k
   const total = subtotal + shippingFee;
 
   // Load user data if logged in
@@ -96,7 +122,7 @@ export default function CheckoutPage() {
   }, [session]);
 
   // Xử lý thay đổi input
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
@@ -120,6 +146,7 @@ export default function CheckoutPage() {
           shippingAddress: formData.address,
           totalAmount: total,
           paymentMethod: getPaymentMethodCode(formData.paymentMethod),
+          notes: formData.notes,
           items: cartItems.map(item => ({
             productId: item.id,
             quantity: item.quantity,
@@ -219,54 +246,75 @@ export default function CheckoutPage() {
       // Tạo và hiển thị hóa đơn
       const showInvoice = () => {
         const ticketHTML = `
-          <div style="max-width: 400px; margin: 0 auto; border: 2px dashed #16a34a; border-radius: 12px; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 20px; font-family: Arial, sans-serif;">
-            <div style="text-align: center; border-bottom: 1px dashed #16a34a; padding-bottom: 15px; margin-bottom: 15px;">
-              <h2 style="color: #15803d; margin: 0; font-size: 18px;">🎫 HÓA ĐƠN MUA HÀNG</h2>
-              <p style="color: #166534; margin: 5px 0; font-size: 12px;">Cửa hàng lưu niệm xứ Nghệ</p>
-            </div>
-            
-            <div style="margin-bottom: 15px;">
-              <div style="background: #16a34a; color: white; padding: 8px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 14px;">
-                MÃ ĐƠN: ${order.id.slice(-8).toUpperCase()}
+          <div style="max-width: 450px; margin: 0 auto; border: 2px solid #f97316; border-radius: 16px; background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); padding: 24px; font-family: 'Arial', sans-serif; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
+            <div style="text-align: center; border-bottom: 2px dashed #f97316; padding-bottom: 20px; margin-bottom: 20px;">
+              <h2 style="color: #ea580c; margin: 0; font-size: 22px; font-weight: bold;">🛍️ HÓA ĐƠN MUA HÀNG</h2>
+              <p style="color: #ea580c; margin: 8px 0; font-size: 14px; font-weight: 500;">Cửa hàng lưu niệm xứ Nghệ</p>
+              <div style="background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 12px; border-radius: 8px; margin-top: 16px;">
+                <strong style="font-size: 16px;">MÃ ĐƠN: ${order.id.slice(-8).toUpperCase()}</strong>
               </div>
             </div>
             
-            <div style="margin-bottom: 15px;">
-              <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Khách hàng:</strong> ${formData.fullName}</p>
-              <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Điện thoại:</strong> ${formData.phone}</p>
-              <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Địa chỉ:</strong> ${formData.address}</p>
-              <p style="margin: 0; font-size: 12px; color: #166534;"><strong>Thanh toán:</strong> ${getPaymentMethodName(formData.paymentMethod)}</p>
+            <div style="margin-bottom: 20px; background: white; padding: 16px; border-radius: 12px; border: 1px solid #fed7aa;">
+              <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #ea580c; border-bottom: 1px solid #fed7aa; padding-bottom: 8px;">👤 Thông tin khách hàng</h3>
+              <p style="margin: 4px 0; font-size: 13px; color: #9a3412;"><strong>Họ tên:</strong> ${formData.fullName}</p>
+              <p style="margin: 4px 0; font-size: 13px; color: #9a3412;"><strong>Điện thoại:</strong> ${formData.phone}</p>
+              <p style="margin: 4px 0; font-size: 13px; color: #9a3412;"><strong>Email:</strong> ${formData.email}</p>
+              <p style="margin: 4px 0; font-size: 13px; color: #9a3412;"><strong>Địa chỉ:</strong> ${formData.address}</p>
+              <p style="margin: 4px 0; font-size: 13px; color: #9a3412;"><strong>Thanh toán:</strong> ${getPaymentMethodName(formData.paymentMethod)}</p>
             </div>
             
-            <div style="border-top: 1px dashed #16a34a; padding-top: 15px;">
+            <div style="background: white; padding: 16px; border-radius: 12px; border: 1px solid #fed7aa;">
+              <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #ea580c; border-bottom: 1px solid #fed7aa; padding-bottom: 8px;">📦 Chi tiết đơn hàng</h3>
               ${cartItems.map(item => `
-                <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px;">
-                  <span>${item.name} x${item.quantity}</span>
-                  <span>${(item.price * item.quantity).toLocaleString()}đ</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 8px; background: #fff7ed; border-radius: 8px;">
+                  <div style="flex: 1;">
+                    <div style="font-size: 13px; font-weight: 600; color: #9a3412; margin-bottom: 4px;">${item.name}</div>
+                    <div style="font-size: 11px; color: #c2410c;">
+                      ${item.price.toLocaleString()}đ × ${item.quantity}
+                    </div>
+                  </div>
+                  <div style="font-size: 13px; font-weight: bold; color: #ea580c;">
+                    ${(item.price * item.quantity).toLocaleString()}đ
+                  </div>
                 </div>
               `).join('')}
-              <div style="border-top: 1px solid #16a34a; margin-top: 10px; padding-top: 10px;">
-                <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px;">
-                  <span>Phí vận chuyển:</span>
-                  <span>${shippingFee.toLocaleString()}đ</span>
+              
+              <div style="border-top: 2px solid #fed7aa; margin-top: 16px; padding-top: 16px;">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; color: #9a3412;">
+                  <span>Tạm tính (${cartItems.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm):</span>
+                  <span>${subtotal.toLocaleString()}đ</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-weight: bold; color: #15803d;">
-                  <span>TỔNG CỘNG:</span>
+                ${savings > 0 ? `
+                <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; color: #16a34a;">
+                  <span>🎉 Tiết kiệm:</span>
+                  <span>-${savings.toLocaleString()}đ</span>
+                </div>
+                ` : ''}
+                <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 12px; color: #9a3412;">
+                  <span>Phí vận chuyển:</span>
+                  <span style="color: ${shippingFee === 0 ? '#16a34a' : '#ea580c'};">${shippingFee === 0 ? 'Miễn phí' : shippingFee.toLocaleString() + 'đ'}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; color: #ea580c; background: linear-gradient(135deg, #fed7aa, #fdba74); padding: 12px; border-radius: 8px;">
+                  <span>TỔNG THANH TOÁN:</span>
                   <span>${total.toLocaleString()}đ</span>
                 </div>
               </div>
             </div>
             
-            <div style="text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #16a34a;">
-              <p style="margin: 0; font-size: 10px; color: #166534;">Cảm ơn bạn đã mua hàng!</p>
-              <p style="margin: 0; font-size: 10px; color: #166534;">Thời gian: ${new Date().toLocaleString('vi-VN')}</p>
-              <p style="margin: 0; font-size: 10px; color: #166534;">Trạng thái: ${payment.paymentStatus === 'PENDING' ? 'Chờ thanh toán' : 'Đã thanh toán'}</p>
+            <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 2px dashed #f97316;">
+              <p style="margin: 0; font-size: 12px; color: #9a3412; font-weight: 500;">🙏 Cảm ơn bạn đã mua hàng!</p>
+              <p style="margin: 4px 0; font-size: 11px; color: #c2410c;">📅 ${new Date().toLocaleString('vi-VN')}</p>
+              <p style="margin: 4px 0; font-size: 11px; color: #c2410c;">📋 Trạng thái: ${payment.paymentStatus === 'PENDING' ? 'Chờ thanh toán' : 'Đã thanh toán'}</p>
+              <div style="margin-top: 12px; padding: 8px; background: linear-gradient(135deg, #f97316, #ea580c); border-radius: 6px;">
+                <p style="margin: 0; font-size: 11px; color: white; font-weight: 500;">🚚 Đơn hàng sẽ được giao trong 2-3 ngày làm việc</p>
+              </div>
             </div>
           </div>
         `;
         
         try {
-          const newWindow = window.open('', '_blank', 'width=500,height=700');
+          const newWindow = window.open('', '_blank', 'width=500,height=800');
           if (newWindow) {
             newWindow.document.write(`
               <!DOCTYPE html>
@@ -274,12 +322,18 @@ export default function CheckoutPage() {
                 <head>
                   <title>Hóa đơn mua hàng - ${order.id.slice(-8).toUpperCase()}</title>
                   <meta charset="utf-8">
+                  <style>
+                    @media print {
+                      .no-print { display: none; }
+                      body { margin: 0; }
+                    }
+                  </style>
                 </head>
-                <body style="margin: 20px; background: #f3f4f6;">
+                <body style="margin: 20px; background: #f8fafc;">
                   ${ticketHTML}
-                  <div style="text-align: center; margin-top: 20px;">
-                    <button onclick="window.print()" style="background: #16a34a; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin-right: 10px;">In hóa đơn</button>
-                    <button onclick="window.close()" style="background: #6b7280; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Đóng</button>
+                  <div style="text-align: center; margin-top: 24px;" class="no-print">
+                    <button onclick="window.print()" style="background: linear-gradient(135deg, #f97316, #ea580c); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; margin-right: 12px; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">🖨️ In hóa đơn</button>
+                    <button onclick="window.close()" style="background: #6b7280; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">❌ Đóng</button>
                   </div>
                 </body>
               </html>
@@ -316,132 +370,241 @@ export default function CheckoutPage() {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin" />
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-12 w-12 animate-spin text-orange-500 mx-auto mb-4" />
+          <div className="text-lg font-medium text-gray-700">Đang tải...</div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="container">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
+      {/* Header */}
+      <div className="bg-white border-b shadow-sm">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Link href="/shop">
+                <Button variant="ghost" size="sm" className="flex items-center gap-2 hover:bg-orange-50">
+                  <ArrowLeft className="h-4 w-4" />
+                  Quay lại
+                </Button>
+              </Link>
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+                  Thanh toán đơn hàng
+                </h1>
+                <p className="text-sm text-gray-600 mt-1">
+                  Hoàn tất đơn hàng của bạn
+                </p>
+              </div>
+            </div>
+            <div className="hidden md:flex items-center gap-6 text-sm">
+              <div className="flex items-center gap-2 text-green-600">
+                <Shield className="h-4 w-4" />
+                <span>Bảo mật</span>
+              </div>
+              <div className="flex items-center gap-2 text-blue-600">
+                <Truck className="h-4 w-4" />
+                <span>Giao hàng nhanh</span>
+              </div>
+              <div className="flex items-center gap-2 text-purple-600">
+                <Gift className="h-4 w-4" />
+                <span>Quà tặng</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold text-green-800 mb-8">
-            Thanh Toán
-          </h1>
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Thông tin khách hàng */}
-              <div className="lg:col-span-2 space-y-6">
-                <Card className="border-none shadow-lg">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <ShoppingCart className="h-5 w-5" />
-                      Thông Tin Giao Hàng
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+              {/* Thông tin khách hàng và thanh toán */}
+              <div className="xl:col-span-2 space-y-6">
+                {/* Thông tin giao hàng */}
+                <Card className="border-0 shadow-lg bg-white/80 backdrop-blur">
+                  <CardHeader className="border-b bg-gradient-to-r from-orange-500 to-red-500 text-white">
+                    <CardTitle className="flex items-center gap-3">
+                      <div className="p-2 bg-white/20 rounded-lg">
+                        <MapPin className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <div className="text-lg font-semibold">Thông tin giao hàng</div>
+                        <div className="text-sm opacity-90">Điền chính xác để nhận hàng</div>
+                      </div>
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="fullName">Họ và tên</Label>
-                      <Input
-                        id="fullName"
-                        name="fullName"
-                        value={formData.fullName}
-                        onChange={handleInputChange}
-                        placeholder="Nguyễn Văn A"
-                        className={errors.fullName ? "border-red-500" : ""}
-                      />
-                      {errors.fullName && (
-                        <p className="text-sm text-red-500">{errors.fullName}</p>
-                      )}
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="address">Địa chỉ</Label>
-                      <Input
-                        id="address"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleInputChange}
-                        placeholder="123 Đường Láng, Đống Đa, Hà Nội"
-                        className={errors.address ? "border-red-500" : ""}
-                      />
-                      {errors.address && (
-                        <p className="text-sm text-red-500">{errors.address}</p>
-                      )}
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <CardContent className="p-6 space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <Label htmlFor="phone">Số điện thoại</Label>
+                        <Label htmlFor="fullName" className="flex items-center gap-2 font-medium">
+                          <User className="h-4 w-4 text-gray-500" />
+                          Họ và tên *
+                        </Label>
+                        <Input
+                          id="fullName"
+                          name="fullName"
+                          value={formData.fullName}
+                          onChange={handleInputChange}
+                          placeholder="Nguyễn Văn A"
+                          className={`transition-all duration-200 ${errors.fullName ? "border-red-500 focus:border-red-500" : "focus:border-orange-500"}`}
+                        />
+                        {errors.fullName && (
+                          <p className="text-sm text-red-500 flex items-center gap-1">
+                            <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                            {errors.fullName}
+                          </p>
+                        )}
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="phone" className="flex items-center gap-2 font-medium">
+                          <Phone className="h-4 w-4 text-gray-500" />
+                          Số điện thoại *
+                        </Label>
                         <Input
                           id="phone"
                           name="phone"
                           value={formData.phone}
                           onChange={handleInputChange}
                           placeholder="0123 456 789"
-                          className={errors.phone ? "border-red-500" : ""}
+                          className={`transition-all duration-200 ${errors.phone ? "border-red-500 focus:border-red-500" : "focus:border-orange-500"}`}
                         />
                         {errors.phone && (
-                          <p className="text-sm text-red-500">{errors.phone}</p>
+                          <p className="text-sm text-red-500 flex items-center gap-1">
+                            <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                            {errors.phone}
+                          </p>
                         )}
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          placeholder="example@email.com"
-                          className={errors.email ? "border-red-500" : ""}
-                        />
-                        {errors.email && (
-                          <p className="text-sm text-red-500">{errors.email}</p>
-                        )}
-                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="email" className="flex items-center gap-2 font-medium">
+                        <Mail className="h-4 w-4 text-gray-500" />
+                        Email *
+                      </Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="example@email.com"
+                        className={`transition-all duration-200 ${errors.email ? "border-red-500 focus:border-red-500" : "focus:border-orange-500"}`}
+                      />
+                      {errors.email && (
+                        <p className="text-sm text-red-500 flex items-center gap-1">
+                          <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                          {errors.email}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="address" className="flex items-center gap-2 font-medium">
+                        <MapPin className="h-4 w-4 text-gray-500" />
+                        Địa chỉ giao hàng *
+                      </Label>
+                      <Input
+                        id="address"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleInputChange}
+                        placeholder="123 Đường Láng, Đống Đa, Hà Nội"
+                        className={`transition-all duration-200 ${errors.address ? "border-red-500 focus:border-red-500" : "focus:border-orange-500"}`}
+                      />
+                      {errors.address && (
+                        <p className="text-sm text-red-500 flex items-center gap-1">
+                          <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                          {errors.address}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="notes" className="font-medium">
+                        Ghi chú đơn hàng
+                      </Label>
+                      <textarea
+                        id="notes"
+                        name="notes"
+                        value={formData.notes}
+                        onChange={handleInputChange}
+                        placeholder="Ghi chú thêm cho đơn hàng..."
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all duration-200 resize-none"
+                        rows={3}
+                      />
                     </div>
                   </CardContent>
                 </Card>
 
                 {/* Phương thức thanh toán */}
-                <Card className="border-none shadow-lg">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <CreditCard className="h-5 w-5" />
-                      Phương Thức Thanh Toán
+                <Card className="border-0 shadow-lg bg-white/80 backdrop-blur">
+                  <CardHeader className="border-b bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+                    <CardTitle className="flex items-center gap-3">
+                      <div className="p-2 bg-white/20 rounded-lg">
+                        <CreditCard className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <div className="text-lg font-semibold">Phương thức thanh toán</div>
+                        <div className="text-sm opacity-90">Chọn cách thanh toán phù hợp</div>
+                      </div>
                     </CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-6">
                     <RadioGroup
                       value={formData.paymentMethod}
                       onValueChange={(value) =>
                         setFormData((prev) => ({ ...prev, paymentMethod: value }))
                       }
-                      className="space-y-2"
+                      className="space-y-4"
                     >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="cod" id="cod" />
-                        <Label htmlFor="cod" className="flex items-center gap-2">
-                          <Banknote className="h-4 w-4" />
-                          Thanh toán khi nhận hàng (COD)
+                      <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-orange-300 transition-colors">
+                        <RadioGroupItem value="cod" id="cod" className="text-orange-500" />
+                        <Label htmlFor="cod" className="flex items-center gap-3 cursor-pointer flex-1">
+                          <div className="p-2 bg-green-100 rounded-lg">
+                            <Banknote className="h-5 w-5 text-green-600" />
+                          </div>
+                          <div>
+                            <div className="font-medium">Thanh toán khi nhận hàng (COD)</div>
+                            <div className="text-sm text-gray-500">Thanh toán bằng tiền mặt khi nhận hàng</div>
+                          </div>
+                          <Badge variant="secondary" className="bg-green-100 text-green-700">Phổ biến</Badge>
                         </Label>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="bank" id="bank" />
-                        <Label htmlFor="bank" className="flex items-center gap-2">
-                          <CreditCard className="h-4 w-4" />
-                          Chuyển khoản ngân hàng
+                      
+                      <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-orange-300 transition-colors">
+                        <RadioGroupItem value="bank" id="bank" className="text-orange-500" />
+                        <Label htmlFor="bank" className="flex items-center gap-3 cursor-pointer flex-1">
+                          <div className="p-2 bg-blue-100 rounded-lg">
+                            <CreditCard className="h-5 w-5 text-blue-600" />
+                          </div>
+                          <div>
+                            <div className="font-medium">Chuyển khoản ngân hàng</div>
+                            <div className="text-sm text-gray-500">Chuyển khoản qua ATM/Internet Banking</div>
+                          </div>
                         </Label>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="mobile" id="mobile" />
-                        <Label htmlFor="mobile" className="flex items-center gap-2">
-                          <Smartphone className="h-4 w-4" />
-                          Ví điện tử (Momo, ZaloPay)
+                      
+                      <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-orange-300 transition-colors">
+                        <RadioGroupItem value="mobile" id="mobile" className="text-orange-500" />
+                        <Label htmlFor="mobile" className="flex items-center gap-3 cursor-pointer flex-1">
+                          <div className="p-2 bg-purple-100 rounded-lg">
+                            <Smartphone className="h-5 w-5 text-purple-600" />
+                          </div>
+                          <div>
+                            <div className="font-medium">Ví điện tử</div>
+                            <div className="text-sm text-gray-500">Thanh toán qua Momo, ZaloPay, VNPay</div>
+                          </div>
                         </Label>
                       </div>
                     </RadioGroup>
@@ -450,101 +613,171 @@ export default function CheckoutPage() {
               </div>
 
               {/* Tóm tắt đơn hàng */}
-              <div className="lg:col-span-1">
-                <Card className="border-none shadow-lg sticky top-24">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <ShoppingCart className="h-5 w-5" />
-                      Tóm Tắt Đơn Hàng
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-4">
-                      <h4 className="font-medium text-sm text-muted-foreground">
-                        Sản phẩm trong đơn hàng ({cartItems.length} sản phẩm)
-                      </h4>
-                      {cartItems.map((item) => (
-                        <div key={item.id} className="border rounded-lg p-4 bg-muted/30">
-                          <div className="flex items-start gap-4">
-                            <div className="relative w-20 h-20 flex-shrink-0">
-                              <img
-                                src={item.image}
-                                alt={item.name}
-                                className="w-full h-full object-cover rounded-md border"
-                              />
-                            </div>
-                            <div className="flex-1 space-y-2">
-                              <h5 className="font-medium text-sm leading-tight">{item.name}</h5>
-                              <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
-                                <div>
-                                  <span className="font-medium">Đơn giá:</span>
-                                  <span className="ml-1">{item.price.toLocaleString()}đ</span>
-                                </div>
-                                <div>
-                                  <span className="font-medium">Số lượng:</span>
-                                  <span className="ml-1">{item.quantity}</span>
+              <div className="xl:col-span-1">
+                <div className="sticky top-24 space-y-6">
+                  <Card className="border-0 shadow-xl bg-white/90 backdrop-blur">
+                    <CardHeader className="border-b bg-gradient-to-r from-orange-500 to-red-500 text-white">
+                      <CardTitle className="flex items-center gap-3">
+                        <div className="p-2 bg-white/20 rounded-lg">
+                          <ShoppingCart className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <div className="text-lg font-semibold">Đơn hàng của bạn</div>
+                          <div className="text-sm opacity-90">{cartItems.length} sản phẩm</div>
+                        </div>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6 space-y-6">
+                      {/* Sản phẩm */}
+                      <div className="space-y-4">
+                        {cartItems.map((item) => (
+                          <div key={item.id} className="group">
+                            <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-orange-200 transition-all duration-200">
+                              <div className="relative w-16 h-16 flex-shrink-0">
+                                <Image
+                                  src={item.image}
+                                  alt={item.name}
+                                  fill
+                                  className="object-cover rounded-lg border"
+                                />
+                                <div className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-medium">
+                                  {item.quantity}
                                 </div>
                               </div>
-                              <div className="flex justify-between items-center pt-2 border-t">
-                                <span className="text-xs font-medium text-muted-foreground">Thành tiền:</span>
-                                <span className="text-sm font-bold text-green-600">
-                                  {(item.price * item.quantity).toLocaleString()}đ
-                                </span>
+                              <div className="flex-1 space-y-2">
+                                <h5 className="font-medium text-sm leading-tight group-hover:text-orange-600 transition-colors">
+                                  {item.name}
+                                </h5>
+                                <div className="flex items-center gap-2">
+                                  <Badge variant="outline" className="text-xs px-2 py-0.5">
+                                    {item.category}
+                                  </Badge>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-sm font-semibold text-orange-600">
+                                      {item.price.toLocaleString()}đ
+                                    </span>
+                                    {item.originalPrice && item.originalPrice > item.price && (
+                                      <span className="text-xs line-through text-gray-400">
+                                        {item.originalPrice.toLocaleString()}đ
+                                      </span>
+                                    )}
+                                  </div>
+                                  <span className="text-sm font-bold text-gray-900">
+                                    {(item.price * item.quantity).toLocaleString()}đ
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </div>
+                        ))}
+                      </div>
+
+                      <Separator />
+
+                      {/* Tính toán */}
+                      <div className="space-y-4">
+                        <div className="space-y-3">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-600">
+                              Tạm tính ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm)
+                            </span>
+                            <span className="font-medium">{subtotal.toLocaleString()}đ</span>
+                          </div>
+                          
+                          {savings > 0 && (
+                            <div className="flex justify-between text-sm text-green-600">
+                              <span className="flex items-center gap-1">
+                                <Percent className="h-4 w-4" />
+                                Tiết kiệm
+                              </span>
+                              <span className="font-medium">-{savings.toLocaleString()}đ</span>
+                            </div>
+                          )}
+                          
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-600 flex items-center gap-1">
+                              <Truck className="h-4 w-4" />
+                              Phí vận chuyển
+                            </span>
+                            <span className={`font-medium ${shippingFee === 0 ? 'text-green-600' : 'text-orange-600'}`}>
+                              {shippingFee === 0 ? 'Miễn phí' : `${shippingFee.toLocaleString()}đ`}
+                            </span>
+                          </div>
+                          
+                          {shippingFee > 0 && (
+                            <div className="text-xs text-gray-500 bg-blue-50 p-3 rounded-lg">
+                              💡 Mua thêm {(500000 - subtotal).toLocaleString()}đ để được <strong>miễn phí vận chuyển</strong>
+                            </div>
+                          )}
                         </div>
-                      ))}
-                    </div>
-                    <div className="border-t pt-4 space-y-3">
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-sm">
-                          <span>Tạm tính ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm)</span>
-                          <span>{subtotal.toLocaleString()}đ</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span>Phí vận chuyển</span>
-                          <span className="text-orange-600">{shippingFee.toLocaleString()}đ</span>
-                        </div>
-                        <div className="flex justify-between text-sm text-muted-foreground">
-                          <span>Thuế VAT</span>
-                          <span>Đã bao gồm</span>
+
+                        <Separator />
+
+                        <div className="bg-gradient-to-r from-orange-500 to-red-500 p-4 rounded-xl text-white">
+                          <div className="flex justify-between items-center">
+                            <span className="text-lg font-semibold">Tổng thanh toán</span>
+                            <span className="text-2xl font-bold">{total.toLocaleString()}đ</span>
+                          </div>
+                          {savings > 0 && (
+                            <p className="text-sm opacity-90 mt-2">
+                              🎉 Bạn đã tiết kiệm được {savings.toLocaleString()}đ
+                            </p>
+                          )}
                         </div>
                       </div>
-                      <div className="border-t pt-3">
-                        <div className="flex justify-between text-lg font-bold text-green-600">
-                          <span>Tổng thanh toán</span>
-                          <span>{total.toLocaleString()}đ</span>
-                        </div>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Tiết kiệm được khi mua nhiều sản phẩm
-                        </p>
+
+                      <div className="space-y-3">
+                        <Button
+                          type="submit"
+                          className="w-full h-12 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200"
+                          disabled={isLoading}
+                        >
+                          {isLoading ? (
+                            <>
+                              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                              Đang xử lý...
+                            </>
+                          ) : (
+                            <>
+                              <CheckCircle className="mr-2 h-5 w-5" />
+                              Xác nhận đặt hàng
+                            </>
+                          )}
+                        </Button>
+                        
+                        <Button
+                          variant="outline"
+                          className="w-full h-10 border-orange-200 hover:border-orange-400 hover:bg-orange-50"
+                          asChild
+                          disabled={isLoading}
+                        >
+                          <Link href="/shop" className="flex items-center gap-2">
+                            <ArrowLeft className="h-4 w-4" />
+                            Tiếp tục mua sắm
+                          </Link>
+                        </Button>
                       </div>
-                    </div>
-                    <Button
-                      type="submit"
-                      className="w-full bg-green-700 hover:bg-green-800"
-                      disabled={isLoading}
-                    >
-                      {isLoading ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Đang xử lý...
-                        </>
-                      ) : (
-                        "Xác Nhận Đặt Hàng"
-                      )}
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="w-full"
-                      asChild
-                      disabled={isLoading}
-                    >
-                      <Link href="/shop">Tiếp Tục Mua Sắm</Link>
-                    </Button>
-                  </CardContent>
-                </Card>
+
+                      {/* Trust badges */}
+                      <div className="grid grid-cols-3 gap-2 pt-4 border-t">
+                        <div className="text-center p-2">
+                          <Shield className="h-5 w-5 text-green-500 mx-auto mb-1" />
+                          <div className="text-xs text-gray-600">Bảo mật</div>
+                        </div>
+                        <div className="text-center p-2">
+                          <Truck className="h-5 w-5 text-blue-500 mx-auto mb-1" />
+                          <div className="text-xs text-gray-600">Giao nhanh</div>
+                        </div>
+                        <div className="text-center p-2">
+                          <CheckCircle className="h-5 w-5 text-purple-500 mx-auto mb-1" />
+                          <div className="text-xs text-gray-600">Uy tín</div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
               </div>
             </div>
           </form>
