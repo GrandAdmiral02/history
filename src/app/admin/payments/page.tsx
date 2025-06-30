@@ -7,7 +7,7 @@ import { PaymentList } from "@/components/admin/payment-list";
 
 export const metadata: Metadata = {
   title: "Quản lý thanh toán | Admin",
-  description: "Quản lý thanh toán hệ thống",
+  description: "Quản lý thanh toán",
 };
 
 export default async function PaymentsAdminPage() {
@@ -22,9 +22,19 @@ export default async function PaymentsAdminPage() {
     <div className="container max-w-screen-xl mx-auto py-10">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold">Quản lý thanh toán</h1>
+          <h1 className="text-3xl font-bold">
+            {session.user.role === "SUPER_ADMIN" 
+              ? "Quản lý thanh toán tổng hợp" 
+              : session.user.role === "ADMIN_TOUR" 
+                ? "Quản lý thanh toán tour" 
+                : "Quản lý thanh toán shop"}
+          </h1>
           <p className="text-muted-foreground mt-2">
-            Theo dõi và quản lý tất cả giao dịch thanh toán
+            {session.user.role === "SUPER_ADMIN" 
+              ? "Theo dõi và quản lý tất cả giao dịch thanh toán hệ thống" 
+              : session.user.role === "ADMIN_TOUR" 
+                ? "Theo dõi và quản lý giao dịch thanh toán tour du lịch" 
+                : "Theo dõi và quản lý giao dịch thanh toán cửa hàng"}
           </p>
         </div>
         <div>
@@ -38,7 +48,7 @@ export default async function PaymentsAdminPage() {
       </div>
 
       <div className="bg-white rounded-lg shadow p-6">
-        <PaymentList />
+        <PaymentList userRole={session.user.role} />
       </div>
     </div>
   );

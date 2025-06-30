@@ -75,7 +75,11 @@ interface Payment {
   };
 }
 
-export function PaymentList() {
+interface PaymentListProps {
+  userRole?: string;
+}
+
+export function PaymentList({ userRole }: PaymentListProps) {
   const [payments, setPayments] = useState<Payment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -148,6 +152,12 @@ export function PaymentList() {
 
   const filteredPayments = payments
     .filter((payment) => {
+      // Filter by user role first
+      if (userRole === "ADMIN_TOUR" && payment.type !== "BOOKING") return false;
+      if (userRole === "ADMIN_SHOP" && payment.type !== "ORDER") return false;
+      // SUPER_ADMIN can see all payments
+      
+      // Then filter by active tab
       if (activeTab === "all") return true;
       if (activeTab === "paid") return payment.paymentStatus === "PAID";
       if (activeTab === "pending") return payment.paymentStatus === "PENDING";
@@ -336,8 +346,12 @@ export function PaymentList() {
           <TabsTrigger value="pending">Chờ thanh toán</TabsTrigger>
           <TabsTrigger value="failed">Thất bại</TabsTrigger>
           <TabsTrigger value="refunded">Đã hoàn tiền</TabsTrigger>
-          <TabsTrigger value="bookings">Tour</TabsTrigger>
-          <TabsTrigger value="orders">Sản phẩm</TabsTrigger>
+          {userRole === "SUPER_ADMIN" && (
+            <>
+              <TabsTrigger value="bookings">Tour</TabsTrigger>
+              <TabsTrigger value="orders">Sản phẩm</TabsTrigger>
+            </>
+          )}
         </TabsList>
 
         <TabsContent value={activeTab}>

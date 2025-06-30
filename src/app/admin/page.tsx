@@ -1,4 +1,3 @@
-
 import { Metadata } from "next";
 import Link from "next/link";
 import { auth } from "@/lib/auth/auth";
@@ -92,13 +91,15 @@ export default async function AdminDashboardPage() {
                 <CalendarCheck className="h-5 w-5 mr-3 text-muted-foreground" />
                 <span>Quản lý đặt tour</span>
               </Link>
-              <Link
-                href="/admin/payments"
-                className="flex items-center p-3 rounded-md hover:bg-muted/50 transition-colors"
-              >
-                <CreditCard className="h-5 w-5 mr-3 text-muted-foreground" />
-                <span>Quản lý thanh toán</span>
-              </Link>
+              {userRole === "ADMIN_TOUR" && (
+                <Link
+                  href="/admin/payments?type=tour"
+                  className="flex items-center p-3 rounded-md hover:bg-muted/50 transition-colors"
+                >
+                  <CreditCard className="h-5 w-5 mr-3 text-muted-foreground" />
+                  <span>Quản lý thanh toán Tour</span>
+                </Link>
+              )}
             </CardContent>
           </Card>
         )}
@@ -127,13 +128,15 @@ export default async function AdminDashboardPage() {
                 <ShoppingBag className="h-5 w-5 mr-3 text-muted-foreground" />
                 <span>Quản lý đơn hàng</span>
               </Link>
-              <Link
-                href="/admin/payments"
-                className="flex items-center p-3 rounded-md hover:bg-muted/50 transition-colors"
-              >
-                <CreditCard className="h-5 w-5 mr-3 text-muted-foreground" />
-                <span>Quản lý thanh toán</span>
-              </Link>
+              {userRole === "ADMIN_SHOP" && (
+                <Link
+                  href="/admin/payments?type=shop"
+                  className="flex items-center p-3 rounded-md hover:bg-muted/50 transition-colors"
+                >
+                  <CreditCard className="h-5 w-5 mr-3 text-muted-foreground" />
+                  <span>Quản lý thanh toán Shop</span>
+                </Link>
+              )}
             </CardContent>
           </Card>
         )}
@@ -169,29 +172,18 @@ export default async function AdminDashboardPage() {
                 <Settings className="h-5 w-5 mr-3 text-muted-foreground" />
                 <span>Cài đặt hệ thống</span>
               </Link>
+              <Link
+                  href="/admin/payments"
+                  className="flex items-center p-3 rounded-md hover:bg-muted/50 transition-colors"
+                >
+                  <CreditCard className="h-5 w-5 mr-3 text-muted-foreground" />
+                  <span>Quản lý thanh toán Tổng hợp</span>
+                </Link>
             </CardContent>
           </Card>
         )}
-
-        {/* Thanh toán - tất cả admin */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Thanh toán</CardTitle>
-            <CardDescription>
-              Quản lý thanh toán
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link
-              href="/admin/payments"
-              className="flex items-center p-3 rounded-md hover:bg-muted/50 transition-colors"
-            >
-              <CreditCard className="h-5 w-5 mr-3 text-muted-foreground" />
-              <span>Quản lý thanh toán</span>
-            </Link>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
 }
+```
