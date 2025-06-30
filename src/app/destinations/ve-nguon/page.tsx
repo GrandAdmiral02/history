@@ -74,14 +74,16 @@ export default function VeNguonPage() {
                         alt="Làng Sen quê Bác"
                         fill
                         className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3377099892.jpeg"
+                        src="https://scontent.iocvnpt.com/resources/portal//Images/NDA/adminportal.nan/NamDan/ThamQuan/MoBaHoangThiLoan/mo%20ba%20hoang%20thi%20%20loan%20than%20mau%20cua%20bac%20ho_636886071794781740.jpg"
                         alt="Mộ bà Hoàng Thị Loan"
                         fill
                         className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
                   </div>
@@ -201,10 +203,11 @@ export default function VeNguonPage() {
                     <Card className="overflow-hidden">
                       <div className="relative h-52">
                         <Image
-                          src="https://ext.same-assets.com/3334769225/3377099892.jpeg"
+                          src="https://scontent.iocvnpt.com/resources/portal//Images/NDA/adminportal.nan/NamDan/ThamQuan/MoBaHoangThiLoan/mo%20ba%20hoang%20thi%20%20loan%20than%20mau%20cua%20bac%20ho_636886071794781740.jpg"
                           alt="Mộ bà Hoàng Thị Loan"
                           fill
                           className="object-cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       </div>
                       <CardHeader>
@@ -228,10 +231,11 @@ export default function VeNguonPage() {
                     <Card className="overflow-hidden">
                       <div className="relative h-52">
                         <Image
-                          src="https://ext.same-assets.com/3334769225/3220782747.jpeg"
+                          src="https://lh6.googleusercontent.com/proxy/2st8LkMIX_pmp19TXDRZDs79yYQ3X3fQfzOMkyBT9ifK_eW1XTh41HNaqXomqocnmPYbFiT9NqwE2qxuSntU5kUov9mDkr449u7Gvf1KXJy_ofBEz80g"
                           alt="Truông Bồn"
                           fill
                           className="object-cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       </div>
                       <CardHeader>
@@ -253,10 +257,11 @@ export default function VeNguonPage() {
                     <Card className="overflow-hidden">
                       <div className="relative h-52">
                         <Image
-                          src="https://ext.same-assets.com/3334769225/3110326546.jpeg"
+                          src="https://static.vinwonders.com/production/den-cuong-dien-chau-nghe-an-1.jpg"
                           alt="Đền Cuông"
                           fill
                           className="object-cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       </div>
                       <CardHeader>
@@ -280,10 +285,11 @@ export default function VeNguonPage() {
                     <Card className="overflow-hidden">
                       <div className="relative h-52">
                         <Image
-                          src="https://ext.same-assets.com/3334769225/3290883099.jpeg"
+                          src="https://btxvnt.org.vn/storage/CrNxyiKSja3NzmWDRgO5zwyrj1CCHs7EFMURJLT0.jpg"
                           alt="Bảo tàng Xô Viết Nghệ Tĩnh"
                           fill
                           className="object-cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       </div>
                       <CardHeader>
@@ -305,10 +311,11 @@ export default function VeNguonPage() {
                     <Card className="overflow-hidden">
                       <div className="relative h-52">
                         <Image
-                          src="https://ext.same-assets.com/3334769225/3264552788.jpeg"
+                          src="https://media.baovanhoa.vn/zoom/1000/uploaded/nghiemthanh/2025_02_21/a2_WUTP.jpg"
                           alt="Thành cổ Vinh"
                           fill
                           className="object-cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       </div>
                       <CardHeader>
@@ -343,6 +350,7 @@ export default function VeNguonPage() {
                         alt="Làng Sen quê Bác"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                       />
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
@@ -351,62 +359,70 @@ export default function VeNguonPage() {
                         alt="Nhà thờ họ Nguyễn Sinh"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                       />
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3377099892.jpeg"
+                        src="https://scontent.iocvnpt.com/resources/portal//Images/NDA/adminportal.nan/NamDan/ThamQuan/MoBaHoangThiLoan/mo%20ba%20hoang%20thi%20%20loan%20than%20mau%20cua%20bac%20ho_636886071794781740.jpg"
                         alt="Mộ bà Hoàng Thị Loan"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                       />
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3220782747.jpeg"
+                        src="https://lh6.googleusercontent.com/proxy/2st8LkMIX_pmp19TXDRZDs79yYQ3X3fQfzOMkyBT9ifK_eW1XTh41HNaqXomqocnmPYbFiT9NqwE2qxuSntU5kUov9mDkr449u7Gvf1KXJy_ofBEz80g"
                         alt="Khu di tích Truông Bồn"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                       />
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3110326546.jpeg"
+                        src="https://static.vinwonders.com/production/den-cuong-dien-chau-nghe-an-1.jpg"
                         alt="Đền Cuông"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                       />
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3290883099.jpeg"
+                        src="https://btxvnt.org.vn/storage/CrNxyiKSja3NzmWDRgO5zwyrj1CCHs7EFMURJLT0.jpg"
                         alt="Bảo tàng Xô Viết Nghệ Tĩnh"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                       />
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3264552788.jpeg"
+                        src="https://media.baovanhoa.vn/zoom/1000/uploaded/nghiemthanh/2025_02_21/a2_WUTP.jpg"
                         alt="Thành cổ Vinh"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                       />
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3359488301.jpeg"
+                        src="https://lh3.googleusercontent.com/proxy/e9FNZPpKHWeSGq92mMuqckorFDMxiCVjlp_Jr9tunONwnwZtGQZKocanaWGf1W9vYuEzoKe0ZKlAlmPzEZdgCDQwst0weV0dpscsze4JfgUdI34OYZGSebEUX4SO1rflm0asR0ia259GYP5wEO5xb7Cb9uCA-urKDKtOOqIKuWeOFAbZdfuctvVl_ND8hQ"
                         alt="Di tích lưu niệm cụ Phan Bội Châu"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                       />
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/4032542331.jpeg"
+                        src="https://ticotravel.com.vn/wp-content/uploads/2023/01/canh-dep-nghe-an-7.jpg"
                         alt="Cảnh đẹp Nghệ An"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                       />
                     </div>
                   </div>
