@@ -10,65 +10,79 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { 
-  ShoppingCart, 
-  CreditCard, 
-  Banknote, 
-  Smartphone, 
-  Loader2, 
-  MapPin, 
-  User, 
-  Phone, 
-  Mail, 
-  Package, 
-  Truck, 
-  Shield, 
+import {
+  ShoppingCart,
+  CreditCard,
+  Banknote,
+  Smartphone,
+  Loader2,
+  MapPin,
+  User,
+  Phone,
+  Mail,
+  Truck,
+  Shield,
   CheckCircle,
   ArrowLeft,
   Gift,
-  Tag,
-  Percent
+  Percent,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { toast } from "sonner";
 import Image from "next/image";
 
-// Lấy dữ liệu giỏ hàng từ localStorage hoặc context
-const getCartItems = () => {
-  if (typeof window !== 'undefined') {
-    const savedCart = localStorage.getItem('cart');
-    const savedProducts = localStorage.getItem('products');
+// Định nghĩa interface cho CartItem
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  originalPrice?: number;
+  quantity: number;
+  image: string;
+  category: string;
+  description?: string;
+}
 
-    console.log('Saved cart:', savedCart);
-    console.log('Saved products:', savedProducts);
+// Lấy dữ liệu giỏ hàng từ localStorage
+const getCartItems = (): CartItem[] => {
+  if (typeof window !== "undefined") {
+    const savedCart = localStorage.getItem("cart");
+    const savedProducts = localStorage.getItem("products");
+
+    console.log("Saved cart:", savedCart);
+    console.log("Saved products:", savedProducts);
 
     if (savedCart && savedProducts) {
       try {
         const cart = JSON.parse(savedCart);
         const products = JSON.parse(savedProducts);
 
-        const items = Object.entries(cart).map(([productId, quantity]) => {
-          const product = products.find((p: any) => p.id === productId);
-          if (product) {
-            return {
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              originalPrice: product.originalPrice,
-              quantity: quantity as number,
-              image: product.image || '/placeholder.jpg',
-              category: product.category,
-              description: product.description
-            };
-          }
-          return null;
-        }).filter(Boolean);
+        const items = Object.entries(cart)
+          .map(([productId, quantity]) => {
+            const product = products.find((p: any) => p.id === productId);
+            if (product) {
+              return {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                originalPrice: product.originalPrice,
+                quantity: quantity as number,
+                image: product.image || "/placeholder.jpg",
+                category: product.category,
+                description: product.description,
+              };
+            }
+            return null;
+          })
+          .filter((item): item is CartItem => item !== null);
 
-        console.log('Cart items:', items);
+        წ;
+        console.log("Cart items:", items);
         return items;
       } catch (error) {
-        console.error('Error parsing cart data:', error);
+        console.error("Error parsing cart data:", error);
+        toast.error("Không thể tải dữ liệu giỏ hàng. Vui lòng thử lại.");
         return [];
       }
     }
@@ -80,7 +94,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [formData, setFormData] = useState({
     fullName: "",
     address: "",
@@ -98,14 +112,17 @@ export default function CheckoutPage() {
 
     // Redirect to shop if cart is empty
     if (items.length === 0) {
-      router.push('/shop');
-      toast.error('Giỏ hàng trống');
+      router.push("/shop");
+      toast.error("Giỏ hàng trống");
     }
   }, [router]);
 
   // Tính tổng tiền
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const originalTotal = cartItems.reduce((sum, item) => sum + (item.originalPrice || item.price) * item.quantity, 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * 1, 0);
+  const originalTotal = cartItems.reduce(
+    (sum, item) => sum + (item.originalPrice || item.price) * item.quantity,
+    0,
+  );
   const savings = originalTotal - subtotal;
   const shippingFee = subtotal >= 500000 ? 0 : 30000; // Free shipping over 500k
   const total = subtotal + shippingFee;
@@ -113,16 +130,18 @@ export default function CheckoutPage() {
   // Load user data if logged in
   useEffect(() => {
     if (session?.user) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        fullName: session.user.name || "",
-        email: session.user.email || "",
+        fullName: session.user.name ?? "",
+        email: session.user.email ?? "",
       }));
     }
   }, [session]);
 
   // Xử lý thay đổi input
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
@@ -147,7 +166,7 @@ export default function CheckoutPage() {
           totalAmount: total,
           paymentMethod: getPaymentMethodCode(formData.paymentMethod),
           notes: formData.notes,
-          items: cartItems.map(item => ({
+          items: cartItems.map((item) => ({
             productId: item.id,
             quantity: item.quantity,
             price: item.price,
@@ -156,7 +175,8 @@ export default function CheckoutPage() {
       });
 
       if (!orderResponse.ok) {
-        throw new Error("Không thể tạo đơn hàng");
+        const errorData = await orderResponse.json();
+        throw new Error(errorData.message || "Không thể tạo đơn hàng");
       }
 
       const order = await orderResponse.json();
@@ -223,6 +243,8 @@ export default function CheckoutPage() {
     if (!formData.fullName) newErrors.fullName = "Vui lòng nhập họ tên";
     if (!formData.address) newErrors.address = "Vui lòng nhập địa chỉ";
     if (!formData.phone) newErrors.phone = "Vui lòng nhập số điện thoại";
+    else if (!/^\d{10,11}$/.test(formData.phone))
+      newErrors.phone = "Số điện thoại phải có 10-11 chữ số";
     if (!formData.email) newErrors.email = "Vui lòng nhập email";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
       newErrors.email = "Email không hợp lệ";
@@ -240,7 +262,7 @@ export default function CheckoutPage() {
 
       // Hiển thị thông báo thành công
       toast.success("Đặt hàng thành công!", {
-        description: `Mã đơn hàng: ${order.id.slice(-8).toUpperCase()}`
+        description: `Mã đơn hàng: ${order.id.slice(-8).toUpperCase()}`,
       });
 
       // Tạo và hiển thị hóa đơn
@@ -266,7 +288,9 @@ export default function CheckoutPage() {
 
             <div style="background: white; padding: 16px; border-radius: 12px; border: 1px solid #fed7aa;">
               <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #ea580c; border-bottom: 1px solid #fed7aa; padding-bottom: 8px;">📦 Chi tiết đơn hàng</h3>
-              ${cartItems.map(item => `
+              ${cartItems
+                .map(
+                  (item) => `
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 8px; background: #fff7ed; border-radius: 8px;">
                   <div style="flex: 1;">
                     <div style="font-size: 13px; font-weight: 600; color: #9a3412; margin-bottom: 4px;">${item.name}</div>
@@ -278,22 +302,28 @@ export default function CheckoutPage() {
                     ${(item.price * item.quantity).toLocaleString()}đ
                   </div>
                 </div>
-              `).join('')}
+              `,
+                )
+                .join("")}
 
               <div style="border-top: 2px solid #fed7aa; margin-top: 16px; padding-top: 16px;">
                 <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; color: #9a3412;">
                   <span>Tạm tính (${cartItems.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm):</span>
                   <span>${subtotal.toLocaleString()}đ</span>
                 </div>
-                ${savings > 0 ? `
+                ${
+                  savings > 0
+                    ? `
                 <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; color: #16a34a;">
                   <span>🎉 Tiết kiệm:</span>
                   <span>-${savings.toLocaleString()}đ</span>
                 </div>
-                ` : ''}
+                `
+                    : ""
+                }
                 <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 12px; color: #9a3412;">
                   <span>Phí vận chuyển:</span>
-                  <span style="color: ${shippingFee === 0 ? '#16a34a' : '#ea580c'};">${shippingFee === 0 ? 'Miễn phí' : shippingFee.toLocaleString() + 'đ'}</span>
+                  <span style="color: ${shippingFee === 0 ? "#16a34a" : "#ea580c"};">${shippingFee === 0 ? "Miễn phí" : shippingFee.toLocaleString() + "đ"}</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; color: #ea580c; background: linear-gradient(135deg, #fed7aa, #fdba74); padding: 12px; border-radius: 8px;">
                   <span>TỔNG THANH TOÁN:</span>
@@ -304,8 +334,8 @@ export default function CheckoutPage() {
 
             <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 2px dashed #f97316;">
               <p style="margin: 0; font-size: 12px; color: #9a3412; font-weight: 500;">🙏 Cảm ơn bạn đã mua hàng!</p>
-              <p style="margin: 4px 0; font-size: 11px; color: #c2410c;">📅 ${new Date().toLocaleString('vi-VN')}</p>
-              <p style="margin: 4px 0; font-size: 11px; color: #c2410c;">📋 Trạng thái: ${payment.paymentStatus === 'PENDING' ? 'Chờ thanh toán' : 'Đã thanh toán'}</p>
+              <p style="margin: 4px 0; font-size: 11px; color: #c2410c;">📅 ${new Date().toLocaleString("vi-VN")}</p>
+              <p style="margin: 4px 0; font-size: 11px; color: #c2410c;">📋 Trạng thái: ${payment.paymentStatus === "PENDING" ? "Chờ thanh toán" : "Đã thanh toán"}</p>
               <div style="margin-top: 12px; padding: 8px; background: linear-gradient(135deg, #f97316, #ea580c); border-radius: 6px;">
                 <p style="margin: 0; font-size: 11px; color: white; font-weight: 500;">🚚 Đơn hàng sẽ được giao trong 2-3 ngày làm việc</p>
               </div>
@@ -314,7 +344,7 @@ export default function CheckoutPage() {
         `;
 
         try {
-          const newWindow = window.open('', '_blank', 'width=500,height=800');
+          const newWindow = window.open("", "_blank", "width=500,height=800");
           if (newWindow) {
             newWindow.document.write(`
               <!DOCTYPE html>
@@ -340,12 +370,18 @@ export default function CheckoutPage() {
             `);
             newWindow.document.close();
           } else {
-            // Fallback: hiển thị trong modal hoặc alert
-            alert(`Hóa đơn đã được tạo!\nMã đơn hàng: ${order.id.slice(-8).toUpperCase()}\nTổng tiền: ${total.toLocaleString()}đ`);
+            toast.error(
+              "Trình duyệt đã chặn cửa sổ hóa đơn. Vui lòng cho phép popup.",
+            );
+            alert(
+              `Hóa đơn đã được tạo!\nMã đơn hàng: ${order.id.slice(-8).toUpperCase()}\nTổng tiền: ${total.toLocaleString()}đ`,
+            );
           }
         } catch (error) {
-          console.error('Error opening invoice window:', error);
-          alert(`Hóa đơn đã được tạo!\nMã đơn hàng: ${order.id.slice(-8).toUpperCase()}\nTổng tiền: ${total.toLocaleString()}đ`);
+          console.error("Error opening invoice window:", error);
+          alert(
+            `Hóa đơn đã được tạo!\nMã đơn hàng: ${order.id.slice(-8).toUpperCase()}\nTổng tiền: ${total.toLocaleString()}đ`,
+          );
         }
       };
 
@@ -353,16 +389,17 @@ export default function CheckoutPage() {
       setTimeout(showInvoice, 500);
 
       // Clear cart after successful order
-      localStorage.removeItem('cart');
+      localStorage.removeItem("cart");
 
       // Redirect về shop sau 2 giây
       setTimeout(() => {
         router.push("/shop");
       }, 2000);
-
     } catch (error) {
       console.error("Checkout error:", error);
-      toast.error("Đã có lỗi xảy ra khi đặt hàng. Vui lòng thử lại!");
+      toast.error(
+        `Đã có lỗi xảy ra khi đặt hàng: ${error.message || "Vui lòng thử lại!"}`,
+      );
     } finally {
       setIsLoading(false);
     }
@@ -387,7 +424,11 @@ export default function CheckoutPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link href="/shop">
-                <Button variant="ghost" size="sm" className="flex items-center gap-2 hover:bg-orange-50">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center gap-2 hover:bg-orange-50"
+                >
                   <ArrowLeft className="h-4 w-4" />
                   Quay lại
                 </Button>
@@ -437,15 +478,22 @@ export default function CheckoutPage() {
                         <MapPin className="h-5 w-5" />
                       </div>
                       <div>
-                        <div className="text-lg font-semibold">Thông tin giao hàng</div>
-                        <div className="text-sm opacity-90">Điền chính xác để nhận hàng</div>
+                        <div className="text-lg font-semibold">
+                          Thông tin giao hàng
+                        </div>
+                        <div className="text-sm opacity-90">
+                          Điền chính xác để nhận hàng
+                        </div>
                       </div>
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="p-6 space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <Label htmlFor="fullName" className="flex items-center gap-2 font-medium">
+                        <Label
+                          htmlFor="fullName"
+                          className="flex items-center gap-2 font-medium"
+                        >
                           <User className="h-4 w-4 text-gray-500" />
                           Họ và tên *
                         </Label>
@@ -466,7 +514,10 @@ export default function CheckoutPage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="phone" className="flex items-center gap-2 font-medium">
+                        <Label
+                          htmlFor="phone"
+                          className="flex items-center gap-2 font-medium"
+                        >
                           <Phone className="h-4 w-4 text-gray-500" />
                           Số điện thoại *
                         </Label>
@@ -488,7 +539,10 @@ export default function CheckoutPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="email" className="flex items-center gap-2 font-medium">
+                      <Label
+                        htmlFor="email"
+                        className="flex items-center gap-2 font-medium"
+                      >
                         <Mail className="h-4 w-4 text-gray-500" />
                         Email *
                       </Label>
@@ -510,7 +564,10 @@ export default function CheckoutPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="address" className="flex items-center gap-2 font-medium">
+                      <Label
+                        htmlFor="address"
+                        className="flex items-center gap-2 font-medium"
+                      >
                         <MapPin className="h-4 w-4 text-gray-500" />
                         Địa chỉ giao hàng *
                       </Label>
@@ -555,8 +612,12 @@ export default function CheckoutPage() {
                         <CreditCard className="h-5 w-5" />
                       </div>
                       <div>
-                        <div className="text-lg font-semibold">Phương thức thanh toán</div>
-                        <div className="text-sm opacity-90">Chọn cách thanh toán phù hợp</div>
+                        <div className="text-lg font-semibold">
+                          Phương thức thanh toán
+                        </div>
+                        <div className="text-sm opacity-90">
+                          Chọn cách thanh toán phù hợp
+                        </div>
                       </div>
                     </CardTitle>
                   </CardHeader>
@@ -564,46 +625,85 @@ export default function CheckoutPage() {
                     <RadioGroup
                       value={formData.paymentMethod}
                       onValueChange={(value) =>
-                        setFormData((prev) => ({ ...prev, paymentMethod: value }))
+                        setFormData((prev) => ({
+                          ...prev,
+                          paymentMethod: value,
+                        }))
                       }
                       className="space-y-4"
                     >
                       <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-orange-300 transition-colors">
-                        <RadioGroupItem value="cod" id="cod" className="text-orange-500" />
-                        <Label htmlFor="cod" className="flex items-center gap-3 cursor-pointer flex-1">
+                        <RadioGroupItem
+                          value="cod"
+                          id="cod"
+                          className="text-orange-500"
+                        />
+                        <Label
+                          htmlFor="cod"
+                          className="flex items-center gap-3 cursor-pointer flex-1"
+                        >
                           <div className="p-2 bg-green-100 rounded-lg">
                             <Banknote className="h-5 w-5 text-green-600" />
                           </div>
                           <div>
-                            <div className="font-medium">Thanh toán khi nhận hàng (COD)</div>
-                            <div className="text-sm text-gray-500">Thanh toán bằng tiền mặt khi nhận hàng</div>
+                            <div className="font-medium">
+                              Thanh toán khi nhận hàng (COD)
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              Thanh toán bằng tiền mặt khi nhận hàng
+                            </div>
                           </div>
-                          <Badge variant="secondary" className="bg-green-100 text-green-700">Phổ biến</Badge>
+                          <Badge
+                            variant="secondary"
+                            className="bg-green-100 text-green-700"
+                          >
+                            Phổ biến
+                          </Badge>
                         </Label>
                       </div>
 
                       <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-orange-300 transition-colors">
-                        <RadioGroupItem value="bank" id="bank" className="text-orange-500" />
-                        <Label htmlFor="bank" className="flex items-center gap-3 cursor-pointer flex-1">
+                        <RadioGroupItem
+                          value="bank"
+                          id="bank"
+                          className="text-orange-500"
+                        />
+                        <Label
+                          htmlFor="bank"
+                          className="flex items-center gap-3 cursor-pointer flex-1"
+                        >
                           <div className="p-2 bg-blue-100 rounded-lg">
                             <CreditCard className="h-5 w-5 text-blue-600" />
                           </div>
                           <div>
-                            <div className="font-medium">Chuyển khoản ngân hàng</div>
-                            <div className="text-sm text-gray-500">Chuyển khoản qua ATM/Internet Banking</div>
+                            <div className="font-medium">
+                              Chuyển khoản ngân hàng
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              Chuyển khoản qua ATM/Internet Banking
+                            </div>
                           </div>
                         </Label>
                       </div>
 
                       <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-orange-300 transition-colors">
-                        <RadioGroupItem value="mobile" id="mobile" className="text-orange-500" />
-                        <Label htmlFor="mobile" className="flex items-center gap-3 cursor-pointer flex-1">
+                        <RadioGroupItem
+                          value="mobile"
+                          id="mobile"
+                          className="text-orange-500"
+                        />
+                        <Label
+                          htmlFor="mobile"
+                          className="flex items-center gap-3 cursor-pointer flex-1"
+                        >
                           <div className="p-2 bg-purple-100 rounded-lg">
                             <Smartphone className="h-5 w-5 text-purple-600" />
                           </div>
                           <div>
                             <div className="font-medium">Ví điện tử</div>
-                            <div className="text-sm text-gray-500">Thanh toán qua Momo, ZaloPay, VNPay</div>
+                            <div className="text-sm text-gray-500">
+                              Thanh toán qua Momo, ZaloPay, VNPay
+                            </div>
                           </div>
                         </Label>
                       </div>
@@ -622,8 +722,12 @@ export default function CheckoutPage() {
                           <ShoppingCart className="h-5 w-5" />
                         </div>
                         <div>
-                          <div className="text-lg font-semibold">Đơn hàng của bạn</div>
-                          <div className="text-sm opacity-90">{cartItems.length} sản phẩm</div>
+                          <div className="text-lg font-semibold">
+                            Đơn hàng của bạn
+                          </div>
+                          <div className="text-sm opacity-90">
+                            {cartItems.length} sản phẩm
+                          </div>
                         </div>
                       </CardTitle>
                     </CardHeader>
@@ -638,6 +742,7 @@ export default function CheckoutPage() {
                                   src={item.image}
                                   alt={item.name}
                                   fill
+                                  sizes="64px"
                                   className="object-cover rounded-lg border"
                                 />
                                 <div className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-medium">
@@ -654,7 +759,10 @@ export default function CheckoutPage() {
                                   </p>
                                 )}
                                 <div className="flex items-center gap-2">
-                                  <Badge variant="outline" className="text-xs px-2 py-0.5">
+                                  <Badge
+                                    variant="outline"
+                                    className="text-xs px-2 py-0.5"
+                                  >
                                     {item.category}
                                   </Badge>
                                   <span className="text-xs text-gray-500">
@@ -666,15 +774,20 @@ export default function CheckoutPage() {
                                     <span className="text-sm font-semibold text-orange-600">
                                       {item.price.toLocaleString()}đ
                                     </span>
-                                    {item.originalPrice && item.originalPrice > item.price && (
-                                      <span className="text-xs line-through text-gray-400">
-                                        {item.originalPrice.toLocaleString()}đ
-                                      </span>
-                                                                      )}
+                                    {item.originalPrice &&
+                                      item.originalPrice > item.price && (
+                                        <span className="text-xs line-through text-gray-400">
+                                          {item.originalPrice.toLocaleString()}đ
+                                        </span>
+                                      )}
+                                  </div>
+                                  <span className="text-sm font-bold text-gray-900">
+                                    {(
+                                      item.price * item.quantity
+                                    ).toLocaleString()}
+                                    đ
+                                  </span>
                                 </div>
-                                <span className="text-sm font-bold text-gray-900">
-                                  {(item.price * item.quantity).toLocaleString()}đ
-                                </span>
                               </div>
                             </div>
                           </div>
@@ -688,9 +801,16 @@ export default function CheckoutPage() {
                         <div className="space-y-3">
                           <div className="flex justify-between text-sm">
                             <span className="text-gray-600">
-                              Tạm tính ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm)
+                              Tạm tính (
+                              {cartItems.reduce(
+                                (sum, item) => sum + item.quantity,
+                                0,
+                              )}{" "}
+                              sản phẩm)
                             </span>
-                            <span className="font-medium">{subtotal.toLocaleString()}đ</span>
+                            <span className="font-medium">
+                              {subtotal.toLocaleString()}đ
+                            </span>
                           </div>
 
                           {savings > 0 && (
@@ -699,7 +819,9 @@ export default function CheckoutPage() {
                                 <Percent className="h-4 w-4" />
                                 Tiết kiệm
                               </span>
-                              <span className="font-medium">-{savings.toLocaleString()}đ</span>
+                              <span className="font-medium">
+                                -{savings.toLocaleString()}đ
+                              </span>
                             </div>
                           )}
 
@@ -708,14 +830,19 @@ export default function CheckoutPage() {
                               <Truck className="h-4 w-4" />
                               Phí vận chuyển
                             </span>
-                            <span className={`font-medium ${shippingFee === 0 ? 'text-green-600' : 'text-orange-600'}`}>
-                              {shippingFee === 0 ? 'Miễn phí' : `${shippingFee.toLocaleString()}đ`}
+                            <span
+                              className={`font-medium ${shippingFee === 0 ? "text-green-600" : "text-orange-600"}`}
+                            >
+                              {shippingFee === 0
+                                ? "Miễn phí"
+                                : `${shippingFee.toLocaleString()}đ`}
                             </span>
                           </div>
 
                           {shippingFee > 0 && (
                             <div className="text-xs text-gray-500 bg-blue-50 p-3 rounded-lg">
-                              💡 Mua thêm {(500000 - subtotal).toLocaleString()}đ để được <strong>miễn phí vận chuyển</strong>
+                              💡 Mua thêm {(500000 - subtotal).toLocaleString()}
+                              đ để được <strong>miễn phí vận chuyển</strong>
                             </div>
                           )}
                         </div>
@@ -724,12 +851,17 @@ export default function CheckoutPage() {
 
                         <div className="bg-gradient-to-r from-orange-500 to-red-500 p-4 rounded-xl text-white">
                           <div className="flex justify-between items-center">
-                            <span className="text-lg font-semibold">Tổng thanh toán</span>
-                            <span className="text-2xl font-bold">{total.toLocaleString()}đ</span>
+                            <span className="text-lg font-semibold">
+                              Tổng thanh toán
+                            </span>
+                            <span className="text-2xl font-bold">
+                              {total.toLocaleString()}đ
+                            </span>
                           </div>
                           {savings > 0 && (
                             <p className="text-sm opacity-90 mt-2">
-                              🎉 Bạn đã tiết kiệm được {savings.toLocaleString()}đ
+                              🎉 Bạn đã tiết kiệm được{" "}
+                              {savings.toLocaleString()}đ
                             </p>
                           )}
                         </div>
@@ -760,7 +892,10 @@ export default function CheckoutPage() {
                           asChild
                           disabled={isLoading}
                         >
-                          <Link href="/shop" className="flex items-center gap-2">
+                          <Link
+                            href="/shop"
+                            className="flex items-center gap-2"
+                          >
                             <ArrowLeft className="h-4 w-4" />
                             Tiếp tục mua sắm
                           </Link>
@@ -775,7 +910,9 @@ export default function CheckoutPage() {
                         </div>
                         <div className="text-center p-2">
                           <Truck className="h-5 w-5 text-blue-500 mx-auto mb-1" />
-                          <div className="text-xs text-gray-600">Giao nhanh</div>
+                          <div className="text-xs text-gray-600">
+                            Giao nhanh
+                          </div>
                         </div>
                         <div className="text-center p-2">
                           <CheckCircle className="h-5 w-5 text-purple-500 mx-auto mb-1" />
