@@ -459,38 +459,66 @@ export default function CheckoutPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    {cartItems.map((item) => (
-                      <div key={item.id} className="flex items-center gap-4">
-                        <div className="relative w-16 h-16">
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            className="object-cover rounded-md"
-                          />
+                    <div className="space-y-4">
+                      <h4 className="font-medium text-sm text-muted-foreground">
+                        Sản phẩm trong đơn hàng ({cartItems.length} sản phẩm)
+                      </h4>
+                      {cartItems.map((item) => (
+                        <div key={item.id} className="border rounded-lg p-4 bg-muted/30">
+                          <div className="flex items-start gap-4">
+                            <div className="relative w-20 h-20 flex-shrink-0">
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                className="w-full h-full object-cover rounded-md border"
+                              />
+                            </div>
+                            <div className="flex-1 space-y-2">
+                              <h5 className="font-medium text-sm leading-tight">{item.name}</h5>
+                              <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+                                <div>
+                                  <span className="font-medium">Đơn giá:</span>
+                                  <span className="ml-1">{item.price.toLocaleString()}đ</span>
+                                </div>
+                                <div>
+                                  <span className="font-medium">Số lượng:</span>
+                                  <span className="ml-1">{item.quantity}</span>
+                                </div>
+                              </div>
+                              <div className="flex justify-between items-center pt-2 border-t">
+                                <span className="text-xs font-medium text-muted-foreground">Thành tiền:</span>
+                                <span className="text-sm font-bold text-green-600">
+                                  {(item.price * item.quantity).toLocaleString()}đ
+                                </span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="flex-1">
-                          <p className="text-sm font-medium">{item.name}</p>
-                          <p className="text-xs text-muted-foreground">
-                            Số lượng: {item.quantity}
-                          </p>
-                          <p className="text-sm font-bold text-green-600">
-                            {(item.price * item.quantity).toLocaleString()}đ
-                          </p>
+                      ))}
+                    </div>
+                    <div className="border-t pt-4 space-y-3">
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span>Tạm tính ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm)</span>
+                          <span>{subtotal.toLocaleString()}đ</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>Phí vận chuyển</span>
+                          <span className="text-orange-600">{shippingFee.toLocaleString()}đ</span>
+                        </div>
+                        <div className="flex justify-between text-sm text-muted-foreground">
+                          <span>Thuế VAT</span>
+                          <span>Đã bao gồm</span>
                         </div>
                       </div>
-                    ))}
-                    <div className="border-t pt-4 space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Tạm tính</span>
-                        <span>{subtotal.toLocaleString()}đ</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span>Phí vận chuyển</span>
-                        <span>{shippingFee.toLocaleString()}đ</span>
-                      </div>
-                      <div className="flex justify-between text-lg font-bold text-green-600">
-                        <span>Tổng cộng</span>
-                        <span>{total.toLocaleString()}đ</span>
+                      <div className="border-t pt-3">
+                        <div className="flex justify-between text-lg font-bold text-green-600">
+                          <span>Tổng thanh toán</span>
+                          <span>{total.toLocaleString()}đ</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Tiết kiệm được khi mua nhiều sản phẩm
+                        </p>
                       </div>
                     </div>
                     <Button
