@@ -146,7 +146,7 @@ export default function DauAnDanhNhanPage() {
                     <Card className="overflow-hidden">
                       <div className="relative h-52">
                         <Image
-                          src="https://media.baovanhoa.vn/zoom/1000/uploaded/nghiemthanh/2025_02_21/a2_WUTP.jpg"
+                          src="https://ext.same-assets.com/3334769225/3359488301.jpeg"
                           alt="Di tích cụ Phan Bội Châu"
                           fill
                           className="object-cover"
@@ -180,7 +180,7 @@ export default function DauAnDanhNhanPage() {
                     </div>
                     <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
                       <Image
-                        src="https://lh3.googleusercontent.com/proxy/e9FNZPpKHWeSGq92mMuqckorFDMxiCVjlp_Jr9tunONwnwZtGQZKocanaWGf1W9vYuEzoKe0ZKlAlmPzEZdgCDQwst0weV0dpscsze4JfgUdI34OYZGSebEUX4SO1rflm0asR0ia259GYP5wEO5xb7Cb9uCA-urKDKtOOqIKuWeOFAbZdfuctvVl_ND8hQ"
+                        src="https://ext.same-assets.com/3334769225/3359488301.jpeg"
                         alt="Di tích Phan Bội Châu"
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
