@@ -1,3 +1,4 @@
+
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { auth } from "@/lib/auth/auth";
@@ -6,40 +7,43 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-    const session = await auth();
-
-    if (!session?.user || !["ADMIN_TOUR", "SUPER_ADMIN"].includes(session.user.role || "")) {
-      return NextResponse.json(
-        { error: "Không có quyền truy cập" },
-        { status: 403 }
-      );
-    }
-
     const bookings = await prisma.booking.findMany({
       include: {
         user: {
           select: {
+            id: true,
             name: true,
             email: true,
+            phone: true,
           },
         },
         tour: {
           select: {
+            id: true,
             name: true,
+            location: true,
+            duration: true,
             price: true,
           },
         },
+        payments: {
+          select: {
+            id: true,
+            amount: true,
+            paymentMethod: true,
+            paymentStatus: true,
+            createdAt: true,
+          },
+        },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: { createdAt: "desc" },
     });
 
     return NextResponse.json(bookings);
   } catch (error) {
     console.error("Error fetching bookings:", error);
     return NextResponse.json(
-      { error: "Lỗi khi tải dữ liệu đặt tour" },
+      { error: "Lỗi khi tải danh sách đặt tour" },
       { status: 500 }
     );
   }
@@ -48,98 +52,87 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const session = await auth();
-    const data = await request.json();
+    const body = await request.json();
 
-    // Allow guest bookings or authenticated users
-    if (session?.user) {
-      // Authenticated user booking
-      const booking = await prisma.booking.create({
-        data: {
-          userId: session.user.id!,
-          tourId: data.tourId,
-          departureDate: new Date(data.departureDate),
-          participants: data.participants,
-          totalPrice: data.totalPrice,
-          notes: data.notes,
-        },
-        include: {
-          user: {
-            select: {
-              name: true,
-              email: true,
-            },
-          },
-          tour: {
-            select: {
-              name: true,
-              price: true,
-            },
-          },
-        },
-      });
+    const {
+      tourId,
+      departureDate,
+      participants,
+      notes,
+      customerName,
+      customerEmail,
+      customerPhone,
+      paymentMethod,
+      paymentAmount,
+    } = body;
 
-      return NextResponse.json(booking);
-    } else {
-      // Guest booking - create without userId
-      const booking = await prisma.booking.create({
-        data: {
-          userId: null, // Guest booking
-          tourId: data.tourId,
-          departureDate: new Date(data.departureDate),
-          participants: data.participants,
-          totalPrice: data.totalPrice,
-          notes: data.notes,
-          // Store guest info in notes for now
-          notes: `${data.notes || ''}\nGuest Info: ${data.customerName} - ${data.customerEmail} - ${data.customerPhone}`,
-        },
-        include: {
-          tour: {
-            select: {
-              name: true,
-              price: true,
-            },
-          },
-        },
-      });
-
-      return NextResponse.json(booking);
+    // Validation
+    if (!tourId || !departureDate || !participants || !customerEmail) {
+      return NextResponse.json(
+        { error: "Thiếu thông tin bắt buộc" },
+        { status: 400 }
+      );
     }
-  } catch (error) {
-    console.error("Error creating booking:", error);
-    return NextResponse.json(
-      { error: "Lỗi khi tạo đặt tour" },
-      { status: 500 }
-    );
-  }
-} = await request.json();
 
+    // Get tour details to calculate total price
+    const tour = await prisma.tour.findUnique({
+      where: { id: tourId },
+    });
+
+    if (!tour) {
+      return NextResponse.json(
+        { error: "Tour không tồn tại" },
+        { status: 404 }
+      );
+    }
+
+    const totalPrice = tour.price * parseInt(participants);
+
+    // Create booking
     const booking = await prisma.booking.create({
       data: {
-        userId: data.userId,
-        tourId: data.tourId,
-        numberOfPeople: data.numberOfPeople,
-        totalAmount: data.totalAmount,
-        bookingDate: new Date(data.bookingDate),
-        status: data.status || "PENDING",
-        specialRequests: data.specialRequests,
+        userId: session?.user?.id || null,
+        tourId,
+        departureDate: new Date(departureDate),
+        participants: parseInt(participants),
+        totalPrice,
+        notes,
+        status: "PENDING",
       },
       include: {
         user: {
           select: {
+            id: true,
             name: true,
             email: true,
+            phone: true,
           },
         },
         tour: {
           select: {
+            id: true,
             name: true,
+            location: true,
+            duration: true,
             price: true,
           },
         },
       },
     });
 
-    return NextResponse.json(booking);
+    // Create payment record if payment information is provided
+    if (paymentMethod && paymentAmount) {
+      await prisma.payment.create({
+        data: {
+          bookingId: booking.id,
+          amount: parseFloat(paymentAmount),
+          paymentMethod,
+          paymentStatus: "PENDING",
+        },
+      });
+    }
+
+    return NextResponse.json(booking, { status: 201 });
   } catch (error) {
     console.error("Error creating booking:", error);
     return NextResponse.json(
