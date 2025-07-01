@@ -34,7 +34,8 @@ import {
   Gift,
   Flame,
   Loader2, 
-  ShoppingBag
+  ShoppingBag,
+  CheckCircle
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
