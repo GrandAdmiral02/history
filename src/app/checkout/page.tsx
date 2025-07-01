@@ -1,8 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+
+// Helper function to format price
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(price);
+};
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -30,7 +40,6 @@ import {
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { toast } from "sonner";
-import Image from "next/image";
 
 // Định nghĩa interface cho CartItem
 interface CartItem {
@@ -969,4 +978,7 @@ export default function CheckoutPage() {
       </div>
     </div>
   );
+  function getTotalCartValue() {
+    return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  }
 }
