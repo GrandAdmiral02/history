@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
         customerName: data.customerName,
         customerEmail: data.customerEmail,
         customerPhone: data.customerPhone,
-        shippingAddress: data.shippingAddress,
+        customerAddress: data.shippingAddress, // Fix: Use customerAddress instead of shippingAddress
         totalAmount: parseFloat(data.totalAmount),
         paymentMethod: data.paymentMethod || "CASH",
         notes: data.notes || "",
