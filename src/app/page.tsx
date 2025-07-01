@@ -36,7 +36,7 @@ export default function Home() {
         />
         <div className="container relative z-20 flex flex-col items-center justify-center h-full text-center text-white">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-            Du Lịch Lịch Sử Nghệ An
+            Du lịch và Lịch sử Nghệ An
           </h1>
           <p className="text-lg md:text-xl max-w-2xl">
             Khám phá những di tích lịch sử, văn hóa và danh thắng nổi tiếng của
@@ -354,19 +354,19 @@ export default function Home() {
 
             <TabsContent value="tiktok" className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <TikTokEmbed 
+                <TikTokEmbed
                   videoId="7271974233117445381"
                   username="@lacavietnam1"
                   caption="Phần 7| 📍Khu di tích lịch sử Truông Bồn #dulich #lacavietnam1 #quockhanh02thang09 #truongbonnghean #ditichlichsu #nghean"
                   videoUrl="https://www.tiktok.com/@lacavietnam1/video/7271974233117445381"
                 />
-                <TikTokEmbed 
+                <TikTokEmbed
                   videoId="7507089691112492296"
                   username="@abogo.com"
                   caption="Vẻ đẹp của Nghệ An tầm nhìn từ trên cao. Anh em 37 ơi. #abogodanang #abogo #dulich #viral #travel #bookingvilla #fyp"
                   videoUrl="https://www.tiktok.com/@abogo.com/video/7507089691112492296"
                 />
-                <TikTokEmbed 
+                <TikTokEmbed
                   videoId="7323564956945779986"
                   username="@ngoavan83"
                   caption="Mình Về thăm Làng Sen Quê Bác bao nhiêu lần rồi-Thật bồi hồi xúc động mỗi lần một cảm xúc khác nhau thật khó diễn tả..Có ai như mình ko? ... #langsenquebac #báchokinhyeu❤️❤️ #quêbacnghean #xuhuong #hochiminh #quebacho #nhasanbacho"
@@ -548,7 +548,7 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="absolute bottom-4 left-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 opacity-0 group-hover:opacity-100">
-                  <h3 className="text-lg font-semibold">Làng quê xứ Thanh</h3>
+                  <h3 className="text-lg font-semibold">Làng quê xứ Nghệ</h3>
                   <p className="text-sm">Nét đẹp bình dị của quê hương</p>
                 </div>
               </div>

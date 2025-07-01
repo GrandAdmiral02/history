@@ -10,19 +10,12 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useState } from "react";
 import { SearchButton } from "@/components/search";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { UserAccountNav } from "@/components/auth/user-account-nav";
-import {
-  MapPin,
-  ShoppingBag,
-  Home,
-  Compass,
-  Info,
-  BookOpen,
-} from "lucide-react";
+import { MapPin, ShoppingBag, Home, Compass, Info, BookOpen, Menu, X } from "lucide-react";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -65,10 +58,16 @@ const components: { title: string; href: string; description: string }[] = [
 
 export function Header() {
   const { data: session } = useSession();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <header className="border-b bg-green-50 sticky top-0 z-50 shadow-sm">
       <div className="container flex items-center justify-between py-2">
+        {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center">
             <span className="text-white font-bold text-sm">NH</span>
@@ -83,7 +82,8 @@ export function Header() {
           </div>
         </Link>
 
-        <div className="flex items-center gap-6">
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-6">
           <SearchButton />
 
           <NavigationMenu>
@@ -98,7 +98,7 @@ export function Header() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="hover:bg-green-100 hover:text-green-700">
+                <NavigationMenuTrigger className="hover:bg-green-100 hover:text-green-700 text-sm px-4">
                   <Compass className="h-4 w-4 mr-2" />
                   Điểm Đến
                 </NavigationMenuTrigger>
@@ -171,7 +171,104 @@ export function Header() {
             )}
           </div>
         </div>
+
+        {/* Mobile Menu Button */}
+        <div className="md:hidden flex items-center gap-2">
+          <SearchButton />
+          <Button
+            variant="ghost"
+            size="sm"
+            className="hover:bg-green-100 hover:text-green-700"
+            onClick={toggleMenu}
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </Button>
+        </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-green-50 border-t border-green-200">
+          <div className="container py-4 flex flex-col gap-3 overflow-y-auto max-h-[70vh]">
+            <Link
+              href="/"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-green-100 hover:text-green-700 rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <Home className="h-4 w-4" />
+              Trang Chủ
+            </Link>
+            <div className="relative">
+              <button
+                className="flex items-center gap-2 w-full px-4 py-2 text-sm font-medium text-gray-800 hover:bg-green-100 hover:text-green-700 rounded-md"
+                onClick={(e) => {
+                  e.preventDefault();
+                  // Keep menu open for dropdown
+                }}
+              >
+                <Compass className="h-4 w-4" />
+                Điểm Đến
+              </button>
+              <div className="mt-2 pl-8 flex flex-col gap-2">
+                {components.map((component) => (
+                  <Link
+                    key={component.title}
+                    href={component.href}
+                    className="block px-4 py-2 text-sm text-gray-600 hover:bg-green-100 hover:text-green-700 rounded-md"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <span className="font-medium">{component.title}</span>
+                    <p className="text-xs text-muted-foreground line-clamp-2">
+                      {component.description}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <Link
+              href="/destinations"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-green-100 hover:text-green-700 rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <BookOpen className="h-4 w-4" />
+              Hành Trình
+            </Link>
+            <Link
+              href="/shop"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-green-100 hover:text-green-700 rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <ShoppingBag className="h-4 w-4" />
+              Cửa Hàng
+            </Link>
+            <Link
+              href="/map"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-green-100 hover:text-green-700 rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <MapPin className="h-4 w-4" />
+              Bản Đồ
+            </Link>
+            <Link
+              href="/about"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-green-100 hover:text-green-700 rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <Info className="h-4 w-4" />
+              Giới Thiệu
+            </Link>
+            {!session?.user && (
+              <Link
+                href="/login"
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-green-100 hover:text-green-700 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Admin
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 }
