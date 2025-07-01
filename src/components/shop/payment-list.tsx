@@ -79,14 +79,23 @@ export function ShopPaymentList({ userId }: ShopPaymentListProps) {
   useEffect(() => {
     const fetchOrderPayments = async () => {
       try {
-        // Trong ứng dụng thực, chúng ta sẽ gọi API để lấy dữ liệu thanh toán đơn hàng
-        // const response = await fetch(`/api/payments/orders?userId=${userId}`);
-        // const data = await response.json();
-        // setPayments(data.payments);
-
-        // Mock data cho demo - chỉ thanh toán đơn hàng shop
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        setPayments([
+        // Gọi API thực để lấy dữ liệu thanh toán đơn hàng
+        const response = await fetch(`/api/payments?type=shop${userId ? `&userId=${userId}` : ''}`);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        
+        // Filter only shop payments (those with orderId)
+        const shopPayments = data.filter((payment: any) => payment.orderId && payment.order);
+        setPayments(shopPayments);
+        
+        // Fallback to mock data if no real data
+        if (shopPayments.length === 0) {
+          await new Promise((resolve) => setTimeout(resolve, 500));
+          setPayments([
           {
             id: "payment-order-1",
             orderId: "order-1",
@@ -189,9 +198,10 @@ export function ShopPaymentList({ userId }: ShopPaymentListProps) {
             },
           },
         ]);
+        }
       } catch (err) {
         console.error("Error fetching order payments:", err);
-        setError("Không thể tải dữ liệu thanh toán đơn hàng");
+        setError(`Không thể tải dữ liệu thanh toán đơn hàng: ${err.message}`);
       } finally {
         setIsLoading(false);
       }

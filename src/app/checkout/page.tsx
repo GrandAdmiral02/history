@@ -117,7 +117,7 @@ export default function CheckoutPage() {
   }, [router]);
 
   // Tính tổng tiền
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * 1, 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const originalTotal = cartItems.reduce(
     (sum, item) => sum + (item.originalPrice || item.price) * item.quantity,
     0,
@@ -174,8 +174,8 @@ export default function CheckoutPage() {
       });
 
       if (!orderResponse.ok) {
-        const errorData = await orderResponse.json();
-        throw new Error(errorData.message || "Không thể tạo đơn hàng");
+        const errorData = await orderResponse.json().catch(() => ({ message: "Lỗi không xác định" }));
+        throw new Error(errorData.message || `HTTP Error: ${orderResponse.status}`);
       }
 
       const order = await orderResponse.json();
@@ -191,12 +191,13 @@ export default function CheckoutPage() {
           amount: total,
           paymentMethod: getPaymentMethodCode(formData.paymentMethod),
           paymentStatus: formData.paymentMethod === "cod" ? "PENDING" : "PAID",
-          transactionId: `order_${Date.now()}`,
+          transactionId: `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         }),
       });
 
       if (!paymentResponse.ok) {
-        throw new Error("Không thể tạo thanh toán");
+        const errorData = await paymentResponse.json().catch(() => ({ message: "Lỗi không xác định" }));
+        throw new Error(errorData.message || `Lỗi thanh toán: ${paymentResponse.status}`);
       }
 
       const payment = await paymentResponse.json();

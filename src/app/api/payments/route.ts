@@ -4,18 +4,57 @@ import { auth } from "@/lib/auth/auth";
 
 const prisma = new PrismaClient();
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const session = await auth();
+    const { searchParams } = new URL(request.url);
+    const type = searchParams.get('type');
+    const userId = searchParams.get('userId');
 
-    if (!session?.user || !["ADMIN_TOUR", "ADMIN_PRODUCT", "ADMIN_SHOP", "SUPER_ADMIN"].includes(session.user.role || "")) {
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: "Chưa đăng nhập" },
+        { status: 401 }
+      );
+    }
+
+    // For regular users, only show their own payments
+    const isAdmin = ["ADMIN_TOUR", "ADMIN_PRODUCT", "ADMIN_SHOP", "SUPER_ADMIN"].includes(session.user.role || "");
+    
+    if (!isAdmin && userId && userId !== session.user.id) {
       return NextResponse.json(
         { error: "Không có quyền truy cập" },
         { status: 403 }
       );
     }
 
+    let whereClause: any = {};
+
+    // Filter by type
+    if (type === 'shop') {
+      whereClause.orderId = { not: null };
+    } else if (type === 'tour') {
+      whereClause.bookingId = { not: null };
+    }
+
+    // Filter by user if not admin
+    if (!isAdmin && session.user.id) {
+      whereClause.OR = [
+        { 
+          booking: {
+            userId: session.user.id
+          }
+        },
+        {
+          order: {
+            customerEmail: session.user.email
+          }
+        }
+      ];
+    }
+
     const payments = await prisma.payment.findMany({
+      where: whereClause,
       include: {
         booking: {
           select: {
