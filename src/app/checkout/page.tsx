@@ -751,21 +751,22 @@ export default function CheckoutPage() {
                 </Card>
               </div>
 
-              {/* Tóm tắt đơn hàng */}
+              {/* Enhanced Order Summary */}
               <div className="xl:col-span-1">
                 <div className="sticky top-24 space-y-6">
-                  <Card className="border-0 shadow-xl bg-white/90 backdrop-blur">
-                    <CardHeader className="border-b bg-gradient-to-r from-orange-500 to-red-500 text-white">
-                      <CardTitle className="flex items-center gap-3">
-                        <div className="p-2 bg-white/20 rounded-lg">
-                          <ShoppingCart className="h-5 w-5" />
+                  <Card className="border-0 shadow-2xl bg-white/95 backdrop-blur-sm overflow-hidden">
+                    <CardHeader className="border-b bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 text-white relative">
+                      <div className="absolute inset-0 bg-black/10"></div>
+                      <CardTitle className="flex items-center gap-3 relative z-10">
+                        <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+                          <ShoppingCart className="h-6 w-6" />
                         </div>
                         <div>
-                          <div className="text-lg font-semibold">
+                          <div className="text-xl font-bold">
                             Đơn hàng của bạn
                           </div>
-                          <div className="text-sm opacity-90">
-                            {cartItems.length} sản phẩm
+                          <div className="text-sm opacity-90 font-medium">
+                            {cartItems.length} sản phẩm • {formatPrice(getTotalCartValue())}
                           </div>
                         </div>
                       </CardTitle>

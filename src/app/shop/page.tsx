@@ -212,6 +212,13 @@ export default function ShopPage() {
       localStorage.setItem('cart', JSON.stringify(newCart));
       return newCart;
     });
+    toast.success("Đã cập nhật giỏ hàng");
+  };
+
+  const clearCart = () => {
+    setCart({});
+    localStorage.removeItem('cart');
+    toast.success("Đã xóa tất cả sản phẩm khỏi giỏ hàng");
   };
 
   const toggleFavorite = (productId: string) => {
@@ -381,30 +388,45 @@ export default function ShopPage() {
       <div className="container mx-auto px-4 py-6">
         {/* Search and Filters - Lazada Style */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-          {/* Main Search Bar */}
+          {/* Enhanced Search Bar with Quick Actions */}
           <div className="flex flex-col lg:flex-row gap-4 mb-6">
             <div className="relative flex-1">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <Input
-                placeholder="Tìm kiếm sản phẩm..."
+                placeholder="Tìm kiếm sản phẩm, danh mục..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-12 text-lg border-2 border-gray-200 focus:border-orange-500 rounded-lg"
+                className="pl-12 pr-12 h-12 text-lg border-2 border-gray-200 focus:border-orange-500 rounded-xl shadow-sm"
               />
+              {searchQuery && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-gray-100 rounded-full"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              )}
             </div>
             <div className="flex gap-2">
               <Button
                 variant="outline"
                 onClick={() => setShowFilters(!showFilters)}
-                className="h-12 px-6 border-2 border-gray-200 hover:border-orange-500"
+                className={`h-12 px-6 border-2 rounded-xl transition-all duration-200 ${
+                  showFilters 
+                    ? "border-orange-500 bg-orange-50 text-orange-600" 
+                    : "border-gray-200 hover:border-orange-500"
+                }`}
               >
                 <Filter className="h-5 w-5 mr-2" />
                 Bộ lọc
+                {showFilters && <Badge className="ml-2 bg-orange-500">ON</Badge>}
               </Button>
               <Button
                 variant="outline"
                 onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")}
-                className="h-12 px-4 border-2 border-gray-200 hover:border-orange-500"
+                className="h-12 px-4 border-2 border-gray-200 hover:border-orange-500 rounded-xl hidden md:flex"
               >
                 {viewMode === "grid" ? <List className="h-5 w-5" /> : <Grid3X3 className="h-5 w-5" />}
               </Button>
@@ -508,7 +530,7 @@ export default function ShopPage() {
                 transition={{ duration: 0.3 }}
                 className={viewMode === "list" ? "w-full" : ""}
               >
-                <Card className={`h-full flex ${viewMode === "list" ? "flex-row" : "flex-col"} hover:shadow-xl transition-all duration-300 group relative overflow-hidden bg-white border-0 shadow-md hover:shadow-2xl`}>
+                <Card className={`h-full flex ${viewMode === "list" ? "flex-row" : "flex-col"} hover:shadow-2xl transition-all duration-500 group relative overflow-hidden bg-white border-0 shadow-lg hover:shadow-orange-200/50 hover:-translate-y-2 transform-gpu`}>
                   {/* Admin Controls Overlay */}
                   {isAdmin && adminMode && (
                     <div className="absolute top-2 right-2 z-10 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -539,7 +561,7 @@ export default function ShopPage() {
                           src={product.image || "/placeholder.jpg"}
                           alt={product.name}
                           fill
-                          className="object-cover"
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                           onError={(e) => {
                             e.currentTarget.src = "/placeholder.jpg";
@@ -651,31 +673,33 @@ export default function ShopPage() {
                     {/* Action Buttons */}
                     <div className="mt-auto space-y-2">
                       {cart[product.id] ? (
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1 bg-orange-50 rounded-lg p-1 border border-orange-200">
                           <Button
                             size="sm"
-                            variant="outline"
+                            variant="ghost"
                             onClick={() => removeFromCart(product.id)}
-                            className="h-8 w-8 p-0 border-orange-200 hover:border-orange-400"
+                            className="h-7 w-7 p-0 hover:bg-orange-200 rounded-md transition-colors"
                           >
-                            <Minus className="h-3 w-3" />
+                            <Minus className="h-3 w-3 text-orange-600" />
                           </Button>
-                          <span className="text-sm font-medium px-2 py-1 bg-orange-50 border border-orange-200 rounded text-center min-w-[2rem]">
-                            {cart[product.id]}
-                          </span>
+                          <div className="bg-white px-3 py-1 rounded-md border border-orange-200 min-w-[2.5rem] text-center">
+                            <span className="text-sm font-bold text-orange-600">
+                              {cart[product.id]}
+                            </span>
+                          </div>
                           <Button
                             size="sm"
-                            variant="outline"
+                            variant="ghost"
                             onClick={() => addToCart(product.id)}
-                            className="h-8 w-8 p-0 border-orange-200 hover:border-orange-400"
+                            className="h-7 w-7 p-0 hover:bg-orange-200 rounded-md transition-colors"
                             disabled={cart[product.id] >= product.stock}
                           >
-                            <Plus className="h-3 w-3" />
+                            <Plus className="h-3 w-3 text-orange-600" />
                           </Button>
                         </div>
                       ) : (
                         <Button
-                          className="w-full h-8 bg-orange-500 hover:bg-orange-600 text-white shadow-lg text-sm"
+                          className="w-full h-8 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg text-sm font-semibold transform hover:scale-105 transition-all duration-200 active:scale-95"
                           onClick={() => addToCart(product.id)}
                           disabled={product.stock === 0}
                         >
@@ -740,38 +764,138 @@ export default function ShopPage() {
           </motion.div>
         )}
 
-        {/* Cart Summary - Fixed Bottom */}
+        {/* Enhanced Cart Summary - Fixed Bottom with Preview */}
         <AnimatePresence>
           {getTotalCartItems() > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 100 }}
-              className="fixed bottom-6 right-6 bg-white shadow-2xl rounded-xl p-6 border-2 border-orange-200 z-50 min-w-[320px]"
+              className="fixed bottom-6 right-6 bg-white shadow-2xl rounded-2xl border-2 border-orange-200 z-50 max-w-[380px] w-full mx-4"
             >
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-orange-100 rounded-lg">
-                    <ShoppingCart className="h-5 w-5 text-orange-600" />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-800">
-                      Giỏ hàng ({getTotalCartItems()})
+              {/* Header */}
+              <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-red-50 rounded-t-2xl">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="relative">
+                      <div className="p-2 bg-orange-500 rounded-xl">
+                        <ShoppingCart className="h-5 w-5 text-white" />
+                      </div>
+                      <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
+                        {getTotalCartItems()}
+                      </div>
                     </div>
-                    <div className="text-sm text-gray-500">
-                      {formatPrice(getTotalCartValue())}
+                    <div>
+                      <div className="font-bold text-gray-800 text-lg">
+                        Giỏ hàng
+                      </div>
+                      <div className="text-sm text-orange-600 font-medium">
+                        {formatPrice(getTotalCartValue())}
+                      </div>
                     </div>
                   </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setCart({})}
+                    className="text-gray-400 hover:text-red-500 hover:bg-red-50"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
                 </div>
               </div>
-              <Link href="/checkout">
-                <Button className="w-full bg-orange-500 hover:bg-orange-600 shadow-lg h-12 text-lg font-semibold">
-                  Thanh toán ngay
-                </Button>
-              </Link>
+
+              {/* Cart Items Preview */}
+              <div className="max-h-60 overflow-y-auto p-4 space-y-3">
+                {Object.entries(cart).slice(0, 3).map(([productId, quantity]) => {
+                  const product = products.find(p => p.id === productId);
+                  if (!product) return null;
+                  
+                  return (
+                    <div key={productId} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                        <Image
+                          src={product.image || "/placeholder.jpg"}
+                          alt={product.name}
+                          fill
+                          className="object-cover"
+                          sizes="48px"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-gray-800 truncate">
+                          {product.name}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {formatPrice(product.price)} x {quantity}
+                        </div>
+                      </div>
+                      <div className="text-sm font-bold text-orange-600">
+                        {formatPrice(product.price * quantity)}
+                      </div>
+                    </div>
+                  );
+                })}
+                
+                {Object.keys(cart).length > 3 && (
+                  <div className="text-center text-sm text-gray-500 py-2">
+                    +{Object.keys(cart).length - 3} sản phẩm khác
+                  </div>
+                )}
+              </div>
+
+              {/* Actions */}
+              <div className="p-4 border-t border-gray-100 space-y-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">Phí vận chuyển:</span>
+                  <span className="text-green-600 font-medium">Miễn phí</span>
+                </div>
+                
+                <Link href="/checkout" className="block">
+                  <Button className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-lg h-12 text-lg font-bold rounded-xl transform hover:scale-105 transition-all duration-200">
+                    <CheckCircle className="mr-2 h-5 w-5" />
+                    Thanh toán ngay
+                  </Button>
+                </Link>
+                
+                <Link href="/shop" className="block">
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-2 border-orange-200 text-orange-600 hover:bg-orange-50 rounded-xl"
+                  >
+                    Tiếp tục mua sắm
+                  </Button>
+                </Link>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Floating Cart Button for Mobile */}
+        <div className="fixed bottom-6 left-6 md:hidden z-40">
+          <AnimatePresence>
+            {getTotalCartItems() > 0 && (
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0, opacity: 0 }}
+                transition={{ type: "spring", duration: 0.5 }}
+              >
+                <Link href="/checkout">
+                  <Button
+                    size="lg"
+                    className="h-14 w-14 rounded-full bg-gradient-to-br from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-2xl border-4 border-white relative transform hover:scale-110 transition-all duration-200"
+                  >
+                    <ShoppingCart className="h-6 w-6 text-white" />
+                    <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center border-2 border-white">
+                      {getTotalCartItems()}
+                    </div>
+                  </Button>
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* Admin Product Form */}
         <AdminProductForm
