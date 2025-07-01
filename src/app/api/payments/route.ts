@@ -1,3 +1,4 @@
+
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { auth } from "@/lib/auth/auth";
@@ -106,23 +107,22 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth();
+    const data = await request.json();
 
-    if (!session?.user) {
+    // Validate required fields
+    if (!data.amount || (!data.bookingId && !data.orderId)) {
       return NextResponse.json(
-        { error: "Chưa đăng nhập" },
-        { status: 401 }
+        { error: "Thiếu thông tin bắt buộc" },
+        { status: 400 }
       );
     }
 
-    const data = await request.json();
-
     const payment = await prisma.payment.create({
       data: {
-        amount: data.amount,
-        paymentMethod: data.paymentMethod,
+        amount: parseFloat(data.amount),
+        paymentMethod: data.paymentMethod || "CASH",
         paymentStatus: data.paymentStatus || data.status || "PENDING",
-        transactionId: data.transactionId,
+        transactionId: data.transactionId || `payment_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         bookingId: data.bookingId || null,
         orderId: data.orderId || null,
       },
@@ -158,7 +158,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Error creating payment:", error);
     return NextResponse.json(
-      { error: "Lỗi khi tạo thanh toán" },
+      { error: "Lỗi khi tạo thanh toán: " + (error instanceof Error ? error.message : "Lỗi không xác định") },
       { status: 500 }
     );
   }

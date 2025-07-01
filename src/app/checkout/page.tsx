@@ -151,6 +151,21 @@ export default function CheckoutPage() {
   // Tạo order và payment
   const createOrderAndPayment = async () => {
     try {
+      console.log("Creating order with data:", {
+        customerName: formData.fullName,
+        customerEmail: formData.email,
+        customerPhone: formData.phone,
+        shippingAddress: formData.address,
+        totalAmount: total,
+        paymentMethod: getPaymentMethodCode(formData.paymentMethod),
+        notes: formData.notes,
+        items: cartItems.map((item) => ({
+          productId: item.id,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+      });
+
       // Tạo order
       const orderResponse = await fetch("/api/orders", {
         method: "POST",
@@ -174,33 +189,53 @@ export default function CheckoutPage() {
       });
 
       if (!orderResponse.ok) {
-        const errorData = await orderResponse.json().catch(() => ({ message: "Lỗi không xác định" }));
-        throw new Error(errorData.message || `HTTP Error: ${orderResponse.status}`);
+        const errorText = await orderResponse.text();
+        console.error("Order API error:", errorText);
+        let errorData;
+        try {
+          errorData = JSON.parse(errorText);
+        } catch {
+          errorData = { message: `Lỗi HTTP ${orderResponse.status}: ${errorText}` };
+        }
+        throw new Error(errorData.error || errorData.message || `HTTP Error: ${orderResponse.status}`);
       }
 
       const order = await orderResponse.json();
+      console.log("Order created successfully:", order);
 
       // Tạo payment
+      const paymentData = {
+        orderId: order.id,
+        amount: total,
+        paymentMethod: getPaymentMethodCode(formData.paymentMethod),
+        paymentStatus: formData.paymentMethod === "cod" ? "PENDING" : "PAID",
+        transactionId: `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      };
+
+      console.log("Creating payment with data:", paymentData);
+
       const paymentResponse = await fetch("/api/payments", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          orderId: order.id,
-          amount: total,
-          paymentMethod: getPaymentMethodCode(formData.paymentMethod),
-          paymentStatus: formData.paymentMethod === "cod" ? "PENDING" : "PAID",
-          transactionId: `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        }),
+        body: JSON.stringify(paymentData),
       });
 
       if (!paymentResponse.ok) {
-        const errorData = await paymentResponse.json().catch(() => ({ message: "Lỗi không xác định" }));
-        throw new Error(errorData.message || `Lỗi thanh toán: ${paymentResponse.status}`);
+        const errorText = await paymentResponse.text();
+        console.error("Payment API error:", errorText);
+        let errorData;
+        try {
+          errorData = JSON.parse(errorText);
+        } catch {
+          errorData = { message: `Lỗi HTTP ${paymentResponse.status}: ${errorText}` };
+        }
+        throw new Error(errorData.error || errorData.message || `Lỗi thanh toán: ${paymentResponse.status}`);
       }
 
       const payment = await paymentResponse.json();
+      console.log("Payment created successfully:", payment);
 
       return { order, payment };
     } catch (error) {
@@ -397,8 +432,12 @@ export default function CheckoutPage() {
       }, 2000);
     } catch (error) {
       console.error("Checkout error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Lỗi không xác định";
       toast.error(
-        `Đã có lỗi xảy ra khi đặt hàng: ${error.message || "Vui lòng thử lại!"}`,
+        `Đã có lỗi xảy ra khi đặt hàng: ${errorMessage}`,
+        {
+          description: "Vui lòng kiểm tra thông tin và thử lại",
+        }
       );
     } finally {
       setIsLoading(false);
