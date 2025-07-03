@@ -38,12 +38,14 @@ export async function GET(request: NextRequest) {
       whereClause.bookingId = { not: null };
     }
 
-    // Filter by user if not admin
-    if (!isAdmin && session.user.id) {
+    // Filter by user if not admin or if userId is specified
+    const targetUserId = isAdmin && userId ? userId : session.user.id;
+    
+    if (targetUserId) {
       whereClause.OR = [
         { 
           booking: {
-            userId: session.user.id
+            userId: targetUserId
           }
         },
         {
@@ -54,19 +56,27 @@ export async function GET(request: NextRequest) {
       ];
     }
 
+    console.log("Payment query whereClause:", JSON.stringify(whereClause, null, 2));
+    
     const payments = await prisma.payment.findMany({
       where: whereClause,
       include: {
         booking: {
           select: {
             id: true,
+            tourId: true,
+            departureDate: true,
+            participants: true,
+            status: true,
             tour: {
               select: {
+                id: true,
                 name: true,
               },
             },
             user: {
               select: {
+                id: true,
                 name: true,
                 email: true,
               },
@@ -94,6 +104,8 @@ export async function GET(request: NextRequest) {
         createdAt: "desc",
       },
     });
+
+    console.log(`Found ${payments.length} payments for type: ${type || 'all'}, user: ${targetUserId || 'any'}`);
 
     return NextResponse.json(payments);
   } catch (error) {

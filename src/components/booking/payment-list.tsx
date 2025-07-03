@@ -73,77 +73,51 @@ export function PaymentList({ userId }: PaymentListProps) {
   useEffect(() => {
     const fetchTourPayments = async () => {
       try {
-        // Trong ứng dụng thực, chúng ta sẽ gọi API để lấy dữ liệu thanh toán tour
-        // const response = await fetch(`/api/payments/tours?userId=${userId}`);
-        // const data = await response.json();
-        // setPayments(data.payments);
+        console.log("Fetching tour payments for user:", userId);
+        
+        // Gọi API để lấy dữ liệu thanh toán tour thực tế
+        const response = await fetch(`/api/payments?type=tour&userId=${userId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-        // Mock data cho demo - chỉ thanh toán tour
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        setPayments([
-          {
-            id: "payment-tour-1",
-            bookingId: "booking-1",
-            amount: 2000000,
-            paymentMethod: "CREDIT_CARD",
-            paymentStatus: "PAID",
-            transactionId: "tour_trx_12345678",
-            createdAt: new Date().toISOString(),
-            booking: {
-              id: "booking-1",
-              tourId: "tour-1",
-              departureDate: new Date().toISOString(),
-              participants: 2,
-              status: "CONFIRMED",
-              tour: {
-                id: "tour-1",
-                name: "Tour Khu di tích Kim Liên",
-              },
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Fetched payments data:", data);
+        
+        // Transform data để match với interface TourPayment
+        const transformedPayments: TourPayment[] = data.map((payment: any) => ({
+          id: payment.id,
+          bookingId: payment.bookingId,
+          amount: payment.amount,
+          paymentMethod: payment.paymentMethod,
+          paymentStatus: payment.paymentStatus,
+          transactionId: payment.transactionId,
+          createdAt: payment.createdAt,
+          booking: {
+            id: payment.booking?.id || '',
+            tourId: payment.booking?.tourId || '',
+            departureDate: payment.booking?.departureDate || '',
+            participants: payment.booking?.participants || 0,
+            status: payment.booking?.status || 'PENDING',
+            tour: {
+              id: payment.booking?.tour?.id || '',
+              name: payment.booking?.tour?.name || 'Unknown Tour',
             },
           },
-          {
-            id: "payment-tour-2",
-            bookingId: "booking-2",
-            amount: 3000000,
-            paymentMethod: "CASH",
-            paymentStatus: "PENDING",
-            createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-            booking: {
-              id: "booking-2",
-              tourId: "tour-2",
-              departureDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-              participants: 3,
-              status: "PENDING",
-              tour: {
-                id: "tour-2",
-                name: "Tour Đền Cuông",
-              },
-            },
-          },
-          {
-            id: "payment-tour-3",
-            bookingId: "booking-3",
-            amount: 5000000,
-            paymentMethod: "E_WALLET",
-            paymentStatus: "PAID",
-            transactionId: "momo_tour_87654321",
-            createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-            booking: {
-              id: "booking-3",
-              tourId: "tour-3",
-              departureDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-              participants: 5,
-              status: "COMPLETED",
-              tour: {
-                id: "tour-3",
-                name: "Tour Hành trình về nguồn",
-              },
-            },
-          },
-        ]);
+        }));
+
+        setPayments(transformedPayments);
       } catch (err) {
         console.error("Error fetching tour payments:", err);
-        setError("Không thể tải dữ liệu thanh toán tour");
+        setError("Không thể tải dữ liệu thanh toán tour: " + (err instanceof Error ? err.message : "Lỗi không xác định"));
+        // Fallback to empty array on error
+        setPayments([]);
       } finally {
         setIsLoading(false);
       }
