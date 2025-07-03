@@ -1,20 +1,41 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { MapPin, Clock, Users } from "lucide-react";
 
 const tours = [
   {
+    id: "nghe-an-eco-beach",
+    name: "Tour Sinh Thái & Biển Nghệ An",
+    description:
+      "Khám phá thiên nhiên xanh mát tại Hòn Mát và thư giãn tại bãi biển Cửa Lò",
+    location: "Cửa Lò, Nghệ An",
+    duration: "3 ngày 2 đêm",
+    maxPeople: 30,
+    price: 2990000,
+    image:
+      "https://khuyencongnghean.com.vn/wp-content/uploads/2024/07/vuon-quoc-gia-pu-mat-nghe-an.jpg",
+    slug: "nghe-an-eco-beach",
+  },
+  {
     id: "ve-nguon",
     name: "Hành trình về nguồn",
-    description: "Khám phá quê hương và cuộc đời của Chủ tịch Hồ Chí Minh tại Nghệ An",
+    description:
+      "Khám phá quê hương và cuộc đời của Chủ tịch Hồ Chí Minh tại Nghệ An",
     location: "Kim Liên, Nghệ An",
     duration: "3 ngày 2 đêm",
     maxPeople: 30,
     price: 2990000,
     image: "https://ext.same-assets.com/4052699563/777305328.jpeg",
-    slug: "ve-nguon"
+    slug: "ve-nguon",
   },
   {
     id: "con-duong-huyen-thoai",
@@ -24,8 +45,9 @@ const tours = [
     duration: "2 ngày 1 đêm",
     maxPeople: 25,
     price: 1890000,
-    image: "https://statics.vinpearl.com/du-lich-quy-chau-anh-thumb_1633531971.jpg",
-    slug: "con-duong-huyen-thoai"
+    image:
+      "https://statics.vinpearl.com/du-lich-quy-chau-anh-thumb_1633531971.jpg",
+    slug: "con-duong-huyen-thoai",
   },
   {
     id: "di-san-tam-linh",
@@ -35,8 +57,9 @@ const tours = [
     duration: "4 ngày 3 đêm",
     maxPeople: 20,
     price: 3490000,
-    image: "https://dulichhonmat.com/uploads/b3dbfd80-d8a0-4003-bbe7-ba41902e1d27.jpg",
-    slug: "di-san-tam-linh"
+    image:
+      "https://dulichhonmat.com/uploads/b3dbfd80-d8a0-4003-bbe7-ba41902e1d27.jpg",
+    slug: "di-san-tam-linh",
   },
   {
     id: "dau-an-danh-nhan",
@@ -46,20 +69,22 @@ const tours = [
     duration: "3 ngày 2 đêm",
     maxPeople: 35,
     price: 2590000,
-    image: "https://media.baovanhoa.vn/zoom/1000/uploaded/nghiemthanh/2025_02_21/a2_WUTP.jpg",
-    slug: "dau-an-danh-nhan"
+    image:
+      "https://media.baovanhoa.vn/zoom/1000/uploaded/nghiemthanh/2025_02_21/a2_WUTP.jpg",
+    slug: "dau-an-danh-nhan",
   },
   {
     id: "thiet-ke-theo-yeu-cau",
     name: "Thiết kế hành trình theo yêu cầu",
-    description: "Tạo ra hành trình du lịch riêng theo ý tưởng và mong muốn của bạn",
+    description:
+      "Tạo ra hành trình du lịch riêng theo ý tưởng và mong muốn của bạn",
     location: "Nghệ An",
     duration: "Tùy chọn",
     maxPeople: 50,
     price: 0,
     image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800",
-    slug: "thiet-ke-theo-yeu-cau"
-  }
+    slug: "thiet-ke-theo-yeu-cau",
+  },
 ];
 
 export default function DestinationsPage() {
@@ -74,7 +99,10 @@ export default function DestinationsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {tours.map((tour) => (
-          <Card key={tour.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+          <Card
+            key={tour.id}
+            className="overflow-hidden hover:shadow-lg transition-shadow"
+          >
             <div className="relative h-48">
               <Image
                 src={tour.image}
@@ -102,11 +130,16 @@ export default function DestinationsPage() {
                 Tối đa {tour.maxPeople} người
               </div>
               <div className="text-lg font-bold text-green-700">
-                {tour.price.toLocaleString("vi-VN")} đ
+                {tour.price === 0
+                  ? "Liên hệ"
+                  : `${tour.price.toLocaleString("vi-VN")} đ`}
               </div>
             </CardContent>
             <CardFooter className="pt-0">
-              <Button asChild className="w-full bg-green-700 hover:bg-green-800">
+              <Button
+                asChild
+                className="w-full bg-green-700 hover:bg-green-800"
+              >
                 <Link href={`/destinations/${tour.slug}`}>
                   Chi tiết hành trình
                 </Link>
