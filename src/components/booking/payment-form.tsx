@@ -99,7 +99,7 @@ export function PaymentForm({ bookingId }: PaymentFormProps) {
       // Then create the payment record
       const paymentMethodEnum = paymentMethod === "card" ? "CREDIT_CARD" : 
                                paymentMethod === "e-wallet" ? "E_WALLET" : "CASH";
-      
+
       const paymentStatus = paymentMethod === "cash" ? "PENDING" : "PAID";
 
       const paymentResponse = await fetch('/api/payments', {
@@ -502,7 +502,7 @@ export function PaymentForm({ bookingId }: PaymentFormProps) {
                 Quét mã QR hoặc chuyển khoản để thanh toán
               </p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* MoMo Payment */}
               <div className="border rounded-lg p-4 space-y-3">
@@ -566,7 +566,7 @@ export function PaymentForm({ bookingId }: PaymentFormProps) {
                   📝 Hướng dẫn nhập nội dung chuyển khoản:
                 </p>
                 <div className="text-sm text-yellow-800 space-y-1">
-                  <p><strong>Nội dung chuyển khoản:</strong> <span className="font-mono bg-yellow-100 px-2 py-1 rounded">TOUR {bookingData.tourName.slice(0, 10)} {bookingData.participants}NGUOI</span></p>
+                  <p><strong>Nội dung chuyển khoản:</strong> <span className="font-mono bg-yellow-100 px-2 py-1 rounded">TOUR {bookingData.tourName.slice(0, 15)} {bookingData.participants}NGUOI</span></p>
                   <p><strong>Số tiền:</strong> <span className="font-mono bg-yellow-100 px-2 py-1 rounded">{bookingData.totalPrice.toLocaleString()} VNĐ</span></p>
                   <p><strong>Họ tên người chuyển:</strong> <span className="font-mono bg-yellow-100 px-2 py-1 rounded">{bookingData.fullName}</span></p>
                 </div>

@@ -35,16 +35,89 @@ interface Tour {
   notes: string[];
 }
 
+// Dữ liệu static tour
 const tours: Record<string, Tour> = {
+  "nghe-an-eco-beach": {
+    id: "nghe-an-eco-beach",
+    name: "Tour Sinh Thái & Biển Nghệ An",
+    location: "Cửa Lò, Nghệ An",
+    duration: "3 ngày 2 đêm",
+    maxPeople: 30,
+    price: 2990000,
+    image: "https://static.vinwonders.com/production/bien-cua-lo-1.jpg",
+    description: "Khám phá thiên nhiên xanh mát tại Hòn Mát và thư giãn tại bãi biển Cửa Lò thơ mộng",
+    itinerary: [
+      {
+        day: 1,
+        title: "Khởi hành - Biển Cửa Lò",
+        activities: [
+          "06:00 - Khởi hành từ Hà Nội, đi cao tốc về Nghệ An",
+          "10:30 - Nghỉ chân tại Ninh Bình, dùng sáng",
+          "14:00 - Đến Cửa Lò, nhận phòng khách sạn",
+          "15:30 - Tự do tắm biển Cửa Lò",
+          "18:00 - Ăn tối hải sản tại nhà hàng địa phương"
+        ],
+        meals: ["Sáng", "Trưa", "Tối"],
+        accommodation: "Khách sạn 3 sao tại Cửa Lò"
+      },
+      {
+        day: 2,
+        title: "Khám phá Hòn Mát",
+        activities: [
+          "08:00 - Dùng sáng tại khách sạn",
+          "09:00 - Đi thuyền ra Hòn Mát",
+          "10:30 - Tham quan và tắm biển tại Hòn Mát",
+          "14:00 - Lặn biển ngắm san hô",
+          "16:00 - Trở về Cửa Lò",
+          "18:00 - Tham quan chợ đêm Cửa Lò"
+        ],
+        meals: ["Sáng", "Trưa", "Tối"],
+        accommodation: "Khách sạn 3 sao tại Cửa Lò"
+      },
+      {
+        day: 3,
+        title: "Tạm biệt Cửa Lò",
+        activities: [
+          "08:00 - Dùng sáng và làm thủ tục trả phòng",
+          "09:30 - Mua sắm đặc sản Cửa Lò",
+          "11:00 - Tham quan Làng Sen quê Bác (nếu còn thời gian)",
+          "12:00 - Dùng cơm trưa và khởi hành về Hà Nội",
+          "18:00 - Về đến Hà Nội, kết thúc chương trình"
+        ],
+        meals: ["Sáng", "Trưa"]
+      }
+    ],
+    included: [
+      "Xe ô tô du lịch đời mới có điều hòa",
+      "Khách sạn 3 sao (2 người/phòng)",
+      "Các bữa ăn theo chương trình",
+      "Vé tham quan các điểm trong chương trình",
+      "Vé tàu ra Hòn Mát",
+      "Hướng dẫn viên nhiệt tình",
+      "Bảo hiểm du lịch"
+    ],
+    excluded: [
+      "Chi phí cá nhân",
+      "Đồ uống có cồn",
+      "Tip cho hướng dẫn viên và tài xế",
+      "Chi phí phát sinh ngoài chương trình"
+    ],
+    notes: [
+      "Mang theo CCCD/CMND để làm thủ tục check-in",
+      "Mang theo đồ bơi, kem chống nắng",
+      "Chuẩn bị áo phao nếu không biết bơi",
+      "Không xả rác bừa bãi trên biển và các khu du lịch"
+    ]
+  },
   "ve-nguon": {
     id: "ve-nguon",
     name: "Hành trình về nguồn",
-    description: "Khám phá quê hương và cuộc đời của Chủ tịch Hồ Chí Minh tại Nghệ An",
     location: "Kim Liên, Nghệ An",
     duration: "3 ngày 2 đêm",
     maxPeople: 30,
     price: 2990000,
     image: "https://ext.same-assets.com/4052699563/777305328.jpeg",
+    description: "Khám phá quê hương và cuộc đời của Chủ tịch Hồ Chí Minh tại Nghệ An",
     itinerary: [
       {
         day: 1,
@@ -341,7 +414,7 @@ function BookingContent() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.fullName || !formData.email || !formData.phone || !formData.tourDate) {
       alert("Vui lòng điền đầy đủ thông tin bắt buộc");
       return;
@@ -349,7 +422,7 @@ function BookingContent() {
 
     // Tạo booking ID
     const bookingId = `booking-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    
+
     // Tạo dữ liệu booking
     const bookingData = {
       tourId: selectedTour.id,
@@ -366,7 +439,7 @@ function BookingContent() {
     // Lưu vào localStorage
     try {
       localStorage.setItem(bookingId, JSON.stringify(bookingData));
-      
+
       // Chuyển hướng đến trang thanh toán
       window.location.href = `/booking/payment?bookingId=${bookingId}`;
     } catch (error) {

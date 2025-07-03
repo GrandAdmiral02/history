@@ -28,8 +28,19 @@ export function TourSelection() {
     searchParams.get("tourId")
   );
 
-  // Dữ liệu tour mặc định - 4 tour như bạn yêu cầu
+  // Dữ liệu tour mặc định - 5 tour bao gồm tour mới
   const tours: Tour[] = [
+    {
+      id: "nghe-an-eco-beach",
+      name: "Tour Sinh Thái & Biển Nghệ An",
+      description: "Khám phá thiên nhiên xanh mát tại Hòn Mát và thư giãn tại bãi biển Cửa Lò",
+      location: "Cửa Lò, Nghệ An",
+      duration: "3 ngày 2 đêm",
+      price: 2990000,
+      maxPeople: 30,
+      imageUrl: "https://static.vinwonders.com/production/bien-cua-lo-1.jpg",
+      category: "ECO_TOURISM"
+    },
     {
       id: "ve-nguon",
       name: "Hành trình về nguồn",
