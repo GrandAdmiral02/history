@@ -554,14 +554,14 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Image 5 - Spanning 2 columns */}
-            <div className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 md:col-span-2">
+            {/* Image 5 */}
+            <div className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="relative h-80">
                 <Image
                   src="https://cualo.vn/wp-content/uploads/2022/03/nghe-an-mo-cua-don-khach-trong-nuoc-va-quoc-te.jpg"
                   alt="Du lịch Nghệ An"
                   fill
-                  sizes="(max-width: 768px) 100vw, 66vw"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -570,6 +570,24 @@ export default function Home() {
                   <p className="text-sm">
                     Chào đón du khách trong và ngoài nước
                   </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Image 6 */}
+            <div className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+              <div className="relative h-80">
+                <Image
+                  src="https://bizweb.dktcdn.net/100/539/761/files/top-5-danh-lam-thang-canh-o-nghe-an-nen-ghe-tham-it-nhat-mot-lan-7.jpg?v=1741137400936"
+                  alt="Danh lam thắng cảnh Nghệ An"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute bottom-4 left-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 opacity-0 group-hover:opacity-100">
+                  <h3 className="text-lg font-semibold">Danh thắng Nghệ An</h3>
+                  <p className="text-sm">Những cảnh đẹp không thể bỏ qua</p>
                 </div>
               </div>
             </div>
