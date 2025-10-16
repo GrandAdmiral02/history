@@ -11,7 +11,7 @@ export default function ThanhCoVinhPage() {
       <section className="relative h-[400px] md:h-[500px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
         <Image
-          src="https://ext.same-assets.com/3334769225/3264552788.jpeg"
+          src="https://vcdn1-vnexpress.vnecdn.net/2015/11/07/IMG-8325-1446861611.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=9XCm-YTOSh-iAnjXc5pnNg"
           alt="Thành cổ Vinh"
           fill
           className="object-cover"
@@ -69,7 +69,7 @@ export default function ThanhCoVinhPage() {
                   <div className="my-8 grid grid-cols-2 gap-4">
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3264552788.jpeg"
+                        src="https://mia.vn/media/uploads/blog-du-lich/thanh-co-vinh-01-1700059284.jpg"
                         alt="Cổng thành cổ Vinh"
                         fill
                         className="object-cover"
@@ -77,7 +77,7 @@ export default function ThanhCoVinhPage() {
                     </div>
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3380477770.jpeg"
+                        src="https://vanhoavaphattrien.vn/uploads/images/2024/10/07/z5906712310689-1ce68c947ad1815298040eee56bcf089-1728314925.jpg"
                         alt="Tường thành cổ Vinh"
                         fill
                         className="object-cover"
@@ -101,7 +101,7 @@ export default function ThanhCoVinhPage() {
                   <h3>1. Hệ thống tường thành</h3>
                   <div className="relative h-80 rounded-lg overflow-hidden my-6">
                     <Image
-                      src="https://ext.same-assets.com/3334769225/3380477770.jpeg"
+                      src="https://ticotravel.com.vn/wp-content/uploads/2024/10/thanh-co-vinh-11.jpeg"
                       alt="Tường thành cổ Vinh"
                       fill
                       className="object-cover"

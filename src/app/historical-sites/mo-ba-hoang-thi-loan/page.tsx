@@ -11,7 +11,7 @@ export default function MoBaHoangThiLoanPage() {
       <section className="relative h-[400px] md:h-[500px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
         <Image
-          src="https://ext.same-assets.com/3334769225/3935718425.jpeg"
+          src="https://image.vietgoing.com/editor/image_dki1624297210.jpg"
           alt="Mộ bà Hoàng Thị Loan"
           fill
           className="object-cover"
@@ -69,7 +69,7 @@ export default function MoBaHoangThiLoanPage() {
                   <div className="my-8 grid grid-cols-2 gap-4">
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3935718425.jpeg"
+                        src="https://viettourist.vn/upload/u23569/4/2016-12-12/mo-ba-hoang-thi-loan--1-.jpg"
                         alt="Khu mộ bà Hoàng Thị Loan"
                         fill
                         className="object-cover"
@@ -77,7 +77,7 @@ export default function MoBaHoangThiLoanPage() {
                     </div>
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/4052699563/777305328.jpeg"
+                        src="https://dulichbiencualo.org/view/at_khu-di-tich-mo-ba-hoang-thi-loan_dca11030121a49166003e597837cb557.jpg"
                         alt="Không gian trang nghiêm"
                         fill
                         className="object-cover"
@@ -101,7 +101,7 @@ export default function MoBaHoangThiLoanPage() {
                   <h3>1. Khu mộ chính</h3>
                   <div className="relative h-80 rounded-lg overflow-hidden my-6">
                     <Image
-                      src="https://ext.same-assets.com/3334769225/3935718425.jpeg"
+                      src="https://t.ex-cdn.com/mientay.giadinhonline.vn/768w/files/content/2024/05/19/z5455033845975_0d5f1b7cf692ee5b39c1f5423cf74820-1434.jpg"
                       alt="Khu mộ chính bà Hoàng Thị Loan"
                       fill
                       className="object-cover"

@@ -11,7 +11,7 @@ export default function TruongBonPage() {
       <section className="relative h-[400px] md:h-[500px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10" />
         <Image
-          src="https://ext.same-assets.com/3334769225/3220782747.jpeg"
+          src="https://filesdata.cadn.com.vn/filedatacadn/media//data_news/Image/2021/th2/ng17/tb(1).jpg"
           alt="Truông Bồn"
           fill
           className="object-cover"
@@ -69,7 +69,7 @@ export default function TruongBonPage() {
                   <div className="my-8 grid grid-cols-2 gap-4">
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3220782747.jpeg"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3oEYVbzNlaMqYkJbF1jE_OMMbfsQTh1qCmw&s"
                         alt="Đài tưởng niệm Truông Bồn"
                         fill
                         className="object-cover"
@@ -77,7 +77,7 @@ export default function TruongBonPage() {
                     </div>
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/4052699563/777305328.jpeg"
+                        src="https://media-cdn-v2.laodong.vn/storage/newsportal/2023/10/26/1259498/Truong-Bon.jpeg"
                         alt="Khu vực tưởng niệm"
                         fill
                         className="object-cover"
@@ -101,7 +101,7 @@ export default function TruongBonPage() {
                   <h3>1. Đài tưởng niệm</h3>
                   <div className="relative h-80 rounded-lg overflow-hidden my-6">
                     <Image
-                      src="https://ext.same-assets.com/3334769225/3220782747.jpeg"
+                      src="https://bcp.cdnchinhphu.vn/334894974524682240/2022/10/27/truong-bon-dia-chi-do-chung-tich-mot-huyen-thoai-bat-tu-23-5670-16668612813691956762359.jpg"
                       alt="Đài tưởng niệm Truông Bồn"
                       fill
                       className="object-cover"

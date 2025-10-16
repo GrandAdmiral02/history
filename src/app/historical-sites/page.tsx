@@ -76,7 +76,7 @@ export default function HistoricalSitesPage() {
               <Card className="overflow-hidden">
                 <div className="relative h-60">
                   <Image
-                    src="https://baolamdong.vn/file/e7837c02845ffd04018473e6df282e92/dataimages/202008/original/images2310505_mgi_104406.jpg"
+                    src="https://static.vinwonders.com/production/tam-quan-den-cuong-nghe-an-1.jpg"
                     alt="Đền Cuông"
                     fill
                     className="object-cover"
@@ -338,7 +338,7 @@ export default function HistoricalSitesPage() {
               <Card className="overflow-hidden">
                 <div className="relative h-60">
                   <Image
-                    src="https://lh5.googleusercontent.com/proxy/88va4BBNAZTwr0PwM5A7UXt6Zkv3y22rvI2bMNo4OuSI3MdbzyWFssTPCjkMYJcdhxo3Zp5AzblZLTEipSuyqd5nQR49YaPJx35bEF4a65r-op-Hk4uF-hlJuQUNvi8N0SqWX2UdWdlvQOdXqx7yQRrXyrzXOMWY8yko7N5ehHohh73Z3w-mvbo"
+                    src="https://e.baonghean.vn/wp-content/uploads/2023/01/Khu%C3%B4n-vi%C3%AAn-Di-t%C3%ADch-Qu%E1%BB%91c-gia-%C4%91%E1%BA%B7c-bi%E1%BB%87t-Khu-L%C6%B0u-ni%E1%BB%87m-Phan-B%E1%BB%99i-Ch%C3%A2u-t%E1%BA%A1i-th%E1%BB%8B-tr%E1%BA%A5n-Nam-%C4%90%C3%A0n-t%E1%BB%89nh-Ngh%E1%BB%87-An-%E1%BA%A2nh-Th%C3%A0nh-C%C6%B0%E1%BB%9Dng.jpg"
                     alt="Di tích lưu niệm cụ Phan Bội Châu"
                     fill
                     className="object-cover"

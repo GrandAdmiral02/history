@@ -10,7 +10,7 @@ export default function DenCuongPage() {
       <section className="relative h-[400px] md:h-[500px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
         <Image
-          src="https://ext.same-assets.com/3334769225/3110326546.jpeg"
+          src="https://phuongnam.vanhoavaphattrien.vn/uploads/images/blog/pvnguyendieu/2022/03/17/20220317-221935-1647531757.jpg"
           alt="Đền Cuông"
           fill
           className="object-cover"
@@ -68,7 +68,7 @@ export default function DenCuongPage() {
                   <div className="my-8 grid grid-cols-2 gap-4">
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3110326546.jpeg"
+                        src="https://media2.gody.vn/public/images/place/den-cuong-cuong-temple/621d8cb977f9f-1646103737.jpeg"
                         alt="Cổng tam quan Đền Cuông"
                         fill
                         className="object-cover"
@@ -76,7 +76,7 @@ export default function DenCuongPage() {
                     </div>
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/4032542331.jpeg"
+                        src="https://truyenhinhnghean.vn/file/4028eaa46735a26101673a4df345003c/4028eaa467f477c80167f4aa053f0c68/102022/den-thieng-7-1438_20221018082645.jpg"
                         alt="Không gian thờ tự Đền Cuông"
                         fill
                         className="object-cover"
@@ -100,7 +100,7 @@ export default function DenCuongPage() {
                   <h3>1. Cổng tam quan</h3>
                   <div className="relative h-80 rounded-lg overflow-hidden my-6">
                     <Image
-                      src="https://ext.same-assets.com/3334769225/3110326546.jpeg"
+                      src="https://vgmo.com.vn/wp-content/uploads/2025/02/Anh-tin-tuc-870-x-580-2024-12-03T102351.223.jpg"
                       alt="Cổng tam quan Đền Cuông"
                       fill
                       className="object-cover"

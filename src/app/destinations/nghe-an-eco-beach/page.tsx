@@ -3,353 +3,269 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TourReviews } from "@/components/reviews/tour-reviews";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Calendar, MapPin, Clock, Hotel, Bus, Leaf, Waves } from "lucide-react";
 
 export default function NgheAnEcoAndBeachTourPage() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Hero section */}
-      <section className="relative h-[400px] md:h-[500px] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
+      <section className="relative h-[400px] md:h-[600px] overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-blue-900/50 to-transparent z-10" />
         <Image
           src="https://static.vinwonders.com/production/bien-cua-lo-1.jpg"
           alt="Bãi biển Cửa Lò, Nghệ An"
           fill
-          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 1200px"
+          className="object-cover transition-transform duration-500 hover:scale-105"
           priority
         />
         <div className="container relative z-20 flex flex-col items-center justify-center h-full text-center text-white">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight drop-shadow-lg">
             Tour Du Lịch Sinh Thái & Biển Nghệ An
           </h1>
-          <p className="text-lg md:text-xl max-w-2xl">
-            Khám phá thiên nhiên xanh mát tại Hòn Mát và thư giãn tại bãi biển
-            Cửa Lò thơ mộng
+          <p className="text-lg md:text-2xl max-w-3xl font-light">
+            Khám phá thiên nhiên xanh mát tại Hòn Mát và thư giãn tại bãi biển Cửa Lò thơ mộng
           </p>
+          <Button asChild className="mt-6 bg-green-600 hover:bg-green-700">
+            <Link href="/booking?tourId=nghe-an-eco-beach">Đặt tour ngay</Link>
+          </Button>
         </div>
       </section>
 
       {/* Breadcrumb */}
-      <div className="border-b">
+      <div className="border-b bg-white/80 backdrop-blur-sm">
         <div className="container py-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Link href="/" className="hover:text-foreground">
+          <nav className="flex items-center gap-2 text-sm text-gray-600">
+            <Link href="/" className="hover:text-green-600 transition-colors">
               Trang chủ
             </Link>
-            <span>/</span>
-            <Link href="/destinations" className="hover:text-foreground">
+            <span className="text-gray-400">/</span>
+            <Link href="/destinations" className="hover:text-green-600 transition-colors">
               Hành trình
             </Link>
-            <span>/</span>
-            <span className="text-foreground">
-              Tour Sinh Thái & Biển Nghệ An
-            </span>
-          </div>
+            <span className="text-gray-400">/</span>
+            <span className="text-green-700 font-medium">Tour Sinh Thái & Biển Nghệ An</span>
+          </nav>
         </div>
       </div>
 
-      <div className="container py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          <div className="lg:col-span-2 space-y-10">
+      <div className="container py-12 md:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="lg:col-span-2 space-y-12">
             {/* Tabs */}
             <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="overview">Tổng quan</TabsTrigger>
-                <TabsTrigger value="itinerary">Lịch trình</TabsTrigger>
-                <TabsTrigger value="attractions">Điểm đến</TabsTrigger>
-                <TabsTrigger value="gallery">Hình ảnh</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-4 bg-green-50 rounded-lg p-1">
+                {["overview", "itinerary", "attractions", "gallery"].map((tab) => (
+                  <TabsTrigger
+                    key={tab}
+                    value={tab}
+                    className="text-sm md:text-base capitalize font-medium data-[state=active]:bg-green-600 data-[state=active]:text-white"
+                  >
+                    {tab === "overview" ? "Tổng quan" : tab === "itinerary" ? "Lịch trình" : tab === "attractions" ? "Điểm đến" : "Hình ảnh"}
+                  </TabsTrigger>
+                ))}
               </TabsList>
-              <TabsContent value="overview" className="space-y-6 mt-6">
+
+              <TabsContent value="overview" className="space-y-8 mt-8">
                 <div className="prose prose-green max-w-none">
-                  <h2>Giới thiệu Tour Sinh Thái & Biển Nghệ An</h2>
-                  <p>
-                    <strong>Tour Sinh Thái & Biển Nghệ An</strong> mang đến trải
-                    nghiệm kết hợp giữa khám phá thiên nhiên tại Khu du lịch
-                    sinh thái Hòn Mát, thư giãn tại bãi biển Cửa Lò thơ mộng và
-                    tìm hiểu lịch sử tại Khu di tích Truông Bồn.
+                  <h2 className="text-3xl font-bold text-green-800">Giới thiệu Tour Sinh Thái & Biển Nghệ An</h2>
+                  <p className="text-gray-700 leading-relaxed">
+                    <strong>Tour Sinh Thái & Biển Nghệ An</strong> mang đến trải nghiệm kết hợp giữa khám phá thiên nhiên tại Khu du lịch sinh thái Hòn Mát, thư giãn tại bãi biển Cửa Lò thơ mộng và tìm hiểu lịch sử tại Khu di tích Truông Bồn.
                   </p>
-                  <p>
-                    Hành trình 3 ngày 2 đêm sẽ đưa du khách đến với những vườn
-                    cây ăn trái xanh mát, bãi biển trong xanh, đảo Ngư hoang sơ
-                    và những di tích lịch sử đầy ý nghĩa.
+                  <p className="text-gray-700 leading-relaxed">
+                    Hành trình 3 ngày 2 đêm sẽ đưa du khách đến với những vườn cây ăn trái xanh mát, bãi biển trong xanh, đảo Ngư hoang sơ và những di tích lịch sử đầy ý nghĩa.
                   </p>
 
-                  <div className="my-8 grid grid-cols-2 gap-4">
-                    <div className="relative h-60 rounded-lg overflow-hidden">
-                      <Image
-                        src="https://dbnd.1cdn.vn/thumbs/1200x630/2023/04/06/b652b1b3e799ec2e8c37dc0d43e8a2757fedb3092e60fcc33c04fcfdcf60c3968ef108-_anh-chup-man-hinh-2023-04-06-luc-1680772071909.jpg"
-                        alt="Khu du lịch sinh thái Hòn Mát"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="relative h-60 rounded-lg overflow-hidden">
-                      <Image
-                        src="https://www.dbndnghean.vn/dbndna-media/25/4/6/bien-cua-lo-nghe-an.jpg"
-                        alt="Bãi biển Cửa Lò"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
+                  <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {[
+                      {
+                        src: "https://dbnd.1cdn.vn/thumbs/1200x630/2023/04/06/b652b1b3e799ec2e8c37dc0d43e8a2757fedb3092e60fcc33c04fcfdcf60c3968ef108-_anh-chup-man-hinh-2023-04-06-luc-1680772071909.jpg",
+                        alt: "Khu du lịch sinh thái Hòn Mát",
+                      },
+                      {
+                        src: "https://www.dbndnghean.vn/dbndna-media/25/4/6/bien-cua-lo-nghe-an.jpg",
+                        alt: "Bãi biển Cửa Lò",
+                      },
+                    ].map((img, idx) => (
+                      <div key={idx} className="relative h-64 rounded-xl overflow-hidden shadow-lg">
+                        <Image
+                          src={img.src}
+                          alt={img.alt}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          className="object-cover transition-transform duration-300 hover:scale-105"
+                        />
+                      </div>
+                    ))}
                   </div>
 
-                  <h3>Thông tin cơ bản</h3>
-                  <ul>
-                    <li>
-                      <strong>Thời gian:</strong> 3 ngày 2 đêm
-                    </li>
-                    <li>
-                      <strong>Khởi hành:</strong> Thứ 6 hàng tuần
-                    </li>
-                    <li>
-                      <strong>Điểm đến tiêu biểu:</strong> Khu du lịch sinh thái
-                      Hòn Mát, Bãi biển Cửa Lò, Đảo Ngư, Khu di tích Truông Bồn
-                    </li>
-                    <li>
-                      <strong>Phương tiện di chuyển:</strong> Xe ô tô du lịch
-                    </li>
-                    <li>
-                      <strong>Chỗ ở:</strong> Khách sạn 3 sao tại Cửa Lò
-                    </li>
-                    <li>
-                      <strong>Phù hợp cho:</strong> Gia đình, nhóm bạn yêu thiên
-                      nhiên và biển cả
-                    </li>
+                  <h3 className="text-2xl font-semibold text-green-800">Thông tin cơ bản</h3>
+                  <ul className="space-y-2 text-gray-700">
+                    {[
+                      { icon: <Calendar className="w-5 h-5 text-green-600" />, label: "Thời gian", value: "3 ngày 2 đêm" },
+                      { icon: <Clock className="w-5 h-5 text-green-600" />, label: "Khởi hành", value: "Thứ 6 hàng tuần" },
+                      { icon: <MapPin className="w-5 h-5 text-green-600" />, label: "Điểm đến tiêu biểu", value: "Khu du lịch sinh thái Hòn Mát, Bãi biển Cửa Lò, Đảo Ngư, Khu di tích Truông Bồn" },
+                      { icon: <Bus className="w-5 h-5 text-green-600" />, label: "Phương tiện di chuyển", value: "Xe ô tô du lịch" },
+                      { icon: <Hotel className="w-5 h-5 text-green-600" />, label: "Chỗ ở", value: "Khách sạn 3 sao tại Cửa Lò" },
+                      { icon: <Leaf className="w-5 h-5 text-green-600" />, label: "Phù hợp cho", value: "Gia đình, nhóm bạn yêu thiên nhiên và biển cả" },
+                    ].map((item, idx) => (
+                      <li key={idx} className="flex items-center gap-2">
+                        {item.icon && <span>{item.icon}</span>}
+                        <strong>{item.label}:</strong> {item.value}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </TabsContent>
-              <TabsContent value="itinerary" className="space-y-6 mt-6">
+
+              <TabsContent value="itinerary" className="space-y-8 mt-8">
                 <div className="prose prose-green max-w-none">
-                  <h2>Lịch trình Tour Sinh Thái & Biển Nghệ An</h2>
+                  <h2 className="text-3xl font-bold text-green-800">Lịch trình Tour Sinh Thái & Biển Nghệ An</h2>
 
-                  <div className="bg-muted/30 p-6 rounded-lg mb-8">
-                    <h3 className="mt-0">
-                      NGÀY 1: HÀ NỘI - VINH - HÒN MÁT - CỬA LÒ
-                    </h3>
-                    <ul>
-                      <li>
-                        <strong>06:00:</strong> Đón khách tại Hà Nội, khởi hành
-                        đi TP. Vinh
-                      </li>
-                      <li>
-                        <strong>11:30:</strong> Ăn trưa tại nhà hàng địa phương
-                        ở Vinh (cháo lươn, bánh mướt)
-                      </li>
-                      <li>
-                        <strong>13:00:</strong> Tham quan Khu du lịch sinh thái
-                        Hòn Mát: hái trái cây, chèo kayak, khám phá rừng
-                      </li>
-                      <li>
-                        <strong>16:30:</strong> Đến Cửa Lò, nhận phòng khách sạn
-                        3 sao
-                      </li>
-                      <li>
-                        <strong>18:30:</strong> Ăn tối hải sản, tự do khám phá
-                        chợ đêm Cửa Lò
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="bg-muted/30 p-6 rounded-lg mb-8">
-                    <h3 className="mt-0">
-                      NGÀY 2: CỬA LÒ - ĐẢO NGƯ - TRUÔNG BỒN
-                    </h3>
-                    <ul>
-                      <li>
-                        <strong>06:30:</strong> Ăn sáng tại khách sạn
-                      </li>
-                      <li>
-                        <strong>07:30:</strong> Thuyền ra đảo Ngư, tham quan
-                        chùa Song Ngư, tắm biển, lặn ngắm san hô
-                      </li>
-                      <li>
-                        <strong>11:30:</strong> Trở về đất liền, ăn trưa
-                      </li>
-                      <li>
-                        <strong>13:30:</strong> Tham quan Khu di tích Truông
-                        Bồn, dâng hương, tìm hiểu lịch sử
-                      </li>
-                      <li>
-                        <strong>16:00:</strong> Trở về Cửa Lò, nghỉ ngơi
-                      </li>
-                      <li>
-                        <strong>19:00:</strong> Ăn tối, tự do dạo biển
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="bg-muted/30 p-6 rounded-lg">
-                    <h3 className="mt-0">NGÀY 3: CỬA LÒ - VINH - HÀ NỘI</h3>
-                    <ul>
-                      <li>
-                        <strong>06:30:</strong> Ăn sáng, tắm biển tự do
-                      </li>
-                      <li>
-                        <strong>08:30:</strong> Tham quan làng nghề nước mắm Cửa
-                        Lò
-                      </li>
-                      <li>
-                        <strong>10:00:</strong> Mua sắm đặc sản (nước mắm, mực
-                        khô)
-                      </li>
-                      <li>
-                        <strong>11:30:</strong> Ăn trưa, trả phòng khách sạn
-                      </li>
-                      <li>
-                        <strong>13:00:</strong> Khởi hành về Hà Nội
-                      </li>
-                      <li>
-                        <strong>19:00:</strong> Đến Hà Nội, kết thúc tour
-                      </li>
-                    </ul>
-                  </div>
+                  {[
+                    {
+                      day: "NGÀY 1: HÀ NỘI - VINH - HÒN MÁT - CỬA LÒ",
+                      schedule: [
+                        { time: "06:00", activity: "Đón khách tại Hà Nội, khởi hành đi TP. Vinh" },
+                        { time: "11:30", activity: "Ăn trưa tại nhà hàng địa phương ở Vinh (cháo lươn, bánh mướt)" },
+                        { time: "13:00", activity: "Tham quan Khu du lịch sinh thái Hòn Mát: hái trái cây, chèo kayak, khám phá rừng" },
+                        { time: "16:30", activity: "Đến Cửa Lò, nhận phòng khách sạn 3 sao" },
+                        { time: "18:30", activity: "Ăn tối hải sản, tự do khám phá chợ đêm Cửa Lò" },
+                      ],
+                    },
+                    {
+                      day: "NGÀY 2: CỬA LÒ - ĐẢO NGƯ - TRUÔNG BỒN",
+                      schedule: [
+                        { time: "06:30", activity: "Ăn sáng tại khách sạn" },
+                        { time: "07:30", activity: "Thuyền ra đảo Ngư, tham quan chùa Song Ngư, tắm biển, lặn ngắm san hô" },
+                        { time: "11:30", activity: "Trở về đất liền, ăn trưa" },
+                        { time: "13:30", activity: "Tham quan Khu di tích Truông Bồn, dâng hương, tìm hiểu lịch sử" },
+                        { time: "16:00", activity: "Trở về Cửa Lò, nghỉ ngơi" },
+                        { time: "19:00", activity: "Ăn tối, tự do dạo biển" },
+                      ],
+                    },
+                    {
+                      day: "NGÀY 3: CỬA LÒ - VINH - HÀ NỘI",
+                      schedule: [
+                        { time: "06:30", activity: "Ăn sáng, tắm biển tự do" },
+                        { time: "08:30", activity: "Tham quan làng nghề nước mắm Cửa Lò" },
+                        { time: "10:00", activity: "Mua sắm đặc sản (nước mắm, mực khô)" },
+                        { time: "11:30", activity: "Ăn trưa, trả phòng khách sạn" },
+                        { time: "13:00", activity: "Khởi hành về Hà Nội" },
+                        { time: "19:00", activity: "Đến Hà Nội, kết thúc tour" },
+                      ],
+                    },
+                  ].map((day, idx) => (
+                    <div key={idx} className="bg-white p-6 rounded-xl shadow-md mb-6 border border-green-100">
+                      <h3 className="text-xl font-semibold text-green-800">{day.day}</h3>
+                      <ul className="space-y-3 mt-4 text-gray-700">
+                        {day.schedule.map((item, i) => (
+                          <li key={i} className="flex gap-3">
+                            <span className="font-medium text-green-600">{item.time}:</span>
+                            <span>{item.activity}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
                   <TourReviews />
                 </div>
               </TabsContent>
-              <TabsContent value="attractions" className="space-y-6 mt-6">
+
+              <TabsContent value="attractions" className="space-y-8 mt-8">
                 <div className="prose prose-green max-w-none">
+                  <h2 className="text-3xl font-bold text-green-800">Các điểm đến nổi bật</h2>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Card className="overflow-hidden">
-                      <div className="relative h-52">
-                        <Image
-                          src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/471579626.jpg?k=f34976a255b41402436bebfb63201f889468043de127ff55fae8b73a555770a5&o=&hp=1"
-                          alt="Khu du lịch sinh thái Hòn Mát"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <CardHeader>
-                        <CardTitle>Khu du lịch sinh thái Hòn Mát</CardTitle>
-                        <CardDescription>
-                          Thiên đường xanh giữa lòng Nghệ An
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="text-sm">
-                        <p>
-                          Khu du lịch sinh thái Hòn Mát là nơi lý tưởng để khám
-                          phá thiên nhiên với vườn cây ăn trái, rừng sinh thái
-                          và các hoạt động như chèo kayak trên hồ.
-                        </p>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="overflow-hidden">
-                      <div className="relative h-52">
-                        <Image
-                          src="https://tapchisonglam.vn/wp-content/uploads/2022/08/Minh-Chau.jpg.webp"
-                          alt="Bãi biển Cửa Lò"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <CardHeader>
-                        <CardTitle>Bãi biển Cửa Lò</CardTitle>
-                        <CardDescription>
-                          Bãi biển nổi tiếng của Nghệ An
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="text-sm">
-                        <p>
-                          Bãi biển Cửa Lò với bờ cát trắng mịn, nước biển trong
-                          xanh là điểm đến lý tưởng để thư giãn và thưởng thức
-                          hải sản tươi ngon.
-                        </p>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="overflow-hidden">
-                      <div className="relative h-52">
-                        <Image
-                          src="https://statics.vinpearl.com/tinh-hoa-vinhomes_1747915468.jpg"
-                          alt="Đảo Ngư"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <CardHeader>
-                        <CardTitle>Đảo Ngư</CardTitle>
-                        <CardDescription>
-                          Điểm đến hoang sơ, linh thiêng
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="text-sm">
-                        <p>
-                          Đảo Ngư nổi bật với chùa Song Ngư, bãi tắm hoang sơ và
-                          cơ hội lặn ngắm san hô, mang đến trải nghiệm gần gũi
-                          với thiên nhiên.
-                        </p>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="overflow-hidden">
-                      <div className="relative h-52">
-                        <Image
-                          src="https://btxvnt.org.vn/storage/CrNxyiKSja3NzmWDRgO5zwyrj1CCHs7EFMURJLT0.jpg"
-                          alt="Khu di tích Truông Bồn"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <CardHeader>
-                        <CardTitle>Khu di tích Truông Bồn</CardTitle>
-                        <CardDescription>
-                          Di tích lịch sử hào hùng
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="text-sm">
-                        <p>
-                          Truông Bồn là nơi ghi dấu sự hy sinh anh dũng của các
-                          thanh niên xung phong trong kháng chiến chống Mỹ, với
-                          Đài tưởng niệm và Bảo tàng lịch sử.
-                        </p>
-                      </CardContent>
-                    </Card>
+                    {[
+                      {
+                        src: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/471579626.jpg?k=f34976a255b41402436bebfb63201f889468043de127ff55fae8b73a555770a5&o=&hp=1",
+                        alt: "Khu du lịch sinh thái Hòn Mát",
+                        title: "Khu du lịch sinh thái Hòn Mát",
+                        desc: "Thiên đường xanh giữa lòng Nghệ An",
+                        content:
+                          "Khu du lịch sinh thái Hòn Mát là nơi lý tưởng để khám phá thiên nhiên với vườn cây ăn trái, rừng sinh thái và các hoạt động như chèo kayak trên hồ.",
+                      },
+                      {
+                        src: "https://tapchisonglam.vn/wp-content/uploads/2022/08/Minh-Chau.jpg.webp",
+                        alt: "Bãi biển Cửa Lò",
+                        title: "Bãi biển Cửa Lò",
+                        desc: "Bãi biển nổi tiếng của Nghệ An",
+                        content:
+                          "Bãi biển Cửa Lò với bờ cát trắng mịn, nước biển trong xanh là điểm đến lý tưởng để thư giãn và thưởng thức hải sản tươi ngon.",
+                      },
+                      {
+                        src: "https://statics.vinpearl.com/tinh-hoa-vinhomes_1747915468.jpg",
+                        alt: "Đảo Ngư",
+                        title: "Đảo Ngư",
+                        desc: "Điểm đến hoang sơ, linh thiêng",
+                        content:
+                          "Đảo Ngư nổi bật với chùa Song Ngư, bãi tắm hoang sơ và cơ hội lặn ngắm san hô, mang đến trải nghiệm gần gũi với thiên nhiên.",
+                      },
+                      {
+                        src: "https://btxvnt.org.vn/storage/CrNxyiKSja3NzmWDRgO5zwyrj1CCHs7EFMURJLT0.jpg",
+                        alt: "Khu di tích Truông Bồn",
+                        title: "Khu di tích Truông Bồn",
+                        desc: "Di tích lịch sử hào hùng",
+                        content:
+                          "Truông Bồn là nơi ghi dấu sự hy sinh anh dũng của các thanh niên xung phong trong kháng chiến chống Mỹ, với Đài tưởng niệm và Bảo tàng lịch sử.",
+                      },
+                    ].map((attraction, idx) => (
+                      <Card key={idx} className="overflow-hidden border-green-100 shadow-lg hover:shadow-xl transition-shadow">
+                        <div className="relative h-56">
+                          <Image
+                            src={attraction.src}
+                            alt={attraction.alt}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            className="object-cover transition-transform duration-300 hover:scale-105"
+                          />
+                        </div>
+                        <CardHeader>
+                          <CardTitle className="text-xl text-green-800">{attraction.title}</CardTitle>
+                          <CardDescription className="text-gray-600">{attraction.desc}</CardDescription>
+                        </CardHeader>
+                        <CardContent className="text-sm text-gray-700">{attraction.content}</CardContent>
+                      </Card>
+                    ))}
                   </div>
                 </div>
               </TabsContent>
-              <TabsContent value="gallery" className="space-y-6 mt-6">
-                <div className="prose prose-green max-w-none">
-                  <h2>Hình ảnh Tour Sinh Thái & Biển Nghệ An</h2>
 
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 my-8">
-                    <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
-                      <Image
-                        src="https://media.baonghean.vn/v3/Photos/Img/202306/7/1686124800-19-1.jpg"
-                        alt="Khu du lịch sinh thái Hòn Mát"
-                        fill
-                        className="object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
-                      <Image
-                        src="https://statics.vinpearl.com/cua-lo-beach_1627636047.jpg"
-                        alt="Bãi biển Cửa Lò"
-                        fill
-                        className="object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
-                      <Image
-                        src="https://media.baonghean.vn/v3/Photos/Img/202306/7/1686124800-19-2.jpg"
-                        alt="Đảo Ngư"
-                        fill
-                        className="object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="relative h-40 md:h-52 rounded-lg overflow-hidden">
-                      <Image
-                        src="https://btxvnt.org.vn/storage/CrNxyiKSja3NzmWDRgO5zwyrj1CCHs7EFMURJLT0.jpg"
-                        alt="Khu di tích Truông Bồn"
-                        fill
-                        className="object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
+              <TabsContent value="gallery" className="space-y-8 mt-8">
+                <div className="prose prose-green max-w-none">
+                  <h2 className="text-3xl font-bold text-green-800">Hình ảnh Tour Sinh Thái & Biển Nghệ An</h2>
+
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 my-10">
+                    {[
+                      {
+                        src: "https://dbnd.1cdn.vn/thumbs/1200x630/2023/04/06/b652b1b3e799ec2e8c37dc0d43e8a2757fedb3092e60fcc33c04fcfdcf60c3968ef108-_anh-chup-man-hinh-2023-04-06-luc-1680772071909.jpg",
+                        alt: "Khu du lịch sinh thái Hòn Mát",
+                      },
+                      {
+                        src: "https://cdn.media.dulich24.com.vn/diemden/cua-lo-nghe-an-3325/cua-lo.jpg",
+                        alt: "Bãi biển Cửa Lò",
+                      },
+                      {
+                        src: "https://static.vinwonders.com/production/dao-hon-ngu-dao-song-ngu-9.jpg",
+                        alt: "Đảo Ngư",
+                      },
+                      {
+                        src: "https://btxvnt.org.vn/storage/CrNxyiKSja3NzmWDRgO5zwyrj1CCHs7EFMURJLT0.jpg",
+                        alt: "Khu di tích Truông Bồn",
+                      },
+                    ].map((img, idx) => (
+                      <div key={idx} className="relative h-40 md:h-52 rounded-xl overflow-hidden shadow-md">
+                        <Image
+                          src={img.src}
+                          alt={img.alt}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-cover transition-transform duration-300 hover:scale-110"
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
               </TabsContent>
@@ -358,68 +274,62 @@ export default function NgheAnEcoAndBeachTourPage() {
 
           <div className="space-y-8">
             {/* Tour information */}
-            <div className="border rounded-lg overflow-hidden">
-              <div className="bg-green-100 px-6 py-4">
-                <h3 className="text-lg font-semibold text-green-800">
-                  Thông tin tour
-                </h3>
-              </div>
-              <div className="p-6 space-y-4">
-                <div>
-                  <h4 className="font-medium">Thời gian</h4>
-                  <p className="text-sm text-muted-foreground">3 ngày 2 đêm</p>
-                </div>
-                <div>
-                  <h4 className="font-medium">Khởi hành</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Thứ 6 hàng tuần
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-medium">Giá tour</h4>
-                  <p className="text-sm text-muted-foreground">
-                    2.990.000 VNĐ/người
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-medium">Đã bao gồm</h4>
-                  <ul className="text-sm text-muted-foreground list-disc list-inside">
-                    <li>Xe du lịch đời mới</li>
-                    <li>Khách sạn 3 sao (2 người/phòng)</li>
-                    <li>Các bữa ăn theo chương trình</li>
-                    <li>Vé tham quan các điểm</li>
-                    <li>Thuyền ra đảo Ngư</li>
-                    <li>Hướng dẫn viên chuyên nghiệp</li>
-                    <li>Bảo hiểm du lịch</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+            <Card className="border-green-100 shadow-lg">
+              <CardHeader className="bg-gradient-to-r from-green-100 to-blue-50">
+                <CardTitle className="text-lg font-semibold text-green-800">Thông tin tour</CardTitle>
+              </CardHeader>
+              <CardContent className="p-6 space-y-4">
+                {[
+                  { label: "Thời gian", value: "3 ngày 2 đêm", icon: <Calendar className="w-5 h-5 text-green-600" /> },
+                  { label: "Khởi hành", value: "Thứ 6 hàng tuần", icon: <Clock className="w-5 h-5 text-green-600" /> },
+                  { label: "Giá tour", value: "2.990.000 VNĐ/người", icon: null },
+                  {
+                    label: "Đã bao gồm",
+                    value: [
+                      "Xe du lịch đời mới",
+                      "Khách sạn 3 sao (2 người/phòng)",
+                      "Các bữa ăn theo chương trình",
+                      "Vé tham quan các điểm",
+                      "Thuyền ra đảo Ngư",
+                      "Hướng dẫn viên chuyên nghiệp",
+                      "Bảo hiểm du lịch",
+                    ],
+                    icon: null,
+                  },
+                ].map((info, idx) => (
+                  <div key={idx}>
+                    <h4 className="font-medium text-green-800 flex items-center gap-2">
+                      {info.icon} {info.label}
+                    </h4>
+                    {Array.isArray(info.value) ? (
+                      <ul className="text-sm text-gray-600 list-disc list-inside mt-2">
+                        {info.value.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-sm text-gray-600">{info.value}</p>
+                    )}
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
 
             {/* Booking */}
-            <div className="border rounded-lg overflow-hidden">
-              <div className="bg-green-100 px-6 py-4">
-                <h3 className="text-lg font-semibold text-green-800">
-                  Đặt tour
-                </h3>
-              </div>
-              <div className="p-6 space-y-4">
-                <Button
-                  asChild
-                  className="w-full bg-green-700 hover:bg-green-800"
-                >
-                  <Link href="/booking?tourId=nghe-an-eco-beach">
-                    Đặt tour ngay
-                  </Link>
+            <Card className="border-green-100 shadow-lg">
+              <CardHeader className="bg-gradient-to-r from-green-100 to-blue-50">
+                <CardTitle className="text-lg font-semibold text-green-800">Đặt tour</CardTitle>
+              </CardHeader>
+              <CardContent className="p-6 space-y-4">
+                <Button asChild className="w-full bg-green-700 hover:bg-green-800 transition-colors">
+                  <Link href="/booking?tourId=nghe-an-eco-beach">Đặt tour ngay</Link>
                 </Button>
-                <p className="text-sm text-muted-foreground text-center">
+                <p className="text-sm text-gray-600 text-center">
                   Hoặc liên hệ với chúng tôi qua hotline
                 </p>
-                <p className="text-lg font-semibold text-center">
-                  0238 1234 567
-                </p>
-              </div>
-            </div>
+                <p className="text-lg font-semibold text-center text-green-700">0238 1234 567</p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>

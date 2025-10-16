@@ -64,7 +64,7 @@ export default function ConCuongArticle() {
 
             <div className="relative h-64 md:h-96 rounded-lg overflow-hidden mb-8">
               <Image
-                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800"
+                src="https://s-aicmscdn.vietnamhoinhap.vn/vnhn-media/19/5/16/thac-khe-kem-con-cuong.jpg"
                 alt="Con Cuông - Vẻ đẹp núi rừng"
                 fill
                 className="object-cover"
@@ -87,7 +87,7 @@ export default function ConCuongArticle() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
               <div className="relative h-48 rounded-lg overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1464822759844-d150baec93d5?w=400"
+                  src="https://mia.vn/media/uploads/blog-du-lich/du-lich-con-cuong-nghe-an-12-1736949119.jpg"
                   alt="Núi rừng Con Cuông"
                   fill
                   className="object-cover"
@@ -184,7 +184,7 @@ export default function ConCuongArticle() {
               <Link href="/articles/kim-lien-que-huong-bac-ho" className="group">
                 <div className="relative h-32 rounded-lg overflow-hidden mb-3">
                   <Image
-                    src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=400"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvjbamAFq4T9l6HGNjVOu3u4IRKnl7NC2SgQ&s"
                     alt="Kim Liên - Quê hương Bác Hồ"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"

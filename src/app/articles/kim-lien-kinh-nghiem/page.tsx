@@ -68,7 +68,7 @@ export default function KimLienArticle() {
 
             <div className="relative h-64 md:h-96 rounded-lg overflow-hidden mb-8">
               <Image
-                src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800"
+                src="https://static.vinwonders.com/production/dia-chi-khu-di-tich-kim-lien.jpg"
                 alt="Kim Liên - Quê hương Bác Hồ"
                 fill
                 className="object-cover"
@@ -113,7 +113,7 @@ export default function KimLienArticle() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
               <div className="relative h-48 rounded-lg overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400"
+                  src="https://file3.qdnd.vn/data/images/0/2024/05/19/upload_2049/kim-lien2.jpg?dpi=150&quality=100&w=870"
                   alt="Đường đến Kim Liên"
                   fill
                   className="object-cover"
@@ -121,7 +121,7 @@ export default function KimLienArticle() {
               </div>
               <div className="relative h-48 rounded-lg overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1590736969955-71cc94901144?w=400"
+                  src="https://mia.vn/media/uploads/blog-du-lich/khu-di-tich-kim-lien-nha-bac-ho-1740978215.jpg"
                   alt="Cảnh quan Kim Liên"
                   fill
                   className="object-cover"
@@ -200,7 +200,7 @@ export default function KimLienArticle() {
 
             <div className="relative h-48 md:h-64 rounded-lg overflow-hidden my-8">
               <Image
-                src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrAFXtsKwSi3YPEN10P0L_1IOGjGNqDCBgZg&s"
                 alt="Hoạt động tại Kim Liên"
                 fill
                 className="object-cover"
@@ -218,7 +218,7 @@ export default function KimLienArticle() {
                 <p className="text-sm text-muted-foreground mb-2">
                   Đặc sản nổi tiếng với nước dùng đậm đà, thịt bò tươi ngon
                 </p>
-                <p className="text-sm"><strong>Giá:</strong> 35.000 - 45.000 VNĐ/t그릇</p>
+                <p className="text-sm"><strong>Giá:</strong> 35.000 - 45.000 VNĐ/tô</p>
               </div>
               <div className="border rounded-lg p-4">
                 <h4 className="font-semibold mb-2">🥟 Bánh mướt Nghệ An</h4>
@@ -301,7 +301,7 @@ export default function KimLienArticle() {
               <Link href="/articles/con-cuong-trai-nghiem" className="group">
                 <div className="relative h-32 rounded-lg overflow-hidden mb-3">
                   <Image
-                    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400"
+                    src="https://s-aicmscdn.vietnamhoinhap.vn/vnhn-media/19/5/16/thac-khe-kem-con-cuong.jpg"
                     alt="Trải nghiệm Con Cuông"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"

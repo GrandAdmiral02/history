@@ -143,15 +143,6 @@ export function LoginForm() {
             )}
           </Button>
         </form>
-
-        <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-md">
-          <p className="text-sm text-blue-800 font-medium mb-2">Tài khoản demo:</p>
-          <div className="text-xs text-blue-700 space-y-1">
-            <div>• Admin Tour: admin.tour@nghean.com / admin123</div>
-            <div>• Admin Shop: admin.shop@nghean.com / admin123</div>
-            <div>• Super Admin: super.admin@nghean.com / admin123</div>
-          </div>
-        </div>
       </CardContent>
     </Card>
   );

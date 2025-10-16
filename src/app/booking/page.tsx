@@ -189,7 +189,7 @@ const tours: Record<string, Tour> = {
     duration: "2 ngày 1 đêm",
     maxPeople: 25,
     price: 1890000,
-    image: "https://icdn.dantri.com.vn/thumb_w/960/2019/05/14/km-02-1557809996576.jpg",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx-7ML9Wbwv2OjR8rN0YvrcN1ZdlLMOn0S2XRmT1r2R6931xlk8dMo1rZC-Y_ugFLgELQ&usqp=CAU",
     itinerary: [
       {
         day: 1,
@@ -322,7 +322,7 @@ const tours: Record<string, Tour> = {
     duration: "3 ngày 2 đêm",
     maxPeople: 35,
     price: 2590000,
-    image: "https://ext.same-assets.com/3334769225/3359488301.jpeg",
+    image: "https://ik.imagekit.io/tvlk/blog/2023/07/phu-chu-tich-acc-14.webp?tr=q-70,c-at_max,w-500,h-300,dpr-2",
     itinerary: [
       {
         day: 1,

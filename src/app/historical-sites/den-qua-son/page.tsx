@@ -11,7 +11,7 @@ export default function DenQuaSonPage() {
       <section className="relative h-[400px] md:h-[500px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
         <Image
-          src="https://ext.same-assets.com/3334769225/3151232487.jpeg"
+          src="https://63stravel.com/s3_amazon/d4c75bfe-7b1c-4e34-91be-7cdb71b2952d-qua-son-1-1505jpg20240518140920.jpg"
           alt="Đền Quả Sơn"
           fill
           className="object-cover"
@@ -69,7 +69,7 @@ export default function DenQuaSonPage() {
                   <div className="my-8 grid grid-cols-2 gap-4">
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/3334769225/3151232487.jpeg"
+                        src="https://statics.vinpearl.com/den-qua-son-1_1633840174.jpg"
                         alt="Cổng chính Đền Quả Sơn"
                         fill
                         className="object-cover"
@@ -77,7 +77,7 @@ export default function DenQuaSonPage() {
                     </div>
                     <div className="relative h-60 rounded-lg overflow-hidden">
                       <Image
-                        src="https://ext.same-assets.com/4052699563/777305328.jpeg"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNc84MrsvPcRRFYztFeD8O5i1Q7mV8BQGh7eqLFKUhADHLL_xO5jk8z2GqC79XdC4oGw4&usqp=CAU"
                         alt="Không gian thờ tự Đền Quả Sơn"
                         fill
                         className="object-cover"
@@ -101,7 +101,7 @@ export default function DenQuaSonPage() {
                   <h3>1. Cổng tam quan</h3>
                   <div className="relative h-80 rounded-lg overflow-hidden my-6">
                     <Image
-                      src="https://ext.same-assets.com/3334769225/3151232487.jpeg"
+                      src="https://bna.1cdn.vn/2023/02/06/uploaded-huythubna-2023_02_06-_bna-3-355.jpg"
                       alt="Cổng tam quan Đền Quả Sơn"
                       fill
                       className="object-cover"
