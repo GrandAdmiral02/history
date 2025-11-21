@@ -1,59 +1,44 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/request";
-import { auth } from "@/lib/auth/auth";
+import { withAuth } from "next-auth/middleware";
 
-export async function middleware(request: NextRequest) {
-  const session = await auth();
-  const { pathname } = request.nextUrl;
+export default withAuth({
+  pages: {
+    signIn: "/login",
+  },
+  callbacks: {
+    authorized({ token, req }) {
+      const { pathname } = req.nextUrl;
 
-  // Trang admin chung - chỉ cho phép admin và super admin
-  if (pathname.startsWith("/admin") && pathname === "/admin") {
-    if (!session || !session.user || 
-        !["ADMIN_TOUR", "ADMIN_SHOP", "SUPER_ADMIN"].includes(session.user.role || "")) {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
-  }
+      // Trang admin chung
+      if (pathname.startsWith("/admin") && pathname === "/admin") {
+        return token?.role && ["ADMIN_TOUR","ADMIN_SHOP","SUPER_ADMIN"].includes(token.role);
+      }
 
-  // Trang quản lý tour - chỉ cho phép ADMIN_TOUR và SUPER_ADMIN
-  if (pathname.startsWith("/admin/tours") || pathname.startsWith("/admin/bookings")) {
-    if (!session || !session.user || 
-        !["ADMIN_TOUR", "SUPER_ADMIN"].includes(session.user.role || "")) {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
-  }
+      // Trang quản lý tour
+      if (pathname.startsWith("/admin/tours") || pathname.startsWith("/admin/bookings")) {
+        return token?.role && ["ADMIN_TOUR","SUPER_ADMIN"].includes(token.role);
+      }
 
-  // Removed admin/products page - functionality moved to shop page
+      // Trang quản lý orders
+      if (pathname.startsWith("/admin/orders")) {
+        return token?.role && ["ADMIN_SHOP","SUPER_ADMIN"].includes(token.role);
+      }
 
-  // Trang quản lý orders - chỉ cho phép ADMIN_SHOP và SUPER_ADMIN
-  if (pathname.startsWith("/admin/orders")) {
-    if (!session || !session.user || 
-        !["ADMIN_SHOP", "SUPER_ADMIN"].includes(session.user.role || "")) {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
-  }
+      // Trang quản lý users và analytics/settings
+      if (pathname.startsWith("/admin/users") ||
+          pathname.startsWith("/admin/analytics") ||
+          pathname.startsWith("/admin/settings")) {
+        return token?.role === "SUPER_ADMIN";
+      }
 
-  // Trang quản lý users và thống kê - chỉ cho phép SUPER_ADMIN
-  if (pathname.startsWith("/admin/users") || 
-      pathname.startsWith("/admin/analytics") || 
-      pathname.startsWith("/admin/settings")) {
-    if (!session || !session.user || session.user.role !== "SUPER_ADMIN") {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
-  }
+      // Các trang yêu cầu login
+      if (pathname.startsWith("/profile") || pathname.startsWith("/dashboard")) {
+        return !!token;
+      }
 
-  // Các trang yêu cầu đăng nhập
-  if (
-    (pathname.startsWith("/profile") ||
-    pathname.startsWith("/dashboard")) &&
-    !session
-  ) {
-    const signInUrl = new URL("/login", request.url);
-    signInUrl.searchParams.set("callbackUrl", pathname);
-    return NextResponse.redirect(signInUrl);
-  }
-
-  return NextResponse.next();
-}
+      return true; // các trang khác không cần auth
+    },
+  },
+});
 
 export const config = {
   matcher: [
