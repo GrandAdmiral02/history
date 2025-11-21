@@ -5,8 +5,7 @@ import { cn } from "@/lib/utils";
 
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { SessionProvider } from "@/lib/auth/session-provider";
-import { auth } from "@/lib/auth/auth";
+import { Providers } from "@/components/providers";
 import { Toaster } from "sonner";
 
 const fontSans = FontSans({
@@ -19,13 +18,11 @@ export const metadata: Metadata = {
   description: "Khám phá vẻ đẹp văn hóa lịch sử của vùng đất xứ Nghệ, nơi lưu giữ nhiều di tích lịch sử quan trọng của dân tộc",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-
   return (
     <html lang="vi" suppressHydrationWarning>
       <body
@@ -34,12 +31,12 @@ export default async function RootLayout({
           fontSans.variable
         )}
       >
-        <SessionProvider session={session}>
+        <Providers>
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
           <Toaster position="top-right" richColors />
-        </SessionProvider>
+        </Providers>
         <script async src="https://www.tiktok.com/embed.js"></script>
       </body>
     </html>

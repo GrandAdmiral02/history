@@ -12,13 +12,7 @@ export const metadata: Metadata = {
   description: "Chỉnh sửa thông tin tour du lịch",
 };
 
-interface EditTourPageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default async function EditTourPage({ params }: EditTourPageProps) {
+export default async function EditTourPage({ params }: { params: { id: string } }) {
   const session = await auth();
 
   if (!session || !session.user || 
